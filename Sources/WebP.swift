@@ -10,14 +10,6 @@ import Foundation
 import CWebP
 import CoreGraphics
 
-enum WebPError: Error {
-    case importError
-    case encodeError
-    case decodeError
-    case invalidParameter
-    case brokenHeaderError
-}
-
 public class WebP {
     public static func decode(_ webPData: Data) throws -> CGImage {
         var config: WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
