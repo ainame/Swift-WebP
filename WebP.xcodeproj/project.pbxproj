@@ -56,10 +56,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD196F981DB2961600F7387E /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		D95E1BD31D88D63200F94976 = {
 			isa = PBXGroup;
 			children = (
-				D95E1BDF1D88D63300F94976 /* Source */,
+				BD196F981DB2961600F7387E /* Modules */,
+				D95E1BDF1D88D63300F94976 /* Sources */,
 				D95E1BF71D88DFFD00F94976 /* Resources */,
 				D95E1BEA1D88D63400F94976 /* Tests */,
 				D95E1BDE1D88D63300F94976 /* Products */,
@@ -75,7 +83,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D95E1BDF1D88D63300F94976 /* Source */ = {
+		D95E1BDF1D88D63300F94976 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				D95E1BE11D88D63300F94976 /* Info.plist */,
@@ -84,7 +92,7 @@
 				BD196F951DB2848500F7387E /* WebPConfig.swift */,
 				BD196F931DB2845600F7387E /* WebPEncoder.swift */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		D95E1BEA1D88D63400F94976 /* Tests */ = {
