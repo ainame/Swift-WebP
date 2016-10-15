@@ -1,0 +1,11 @@
+module CWebP [system] {
+    header "webp/encode.h"
+    header "webp/decode.h"
+    header "webp/types.h"
+    header "webp/mux.h"
+    header "webp/mux_types.h"
+    header "webp/demux.h"
+
+    link "webp"
+    export *
+}
