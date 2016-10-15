@@ -2,37 +2,51 @@
 //  WebP.swift
 //  WebP
 //
-//  Created by ainame on Jan 32, 2032.
-//  Copyright © 2032 satoshi.namai. All rights reserved.
+//  Created by ainame on Oct 16, 2016.
+//  Copyright © 2016 satoshi.namai. All rights reserved.
 //
 
 import Foundation
-import UIKit
+import CWebP
+import CoreGraphics
 
-public class WebP: UIView {
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
-    
-    func setup() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
-        let bundle = Bundle(for: type(of: self))
-        let image = UIImage(named: "wk", in: bundle, compatibleWith: nil)
-        let imageView = UIImageView(image: image)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(imageView)
-        
-        self.addConstraint(NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: imageView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0))
-        self.layoutIfNeeded()
+enum WebPError: Error {
+    case importError
+    case encodeError
+    case decodeError
+    case invalidParameter
+    case brokenHeaderError
+}
+
+public class WebP {
+    public static func decode(_ webPData: Data) throws -> CGImage {
+        var config: WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
+            var config = WebPDecoderConfig()
+            if WebPInitDecoderConfig(&config) == 0 {
+                fatalError("can't init decoder config")
+            }
+            
+            var features = WebPBitstreamFeatures()
+            if WebPGetFeatures(body, webPData.count, &features) != VP8_STATUS_OK {
+                throw WebPError.brokenHeaderError
+            }
+            
+            config.output.colorspace = MODE_RGBA
+            
+            if WebPDecode(body, webPData.count, &config) != VP8_STATUS_OK {
+                throw WebPError.decodeError
+            }
+            return config
+        }
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: config.output.u.RGBA.rgba,
+                                width: Int(config.input.width),
+                                height: Int(config.input.height),
+                                bitsPerComponent: 8,
+                                bytesPerRow: Int(config.output.u.RGBA.stride),
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        WebPFreeDecBuffer(&config.output)
+        return context.makeImage()!
     }
 }

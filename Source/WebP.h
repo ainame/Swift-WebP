@@ -2,7 +2,7 @@
 //  WebP.h
 //  WebP
 //
-//  Created by ainame on Jan 32, 2032.
+//  Created by ainame on Oct 16, 2016.
 //  Copyright © 2016 satoshi.namai. All rights reserved.
 //
 

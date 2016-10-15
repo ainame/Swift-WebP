@@ -22,4 +22,6 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'WebP' => ['Resources/**/*.{png}']
   }
+
+  s.dependency      'libwebp', '~> 0.5.1'
 end

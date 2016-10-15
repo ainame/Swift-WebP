@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD196F941DB2845600F7387E /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
+		BD196F961DB2848500F7387E /* WebPConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPConfig.swift */; };
 		D95E1BE71D88D63400F94976 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* WebP.framework */; };
 		D95E1BEC1D88D63400F94976 /* WebPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BEB1D88D63400F94976 /* WebPTests.swift */; };
 		D95E1BEE1D88D63400F94976 /* WebP.h in Headers */ = {isa = PBXBuildFile; fileRef = D95E1BE01D88D63300F94976 /* WebP.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D95E1BF91D88E01300F94976 /* wk.png in Resources */ = {isa = PBXBuildFile; fileRef = D95E1BF81D88E01300F94976 /* wk.png */; };
 		D95E1BFB1D88E2D500F94976 /* WebP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebP.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,13 +26,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD196F931DB2845600F7387E /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoder.swift; sourceTree = "<group>"; };
+		BD196F951DB2848500F7387E /* WebPConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPConfig.swift; sourceTree = "<group>"; };
 		D95E1BDD1D88D63300F94976 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BE01D88D63300F94976 /* WebP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebP.h; sourceTree = "<group>"; };
 		D95E1BE11D88D63300F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1BE61D88D63400F94976 /* WebPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BEB1D88D63400F94976 /* WebPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPTests.swift; sourceTree = "<group>"; };
 		D95E1BED1D88D63400F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D95E1BF81D88E01300F94976 /* wk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wk.png; path = Resources/wk.png; sourceTree = SOURCE_ROOT; };
 		D95E1BFA1D88E2D500F94976 /* WebP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebP.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,9 +78,11 @@
 		D95E1BDF1D88D63300F94976 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				D95E1BFA1D88E2D500F94976 /* WebP.swift */,
-				D95E1BE01D88D63300F94976 /* WebP.h */,
 				D95E1BE11D88D63300F94976 /* Info.plist */,
+				D95E1BE01D88D63300F94976 /* WebP.h */,
+				D95E1BFA1D88E2D500F94976 /* WebP.swift */,
+				BD196F951DB2848500F7387E /* WebPConfig.swift */,
+				BD196F931DB2845600F7387E /* WebPEncoder.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -95,7 +99,6 @@
 		D95E1BF71D88DFFD00F94976 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D95E1BF81D88E01300F94976 /* wk.png */,
 			);
 			name = Resources;
 			path = Tests;
@@ -159,7 +162,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = "satoshi.namai";
+				ORGANIZATIONNAME = satoshi.namai;
 				TargetAttributes = {
 					D95E1BDC1D88D63300F94976 = {
 						CreatedOnToolsVersion = 8.0;
@@ -195,7 +198,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95E1BF91D88E01300F94976 /* wk.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +215,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD196F941DB2845600F7387E /* WebPEncoder.swift in Sources */,
+				BD196F961DB2848500F7387E /* WebPConfig.swift in Sources */,
 				D95E1BFB1D88E2D500F94976 /* WebP.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
