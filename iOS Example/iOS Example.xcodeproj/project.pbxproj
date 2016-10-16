@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BD6246991DB3BD81007B9482 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD6246981DB3BD81007B9482 /* WebP.framework */; };
 		BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */; };
+		BDEC2D101DB3CF43004AB3C7 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
 		D95E1C471D88E71A00F94976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C461D88E71A00F94976 /* ViewController.swift */; };
 		D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C481D88E71A00F94976 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		BD6246981DB3BD81007B9482 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/WebP-dcxfzwnyaqoftyadccivlaxdmqcr/Build/Products/Debug-iphonesimulator/WebP.framework"; sourceTree = "<group>"; };
 		BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jiro.jpg; sourceTree = "<group>"; };
 		D95E1C411D88E71A00F94976 /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1C441D88E71A00F94976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95E1C461D88E71A00F94976 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,9 +43,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BDEC2D111DB3CF4D004AB3C7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D95E1C381D88E71A00F94976 = {
 			isa = PBXGroup;
 			children = (
+				BDEC2D111DB3CF4D004AB3C7 /* Resources */,
 				D95E1C431D88E71A00F94976 /* Sources */,
 				D95E1C421D88E71A00F94976 /* Products */,
 				D95E1C881D88F39300F94976 /* Frameworks */,
@@ -142,6 +153,7 @@
 				D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */,
 				D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */,
 				D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */,
+				BDEC2D101DB3CF43004AB3C7 /* jiro.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

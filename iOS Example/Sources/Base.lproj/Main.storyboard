@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11523"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,28 +18,40 @@
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS" customClass="WebP" customModule="WebP">
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmV-8m-Ity">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmV-8m-Ity">
                                 <rect key="frame" x="164" y="20" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="gcN-6N-7sD"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="didTapButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="b51-84-I3s"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="jiro.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="i5V-Ky-YGX">
-                                <rect key="frame" x="67" y="82" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d3c-eP-ZFn">
+                                <rect key="frame" x="67" y="275" width="240" height="117"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3c-eP-ZFn">
-                                <rect key="frame" x="67" y="264" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jiro.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="i5V-Ky-YGX">
+                                <rect key="frame" x="67" y="81" width="240" height="139"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="03f-1N-i4y"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="d3c-eP-ZFn" secondAttribute="bottom" constant="275" id="8Uz-1t-zPb"/>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="centerX" secondItem="hmV-8m-Ity" secondAttribute="centerX" id="CSj-mL-Qfj"/>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="leading" secondItem="i5V-Ky-YGX" secondAttribute="leading" id="K1m-GN-YGl"/>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="top" secondItem="i5V-Ky-YGX" secondAttribute="bottom" constant="55" id="OTC-4p-9IY"/>
+                            <constraint firstItem="i5V-Ky-YGX" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="S69-qf-yb7"/>
+                            <constraint firstItem="i5V-Ky-YGX" firstAttribute="top" secondItem="hmV-8m-Ity" secondAttribute="bottom" constant="31" id="SQj-xH-8fP"/>
+                            <constraint firstItem="hmV-8m-Ity" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="cnd-Bd-694"/>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="51" id="thG-XW-w2v"/>
+                            <constraint firstItem="d3c-eP-ZFn" firstAttribute="trailing" secondItem="i5V-Ky-YGX" secondAttribute="trailing" id="zev-s3-iHM"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="afterImageView" destination="d3c-eP-ZFn" id="o7v-XP-8uh"/>

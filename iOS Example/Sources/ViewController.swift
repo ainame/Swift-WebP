@@ -11,10 +11,16 @@ import WebP
 import CoreGraphics
 
 class ViewController: UIViewController {
-
+    enum State {
+        case none
+        case processing
+    }
+    
     @IBOutlet weak var convertButton: UIButton!
     @IBOutlet weak var beforeImageView: UIImageView!
     @IBOutlet weak var afterImageView: UIImageView!
+    
+    var state: State = .none
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,16 +29,24 @@ class ViewController: UIViewController {
 
     
     @IBAction func didTapButton(_ sender: Any) {
+        print("tapped")
+        if state == .processing { return }
+        state = .processing
         let encoder = WebPEncoder()
         let queue =  DispatchQueue(label: "me.ainam.webp")
         queue.async {
             do {
+                print("convert start")
                 let data = try! encoder.encode(self.beforeImageView.image!, config: .preset(.picture, quality: 95))
-                let webpImage = try UIImage(cgImage: WebP.decode(data))
+                let webpImage = try UIImage(cgImage: WebPSimple.decode(data))
+                print("decode finish")
                 DispatchQueue.main.async {
                     self.afterImageView.image = webpImage
+                    self.state = .none
                 }
-            } catch {
+            } catch let error {
+                self.state = .none
+                print(error)
             }
         }
     }

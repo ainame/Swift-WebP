@@ -146,13 +146,13 @@ extension WebPEncoder {
     #if os(macOS)
     
     public func encode(_ image: NSImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
-    let data = image.tiffRepresentation!
-    let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
-    let bitmap = NSBitmapImageRep(data: data)!
-    let webPData = try encode(RGB: bitmap.bitmapData!, config: config,
-    originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
-    resizeWidth: width, resizeHeight: height)
-    return webPData
+        let data = image.tiffRepresentation!
+        let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
+        let bitmap = NSBitmapImageRep(data: data)!
+        let webPData = try encode(RGB: bitmap.bitmapData!, config: config,
+        originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
+        resizeWidth: width, resizeHeight: height)
+        return webPData
     }
     
     #endif
@@ -160,19 +160,12 @@ extension WebPEncoder {
     #if os(iOS)
     
     public func encode(_ image: UIImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
-        //        let cgImage = image.cgImage!
-        // let dataPtr: UnsafeMutablePointer<UInt8>? = nil
-        //        let context = CGContext(data: dataPtr, width: Int(image.size.width), height: Int(image.size.width), bitsPerComponent: 8, bytesPerRow: 8, space: cgImage.colorSpace!, bitmapInfo: cgImage.bitmapInfo.rawValue)!
-        //        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
-        var data = UIImagePNGRepresentation(image)!
-        let webPData = try data.withUnsafeMutableBytes { (body: UnsafeMutablePointer<UInt8>) -> Data in
-            let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
-            let webPData = try encode(RGB: body, config: config,
-                                      originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
-                                      resizeWidth: width, resizeHeight: height)
-            return webPData
-            
-        }
+        let cgImage = image.cgImage!
+        let dataPtr = CFDataGetBytePtr(cgImage.dataProvider!.data)!
+        let stride = cgImage.bytesPerRow
+        let webPData = try encode(RGB: unsafeBitCast(dataPtr, to: UnsafeMutablePointer<UInt8>.self), config: config,
+                                  originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
+                                  resizeWidth: width, resizeHeight: height)
         return webPData
     }
     

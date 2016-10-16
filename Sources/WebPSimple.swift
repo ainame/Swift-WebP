@@ -10,7 +10,7 @@ import Foundation
 import CWebP
 import CoreGraphics
 
-public class WebP {
+public class WebPSimple {
     public static func decode(_ webPData: Data) throws -> CGImage {
         var config: WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
             var config = WebPDecoderConfig()
