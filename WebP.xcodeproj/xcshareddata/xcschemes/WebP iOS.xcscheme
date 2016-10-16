@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD1977991DB2A92700F7387E"
-               BuildableName = "libwebp.a"
-               BlueprintName = "webp"
+               BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
+               BuildableName = "WebP iOS.framework"
+               BlueprintName = "WebP iOS"
                ReferencedContainer = "container:WebP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D95E1BE51D88D63400F94976"
+               BuildableName = "WebPTests.xctest"
+               BlueprintName = "WebPTests"
+               ReferencedContainer = "container:WebP.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
+            BuildableName = "WebP iOS.framework"
+            BlueprintName = "WebP iOS"
+            ReferencedContainer = "container:WebP.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BD1977991DB2A92700F7387E"
-            BuildableName = "libwebp.a"
-            BlueprintName = "webp"
+            BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
+            BuildableName = "WebP iOS.framework"
+            BlueprintName = "WebP iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BD1977991DB2A92700F7387E"
-            BuildableName = "libwebp.a"
-            BlueprintName = "webp"
+            BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
+            BuildableName = "WebP iOS.framework"
+            BlueprintName = "WebP iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

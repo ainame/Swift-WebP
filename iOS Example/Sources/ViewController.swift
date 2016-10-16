@@ -10,7 +10,7 @@ import UIKit
 import WebP
 import CoreGraphics
 
-class ViewController: UIViewController {
+class IOSViewController: UIViewController {
     enum State {
         case none
         case processing
