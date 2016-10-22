@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BD5FC4CF1DB3EE2B000A0A38"
-               BuildableName = "WebP macOS.framework"
+               BuildableName = "WebP.framework"
                BlueprintName = "WebP macOS"
                ReferencedContainer = "container:WebP.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BD5FC4CF1DB3EE2B000A0A38"
-            BuildableName = "WebP macOS.framework"
+            BuildableName = "WebP.framework"
             BlueprintName = "WebP macOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BD5FC4CF1DB3EE2B000A0A38"
-            BuildableName = "WebP macOS.framework"
+            BuildableName = "WebP.framework"
             BlueprintName = "WebP macOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>

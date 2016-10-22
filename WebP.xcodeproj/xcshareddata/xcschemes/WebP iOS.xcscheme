@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
-               BuildableName = "WebP iOS.framework"
+               BuildableName = "WebP.framework"
                BlueprintName = "WebP iOS"
                ReferencedContainer = "container:WebP.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
-            BuildableName = "WebP iOS.framework"
+            BuildableName = "WebP.framework"
             BlueprintName = "WebP iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
-            BuildableName = "WebP iOS.framework"
+            BuildableName = "WebP.framework"
             BlueprintName = "WebP iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D95E1BDC1D88D63300F94976"
-            BuildableName = "WebP iOS.framework"
+            BuildableName = "WebP.framework"
             BlueprintName = "WebP iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
