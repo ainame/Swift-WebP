@@ -99,9 +99,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BDF4EDF31DBBE4AF00FB54F4 /* libwebp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = libwebp;
+			sourceTree = "<group>";
+		};
 		D95E1BD31D88D63200F94976 = {
 			isa = PBXGroup;
 			children = (
+				BDF4EDF31DBBE4AF00FB54F4 /* libwebp */,
 				BD196F981DB2961600F7387E /* Modules */,
 				D95E1BDF1D88D63300F94976 /* Sources */,
 				D95E1BEA1D88D63400F94976 /* Tests */,
