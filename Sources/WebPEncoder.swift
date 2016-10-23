@@ -9,13 +9,6 @@
 import Foundation
 import CWebP
 
-#if os(macOS)
-    import AppKit
-#endif
-#if os(iOS)
-    import UIKit
-#endif
-
 enum WebPEncodeError : Int, Error {
     case ok = 0
     case outOfMemory           // memory error allocating objects
@@ -140,34 +133,4 @@ public class WebPEncoder {
         
         return Data(bytes: buffer.mem, count: buffer.size)
     }
-}
-
-extension WebPEncoder {
-    #if os(macOS)
-    
-    public func encode(_ image: NSImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
-        let data = image.tiffRepresentation!
-        let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
-        let bitmap = NSBitmapImageRep(data: data)!
-        let webPData = try encode(RGB: bitmap.bitmapData!, config: config,
-        originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
-        resizeWidth: width, resizeHeight: height)
-        return webPData
-    }
-    
-    #endif
-    
-    #if os(iOS)
-    
-    public func encode(_ image: UIImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
-        let cgImage = image.cgImage!
-        let dataPtr = CFDataGetBytePtr(cgImage.dataProvider!.data)!
-        let stride = cgImage.bytesPerRow
-        let webPData = try encode(RGB: unsafeBitCast(dataPtr, to: UnsafeMutablePointer<UInt8>.self), config: config,
-                                  originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
-                                  resizeWidth: width, resizeHeight: height)
-        return webPData
-    }
-    
-    #endif
 }

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD466CAD1DBBEEA700FFDD2E /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; };
+		BD466CAE1DBBEEA700FFDD2E /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */; };
 		BDEC2D101DB3CF43004AB3C7 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */; };
-		BDF4EDEE1DBBE44200FB54F4 /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BDF4EDEC1DBBE44200FB54F4 /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BDF90F191DBBDFFA00A87149 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
 		D95E1C471D88E71A00F94976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C461D88E71A00F94976 /* ViewController.swift */; };
 		D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C481D88E71A00F94976 /* Main.storyboard */; };
@@ -19,13 +19,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BDF4EDEF1DBBE44300FB54F4 /* Embed Frameworks */ = {
+		BD466CAF1DBBEEA800FFDD2E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BDF4EDEE1DBBE44200FB54F4 /* WebP.framework in Embed Frameworks */,
+				BD466CAE1DBBEEA700FFDD2E /* WebP.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,7 +35,6 @@
 /* Begin PBXFileReference section */
 		BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jiro.jpg; sourceTree = "<group>"; };
-		BDF4EDEC1DBBE44200FB54F4 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = WebP.framework; path = "/Users/namai/src/github.com/ainame/WebP/iOS Example/build/Debug-iphoneos/WebP.framework"; sourceTree = "<absolute>"; };
 		BDF90F181DBBDFFA00A87149 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/WebP-dcxfzwnyaqoftyadccivlaxdmqcr/Build/Products/Debug-iphonesimulator/WebP.framework"; sourceTree = "<group>"; };
 		D95E1C411D88E71A00F94976 /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1C441D88E71A00F94976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDF90F191DBBDFFA00A87149 /* WebP.framework in Frameworks */,
+				BD466CAD1DBBEEA700FFDD2E /* WebP.framework in Frameworks */,
 				BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,7 +116,7 @@
 				D95E1C3D1D88E71A00F94976 /* Sources */,
 				D95E1C3E1D88E71A00F94976 /* Frameworks */,
 				D95E1C3F1D88E71A00F94976 /* Resources */,
-				BDF4EDEF1DBBE44300FB54F4 /* Embed Frameworks */,
+				BD466CAF1DBBEEA800FFDD2E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
