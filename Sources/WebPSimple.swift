@@ -10,7 +10,7 @@ import Foundation
 import CWebP
 import CoreGraphics
 
-public class WebPSimple {
+public struct WebPSimple {
     public static func encode(_ rgbaDataPtr: UnsafeMutablePointer<UInt8>, width: Int, height: Int, stride: Int, quality: Float) throws -> Data {
         var outputPtr: UnsafeMutablePointer<UInt8>? = nil
 

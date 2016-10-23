@@ -24,7 +24,7 @@ enum WebPEncodeError : Int, Error {
     case last                  // list terminator. always last.
 }
 
-public class WebPEncoder {
+public struct WebPEncoder {
     typealias WebPPictureImporter = (UnsafeMutablePointer<WebPPicture>, UnsafeMutablePointer<UInt8>, Int32) -> Int32
     
     public init() {
