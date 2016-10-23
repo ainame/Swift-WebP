@@ -10,11 +10,11 @@
 		BD5FC4CA1DB3E826000A0A38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5FC4C91DB3E826000A0A38 /* CoreGraphics.framework */; };
 		BD8A9EC91DB3E3E80070CF41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD8A9EC81DB3E3E80070CF41 /* Main.storyboard */; };
 		BD8A9ECC1DB3E4CB0070CF41 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD8A9ECB1DB3E4CB0070CF41 /* jiro.jpg */; };
+		BD98BB1D1DBC5A9700B084CB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD98BB1C1DBC5A9700B084CB /* WebP.framework */; };
+		BD98BB1E1DBC5A9700B084CB /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD98BB1C1DBC5A9700B084CB /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BDEC2D401DB3E0AF004AB3C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2D3F1DB3E0AF004AB3C7 /* AppDelegate.swift */; };
 		BDEC2D421DB3E0AF004AB3C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2D411DB3E0AF004AB3C7 /* ViewController.swift */; };
 		BDEC2D441DB3E0AF004AB3C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDEC2D431DB3E0AF004AB3C7 /* Assets.xcassets */; };
-		BDF4EDF11DBBE48000FB54F4 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF4EDF01DBBE48000FB54F4 /* WebP.framework */; };
-		BDF4EDF21DBBE48000FB54F4 /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BDF4EDF01DBBE48000FB54F4 /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +24,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BDF4EDF21DBBE48000FB54F4 /* WebP.framework in Embed Frameworks */,
+				BD98BB1E1DBC5A9700B084CB /* WebP.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,12 +35,12 @@
 		BD5FC4C91DB3E826000A0A38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD8A9EC81DB3E3E80070CF41 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BD8A9ECB1DB3E4CB0070CF41 /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jiro.jpg; sourceTree = "<group>"; };
+		BD98BB1C1DBC5A9700B084CB /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDEC2D3C1DB3E0AF004AB3C7 /* macOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "macOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDEC2D3F1DB3E0AF004AB3C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDEC2D411DB3E0AF004AB3C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BDEC2D431DB3E0AF004AB3C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDEC2D481DB3E0AF004AB3C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BDF4EDF01DBBE48000FB54F4 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDF4EDF11DBBE48000FB54F4 /* WebP.framework in Frameworks */,
+				BD98BB1D1DBC5A9700B084CB /* WebP.framework in Frameworks */,
 				BD5FC4CA1DB3E826000A0A38 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +59,7 @@
 		BD5FC4C81DB3E826000A0A38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BDF4EDF01DBBE48000FB54F4 /* WebP.framework */,
+				BD98BB1C1DBC5A9700B084CB /* WebP.framework */,
 				BD5FC4C91DB3E826000A0A38 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;

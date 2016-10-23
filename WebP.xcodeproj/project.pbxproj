@@ -17,6 +17,7 @@
 		BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
 		BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */; };
 		BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
+		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
 		BDF4EEA51DBBE58B00FB54F4 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */; };
 		BDF4EEA71DBBE58B00FB54F4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFD1DBBE58B00FB54F4 /* common.h */; };
 		BDF4EEA81DBBE58B00FB54F4 /* decode_vp8.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFE1DBBE58B00FB54F4 /* decode_vp8.h */; };
@@ -1057,6 +1058,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */,
+				BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */,
 				BD5FC4D91DB3EE36000A0A38 /* WebPConfig.swift in Sources */,
 				BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */,
 				BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */,
