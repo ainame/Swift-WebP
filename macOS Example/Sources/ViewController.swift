@@ -40,7 +40,8 @@ class MacOSViewController: NSViewController {
         queue.async {
             do {
                 print("convert start")
-                let data = try! encoder.encode(self.beforeImageView.image!, config: .preset(.picture, quality: 95))
+                let data = try! encoder.encode(self.beforeImageView.image!, config: .preset(.photo, quality: 95))
+                // let data = try! WebPSimple.encode(self.beforeImageView.image!, quality: 95.0)
                 let webpImage = try NSImage(cgImage: WebPSimple.decode(data), size: self.beforeImageView.frame.size)
                 print("decode finish")
                 DispatchQueue.main.async {
