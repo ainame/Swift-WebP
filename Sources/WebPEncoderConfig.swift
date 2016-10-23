@@ -29,7 +29,7 @@ extension CWebP.WebPImageHint: ExpressibleByIntegerLiteral {
 
 
 // mapping from CWebP.WebPConfig
-public struct WebPEncoderConfig {
+public struct WebPEncoderConfig: InternalRawRepresentable {
     public enum WebPImageHint: CWebP.WebPImageHint {
         case `default` = 0
         case picture = 1

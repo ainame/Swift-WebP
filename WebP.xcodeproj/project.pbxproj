@@ -8,16 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		BD19783D1DB2A99200F7387E /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
-		BD19783E1DB2A99200F7387E /* WebPConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPConfig.swift */; };
+		BD19783E1DB2A99200F7387E /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD19783F1DB2A99200F7387E /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
 		BD466CB11DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
 		BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
-		BD5FC4D91DB3EE36000A0A38 /* WebPConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPConfig.swift */; };
+		BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
 		BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
+		BD615D031DC4ED8A00381A8C /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD615D021DC4ED8A00381A8C /* InternalRawRepresentable.swift */; };
+		BD615D041DC4EF6100381A8C /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD615D021DC4ED8A00381A8C /* InternalRawRepresentable.swift */; };
+		BD615D051DC50EE100381A8C /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB241DBD2F4000B084CB /* WebPDecoderConfig.swift */; };
 		BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */; };
 		BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
 		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
+		BD98BB211DBD2CCA00B084CB /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB201DBD2CCA00B084CB /* WebPDecoder.swift */; };
+		BD98BB231DBD2DFF00B084CB /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB221DBD2DFF00B084CB /* WebPDecoder+Platform.swift */; };
+		BD98BB251DBD2F4000B084CB /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB241DBD2F4000B084CB /* WebPDecoderConfig.swift */; };
 		BDF4EEA51DBBE58B00FB54F4 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */; };
 		BDF4EEA71DBBE58B00FB54F4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFD1DBBE58B00FB54F4 /* common.h */; };
 		BDF4EEA81DBBE58B00FB54F4 /* decode_vp8.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFE1DBBE58B00FB54F4 /* decode_vp8.h */; };
@@ -225,6 +231,8 @@
 		BDF4EFEC1DBBE64000FB54F4 /* mux.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EEA11DBBE58B00FB54F4 /* mux.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDF4EFED1DBBE64000FB54F4 /* mux_types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EEA21DBBE58B00FB54F4 /* mux_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDF4EFEE1DBBE64000FB54F4 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EEA31DBBE58B00FB54F4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BDFF4FBA1DC5EBCB00739AA1 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB201DBD2CCA00B084CB /* WebPDecoder.swift */; };
+		BDFF4FBB1DC5EBD300739AA1 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98BB221DBD2DFF00B084CB /* WebPDecoder+Platform.swift */; };
 		D95E1BE71D88D63400F94976 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* WebP.framework */; };
 		D95E1BEC1D88D63400F94976 /* WebPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BEB1D88D63400F94976 /* WebPTests.swift */; };
 /* End PBXBuildFile section */
@@ -260,13 +268,17 @@
 
 /* Begin PBXFileReference section */
 		BD196F931DB2845600F7387E /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoder.swift; sourceTree = "<group>"; };
-		BD196F951DB2848500F7387E /* WebPConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPConfig.swift; sourceTree = "<group>"; };
+		BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderConfig.swift; sourceTree = "<group>"; };
 		BD196F991DB2989600F7387E /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD615D021DC4ED8A00381A8C /* InternalRawRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalRawRepresentable.swift; sourceTree = "<group>"; };
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD6180111DB2CD0900AB0C54 /* WebPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPError.swift; sourceTree = "<group>"; };
 		BD622E111DB3562D00E34457 /* CWebP-umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWebP-umbrella.h"; sourceTree = "<group>"; };
+		BD98BB201DBD2CCA00B084CB /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoder.swift; sourceTree = "<group>"; };
+		BD98BB221DBD2DFF00B084CB /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
+		BD98BB241DBD2F4000B084CB /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoderConfig.swift; sourceTree = "<group>"; };
 		BDF4EDFA1DBBE58B00FB54F4 /* alpha.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha.c; sourceTree = "<group>"; };
 		BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alphai.h; sourceTree = "<group>"; };
 		BDF4EDFC1DBBE58B00FB54F4 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buffer.c; sourceTree = "<group>"; };
@@ -762,11 +774,15 @@
 			children = (
 				D95E1BE11D88D63300F94976 /* Info.plist */,
 				D95E1BE01D88D63300F94976 /* WebP.h */,
-				D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */,
-				BD196F951DB2848500F7387E /* WebPConfig.swift */,
+				BD98BB201DBD2CCA00B084CB /* WebPDecoder.swift */,
+				BD98BB221DBD2DFF00B084CB /* WebPDecoder+Platform.swift */,
+				BD98BB241DBD2F4000B084CB /* WebPDecoderConfig.swift */,
 				BD196F931DB2845600F7387E /* WebPEncoder.swift */,
-				BD6180111DB2CD0900AB0C54 /* WebPError.swift */,
 				BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */,
+				BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */,
+				BD6180111DB2CD0900AB0C54 /* WebPError.swift */,
+				D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */,
+				BD615D021DC4ED8A00381A8C /* InternalRawRepresentable.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1057,10 +1073,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDFF4FBA1DC5EBCB00739AA1 /* WebPDecoder.swift in Sources */,
 				BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */,
+				BD615D051DC50EE100381A8C /* WebPDecoderConfig.swift in Sources */,
+				BDFF4FBB1DC5EBD300739AA1 /* WebPDecoder+Platform.swift in Sources */,
 				BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */,
-				BD5FC4D91DB3EE36000A0A38 /* WebPConfig.swift in Sources */,
+				BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */,
 				BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */,
+				BD615D041DC4EF6100381A8C /* InternalRawRepresentable.swift in Sources */,
 				BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1188,8 +1208,12 @@
 			files = (
 				BD19783D1DB2A99200F7387E /* WebPSimple.swift in Sources */,
 				BD466CB11DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift in Sources */,
-				BD19783E1DB2A99200F7387E /* WebPConfig.swift in Sources */,
+				BD19783E1DB2A99200F7387E /* WebPEncoderConfig.swift in Sources */,
+				BD98BB231DBD2DFF00B084CB /* WebPDecoder+Platform.swift in Sources */,
+				BD98BB251DBD2F4000B084CB /* WebPDecoderConfig.swift in Sources */,
 				BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */,
+				BD98BB211DBD2CCA00B084CB /* WebPDecoder.swift in Sources */,
+				BD615D031DC4ED8A00381A8C /* InternalRawRepresentable.swift in Sources */,
 				BD19783F1DB2A99200F7387E /* WebPEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
