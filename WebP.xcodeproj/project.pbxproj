@@ -175,6 +175,9 @@
 		BD72CD341DD6FBDB00E865AB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */; };
 		BD72CD3A1DD6FC2A00E865AB /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */; };
 		BD72CD3B1DD6FC3000E865AB /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD72CD271DD6F51D00E865AB /* jiro.jpg */; };
+		BD72CD421DD9F14A00E865AB /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD3F1DD9F14A00E865AB /* WebPDecoder.swift */; };
+		BD72CD431DD9F14A00E865AB /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD401DD9F14A00E865AB /* WebPDecoder+Platform.swift */; };
+		BD72CD441DD9F14A00E865AB /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD411DD9F14A00E865AB /* WebPDecoderConfig.swift */; };
 		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
 		BDA6403D1DD0FE8600FD6F5D /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9D1DBBE58B00FB54F4 /* decode.h */; };
 		BDA6403E1DD0FE8600FD6F5D /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9E1DBBE58B00FB54F4 /* demux.h */; };
@@ -440,6 +443,9 @@
 		BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
 		BD72CD271DD6F51D00E865AB /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = jiro.jpg; path = "macOS Example/jiro.jpg"; sourceTree = SOURCE_ROOT; };
 		BD72CD2F1DD6FBDA00E865AB /* WebPTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebPTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD72CD3F1DD9F14A00E865AB /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoder.swift; sourceTree = "<group>"; };
+		BD72CD401DD9F14A00E865AB /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
+		BD72CD411DD9F14A00E865AB /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoderConfig.swift; sourceTree = "<group>"; };
 		BDA640521DD24B1D00FD6F5D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		BDF4EDFA1DBBE58B00FB54F4 /* alpha.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha.c; sourceTree = "<group>"; };
 		BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alphai.h; sourceTree = "<group>"; };
@@ -974,6 +980,9 @@
 				D95E1BE11D88D63300F94976 /* Info.plist */,
 				BDFF4FBC1DC6611300739AA1 /* InternalRawRepresentable.swift */,
 				D95E1BE01D88D63300F94976 /* WebP.h */,
+				BD72CD3F1DD9F14A00E865AB /* WebPDecoder.swift */,
+				BD72CD401DD9F14A00E865AB /* WebPDecoder+Platform.swift */,
+				BD72CD411DD9F14A00E865AB /* WebPDecoderConfig.swift */,
 				BD196F931DB2845600F7387E /* WebPEncoder.swift */,
 				BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */,
 				BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */,
@@ -1578,8 +1587,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD72CD421DD9F14A00E865AB /* WebPDecoder.swift in Sources */,
+				BD72CD431DD9F14A00E865AB /* WebPDecoder+Platform.swift in Sources */,
 				BD19783D1DB2A99200F7387E /* WebPSimple.swift in Sources */,
 				BD466CB11DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift in Sources */,
+				BD72CD441DD9F14A00E865AB /* WebPDecoderConfig.swift in Sources */,
 				BD19783E1DB2A99200F7387E /* WebPEncoderConfig.swift in Sources */,
 				BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */,
 				BDFF4FBD1DC6611300739AA1 /* InternalRawRepresentable.swift in Sources */,
@@ -1959,6 +1971,7 @@
 				BD72CD391DD6FBDB00E865AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BDF4EF521DBBE5E800FB54F4 /* Build configuration list for PBXNativeTarget "webp iOS" */ = {
 			isa = XCConfigurationList;
