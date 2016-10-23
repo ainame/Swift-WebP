@@ -30,7 +30,7 @@ public struct WebPEncoder {
     public init() {
     }
     
-    public func encode(RGB: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(RGB: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -39,7 +39,7 @@ public struct WebPEncoder {
         return try encode(RGB, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
     
-    public func encode(RGBA: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(RGBA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -48,7 +48,7 @@ public struct WebPEncoder {
         return try encode(RGBA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
     
-    public func encode(RGBX: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(RGBX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -57,7 +57,7 @@ public struct WebPEncoder {
         return try encode(RGBX, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
     
-    public func encode(BGR: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(BGR: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -66,7 +66,7 @@ public struct WebPEncoder {
         return try encode(BGR, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
     
-    public func encode(BGRA: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(BGRA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -75,7 +75,7 @@ public struct WebPEncoder {
         return try encode(BGRA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
     
-    public func encode(BGRX: UnsafeMutablePointer<UInt8>, config: WebPConfig,
+    public func encode(BGRX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         let importer: WebPPictureImporter = { picturePtr, data, stride in
@@ -85,7 +85,7 @@ public struct WebPEncoder {
     }
     
     private func encode(_ dataPtr: UnsafeMutablePointer<UInt8>, importer: WebPPictureImporter,
-                        config: WebPConfig, originWidth: Int, originHeight: Int, stride: Int,
+                        config: WebPEncoderConfig, originWidth: Int, originHeight: Int, stride: Int,
                         resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         var config = config.rawValue
         if WebPValidateConfig(&config) == 0 {

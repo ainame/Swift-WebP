@@ -7,12 +7,13 @@
 //
 
 import Foundation
-import CoreGraphics
 
 #if os(macOS)
     import AppKit
+    import CoreGraphics
+
     extension WebPEncoder {
-        public func encode(_ image: NSImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
+        public func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
             let data = image.tiffRepresentation!
             let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
             let bitmap = NSBitmapImageRep(data: data)!
@@ -26,9 +27,10 @@ import CoreGraphics
 
 #if os(iOS)
     import UIKit
+    import CoreGraphics
 
     extension WebPEncoder {
-        public func encode(_ image: UIImage, config: WebPConfig, width: Int = 0, height: Int = 0) throws -> Data {
+        public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
             let cgImage = image.cgImage!
             let stride = cgImage.bytesPerRow
             let dataPtr = CFDataGetMutableBytePtr(cgImage.dataProvider!.data as! CFMutableData)!
