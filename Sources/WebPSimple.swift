@@ -23,13 +23,13 @@ public struct WebPSimple {
     }
 
     public static func decode(_ webPData: Data) throws -> CGImage {
-        var config: WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
-            var config = WebPDecoderConfig()
+        var config: CWebP.WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
+            var config = CWebP.WebPDecoderConfig()
             if WebPInitDecoderConfig(&config) == 0 {
                 fatalError("can't init decoder config")
             }
 
-            var features = WebPBitstreamFeatures()
+            var features = CWebP.WebPBitstreamFeatures()
             if WebPGetFeatures(body, webPData.count, &features) != VP8_STATUS_OK {
                 throw WebPError.brokenHeaderError
             }
@@ -41,6 +41,7 @@ public struct WebPSimple {
             }
             return config
         }
+        
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let context = CGContext(data: config.output.u.RGBA.rgba,
             width: Int(config.input.width),
