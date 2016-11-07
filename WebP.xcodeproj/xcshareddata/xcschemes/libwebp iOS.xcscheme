@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BDF4EF4B1DBBE5E800FB54F4"
-               BuildableName = "liblibwebp.a"
+               BuildableName = "libwebp.a"
                BlueprintName = "webp iOS"
                ReferencedContainer = "container:WebP.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDF4EF4B1DBBE5E800FB54F4"
-            BuildableName = "liblibwebp.a"
+            BuildableName = "libwebp.a"
             BlueprintName = "webp iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDF4EF4B1DBBE5E800FB54F4"
-            BuildableName = "liblibwebp.a"
+            BuildableName = "libwebp.a"
             BlueprintName = "webp iOS"
             ReferencedContainer = "container:WebP.xcodeproj">
          </BuildableReference>
