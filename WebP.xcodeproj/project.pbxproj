@@ -214,6 +214,20 @@
 		BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */; };
 		BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
 		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
+		BDA6403D1DD0FE8600FD6F5D /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9D1DBBE58B00FB54F4 /* decode.h */; };
+		BDA6403E1DD0FE8600FD6F5D /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9E1DBBE58B00FB54F4 /* demux.h */; };
+		BDA6403F1DD0FE8600FD6F5D /* encode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9F1DBBE58B00FB54F4 /* encode.h */; };
+		BDA640401DD0FE8600FD6F5D /* format_constants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA01DBBE58B00FB54F4 /* format_constants.h */; };
+		BDA640411DD0FE8600FD6F5D /* mux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA11DBBE58B00FB54F4 /* mux.h */; };
+		BDA640421DD0FE8600FD6F5D /* mux_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA21DBBE58B00FB54F4 /* mux_types.h */; };
+		BDA640431DD0FE8600FD6F5D /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA31DBBE58B00FB54F4 /* types.h */; };
+		BDA640441DD0FE9B00FD6F5D /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9D1DBBE58B00FB54F4 /* decode.h */; };
+		BDA640451DD0FE9B00FD6F5D /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9E1DBBE58B00FB54F4 /* demux.h */; };
+		BDA640461DD0FE9B00FD6F5D /* encode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9F1DBBE58B00FB54F4 /* encode.h */; };
+		BDA640471DD0FE9B00FD6F5D /* format_constants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA01DBBE58B00FB54F4 /* format_constants.h */; };
+		BDA640481DD0FE9B00FD6F5D /* mux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA11DBBE58B00FB54F4 /* mux.h */; };
+		BDA640491DD0FE9B00FD6F5D /* mux_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA21DBBE58B00FB54F4 /* mux_types.h */; };
+		BDA6404A1DD0FE9B00FD6F5D /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA31DBBE58B00FB54F4 /* types.h */; };
 		BDF4EEA51DBBE58B00FB54F4 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */; };
 		BDF4EEA71DBBE58B00FB54F4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFD1DBBE58B00FB54F4 /* common.h */; };
 		BDF4EEA81DBBE58B00FB54F4 /* decode_vp8.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFE1DBBE58B00FB54F4 /* decode_vp8.h */; };
@@ -458,6 +472,13 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				BDA640441DD0FE9B00FD6F5D /* decode.h in CopyFiles */,
+				BDA640451DD0FE9B00FD6F5D /* demux.h in CopyFiles */,
+				BDA640461DD0FE9B00FD6F5D /* encode.h in CopyFiles */,
+				BDA640471DD0FE9B00FD6F5D /* format_constants.h in CopyFiles */,
+				BDA640481DD0FE9B00FD6F5D /* mux.h in CopyFiles */,
+				BDA640491DD0FE9B00FD6F5D /* mux_types.h in CopyFiles */,
+				BDA6404A1DD0FE9B00FD6F5D /* types.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +488,13 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				BDA6403D1DD0FE8600FD6F5D /* decode.h in CopyFiles */,
+				BDA6403E1DD0FE8600FD6F5D /* demux.h in CopyFiles */,
+				BDA6403F1DD0FE8600FD6F5D /* encode.h in CopyFiles */,
+				BDA640401DD0FE8600FD6F5D /* format_constants.h in CopyFiles */,
+				BDA640411DD0FE8600FD6F5D /* mux.h in CopyFiles */,
+				BDA640421DD0FE8600FD6F5D /* mux_types.h in CopyFiles */,
+				BDA640431DD0FE8600FD6F5D /* types.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
