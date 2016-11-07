@@ -228,6 +228,8 @@
 		BDA640481DD0FE9B00FD6F5D /* mux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA11DBBE58B00FB54F4 /* mux.h */; };
 		BDA640491DD0FE9B00FD6F5D /* mux_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA21DBBE58B00FB54F4 /* mux_types.h */; };
 		BDA6404A1DD0FE9B00FD6F5D /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EEA31DBBE58B00FB54F4 /* types.h */; };
+		BDA6404B1DD1002F00FD6F5D /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD4C083E1DD0E313000B8058 /* libwebp.a */; };
+		BDA6404C1DD1003400FD6F5D /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF4EF4C1DBBE5E800FB54F4 /* libwebp.a */; };
 		BDF4EEA51DBBE58B00FB54F4 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */; };
 		BDF4EEA71DBBE58B00FB54F4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFD1DBBE58B00FB54F4 /* common.h */; };
 		BDF4EEA81DBBE58B00FB54F4 /* decode_vp8.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFE1DBBE58B00FB54F4 /* decode_vp8.h */; };
@@ -697,6 +699,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDA6404B1DD1002F00FD6F5D /* libwebp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +714,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDA6404C1DD1003400FD6F5D /* libwebp.a in Frameworks */,
 				BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
