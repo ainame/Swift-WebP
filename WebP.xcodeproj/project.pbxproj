@@ -233,17 +233,13 @@
 		BDF4EEA51DBBE58B00FB54F4 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */; };
 		BDF4EEA71DBBE58B00FB54F4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFD1DBBE58B00FB54F4 /* common.h */; };
 		BDF4EEA81DBBE58B00FB54F4 /* decode_vp8.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EDFE1DBBE58B00FB54F4 /* decode_vp8.h */; };
-		BDF4EEAC1DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE021DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EEB01DBBE58B00FB54F4 /* vp8i.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE061DBBE58B00FB54F4 /* vp8i.h */; };
 		BDF4EEB21DBBE58B00FB54F4 /* vp8li.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE081DBBE58B00FB54F4 /* vp8li.h */; };
 		BDF4EEB41DBBE58B00FB54F4 /* webpi.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE0A1DBBE58B00FB54F4 /* webpi.h */; };
-		BDF4EEB71DBBE58B00FB54F4 /* libwebpdemux.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE0E1DBBE58B00FB54F4 /* libwebpdemux.pc.in */; };
-		BDF4EEB81DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE0F1DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EEC01DBBE58B00FB54F4 /* common_sse2.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE181DBBE58B00FB54F4 /* common_sse2.h */; };
 		BDF4EECE1DBBE58B00FB54F4 /* dsp.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE261DBBE58B00FB54F4 /* dsp.h */; };
 		BDF4EEDC1DBBE58B00FB54F4 /* lossless.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE341DBBE58B00FB54F4 /* lossless.h */; };
 		BDF4EEDD1DBBE58B00FB54F4 /* lossless_common.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE351DBBE58B00FB54F4 /* lossless_common.h */; };
-		BDF4EEE91DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE411DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EEEA1DBBE58B00FB54F4 /* mips_macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE421DBBE58B00FB54F4 /* mips_macro.h */; };
 		BDF4EEEB1DBBE58B00FB54F4 /* msa_macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE431DBBE58B00FB54F4 /* msa_macro.h */; };
 		BDF4EEEC1DBBE58B00FB54F4 /* neon.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE441DBBE58B00FB54F4 /* neon.h */; };
@@ -252,15 +248,9 @@
 		BDF4EF031DBBE58B00FB54F4 /* cost.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE5C1DBBE58B00FB54F4 /* cost.h */; };
 		BDF4EF051DBBE58B00FB54F4 /* delta_palettization.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE5E1DBBE58B00FB54F4 /* delta_palettization.h */; };
 		BDF4EF091DBBE58B00FB54F4 /* histogram.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE621DBBE58B00FB54F4 /* histogram.h */; };
-		BDF4EF0B1DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE641DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EF171DBBE58B00FB54F4 /* vp8enci.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE701DBBE58B00FB54F4 /* vp8enci.h */; };
 		BDF4EF191DBBE58B00FB54F4 /* vp8li.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE721DBBE58B00FB54F4 /* vp8li.h */; };
-		BDF4EF1B1DBBE58B00FB54F4 /* libwebp.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE741DBBE58B00FB54F4 /* libwebp.pc.in */; };
-		BDF4EF1C1DBBE58B00FB54F4 /* libwebpdecoder.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE751DBBE58B00FB54F4 /* libwebpdecoder.pc.in */; };
-		BDF4EF1D1DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE761DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EF1F1DBBE58B00FB54F4 /* animi.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE791DBBE58B00FB54F4 /* animi.h */; };
-		BDF4EF201DBBE58B00FB54F4 /* libwebpmux.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE7A1DBBE58B00FB54F4 /* libwebpmux.pc.in */; };
-		BDF4EF211DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE7B1DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EF231DBBE58B00FB54F4 /* muxi.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE7D1DBBE58B00FB54F4 /* muxi.h */; };
 		BDF4EF271DBBE58B00FB54F4 /* bit_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE821DBBE58B00FB54F4 /* bit_reader.h */; };
 		BDF4EF281DBBE58B00FB54F4 /* bit_reader_inl.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE831DBBE58B00FB54F4 /* bit_reader_inl.h */; };
@@ -270,7 +260,6 @@
 		BDF4EF2F1DBBE58B00FB54F4 /* filters.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE8A1DBBE58B00FB54F4 /* filters.h */; };
 		BDF4EF311DBBE58B00FB54F4 /* huffman.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE8C1DBBE58B00FB54F4 /* huffman.h */; };
 		BDF4EF331DBBE58B00FB54F4 /* huffman_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE8E1DBBE58B00FB54F4 /* huffman_encode.h */; };
-		BDF4EF341DBBE58B00FB54F4 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BDF4EE8F1DBBE58B00FB54F4 /* Makefile.am */; };
 		BDF4EF361DBBE58B00FB54F4 /* quant_levels.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE911DBBE58B00FB54F4 /* quant_levels.h */; };
 		BDF4EF381DBBE58B00FB54F4 /* quant_levels_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE931DBBE58B00FB54F4 /* quant_levels_dec.h */; };
 		BDF4EF3A1DBBE58B00FB54F4 /* random.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF4EE951DBBE58B00FB54F4 /* random.h */; };
@@ -1402,17 +1391,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDF4EEB81DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EEE91DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EF1C1DBBE58B00FB54F4 /* libwebpdecoder.pc.in in Resources */,
-				BDF4EF1B1DBBE58B00FB54F4 /* libwebp.pc.in in Resources */,
-				BDF4EF201DBBE58B00FB54F4 /* libwebpmux.pc.in in Resources */,
-				BDF4EF341DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EF0B1DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EF1D1DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EF211DBBE58B00FB54F4 /* Makefile.am in Resources */,
-				BDF4EEB71DBBE58B00FB54F4 /* libwebpdemux.pc.in in Resources */,
-				BDF4EEAC1DBBE58B00FB54F4 /* Makefile.am in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
