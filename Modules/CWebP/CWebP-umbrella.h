@@ -12,5 +12,4 @@
 #include <webp/mux.h>
 #include <webp/mux_types.h>
 #include <webp/demux.h>
-// added this at v0.5
-// #include <webp/format_constants.h>
+#include <webp/format_constants.h>
