@@ -5,8 +5,4 @@ let package = Package(
     dependencies: [
         .Package(url: "Modules/CWebP", majorVersion: 0)
     ],
-    providers: [
-        .Brew(installName: "webp"),
-        .Apt(installName: "libwebp")
-    ]
 )
