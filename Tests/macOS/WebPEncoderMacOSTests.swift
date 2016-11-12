@@ -1,16 +1,17 @@
 //
-//  WebPTests.swift
-//  WebPTests
+//  WebPEncoderTests.swift
+//  WebP
 //
-//  Created by ainame on Jan 32, 2032.
-//  Copyright © 2016 satoshi.namai. All rights reserved.
+//  Created by Namai Satoshi on 2016/11/12.
+//  Copyright © 2016年 satoshi.namai. All rights reserved.
 //
 
 import XCTest
+import Foundation
+import AppKit
 @testable import WebP
 
-class WebPTests: XCTestCase {
-    
+class WebPEncoderMacOSTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,10 +23,10 @@ class WebPTests: XCTestCase {
     }
     
     func testExample() {
-        let image = #imageLiteral(resourceName: "jiro.jpg")
+        let path = Bundle(for: self.classForCoder).resourcePath!.appendingFormat("/jiro.jpg")
+        let nsimage = NSImage(contentsOfFile: path)!
         let encoder = WebPEncoder()
-        let webPImage = try! encoder.encode(image, config: WebPConfig.preset(.photo, quality: 10))
+        let webPImage = try! encoder.encode(nsimage, config: .preset(.photo, quality: 10))
         XCTAssertNotNil(webPImage)
     }
-    
 }

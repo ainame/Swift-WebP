@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD72CD181DD6F32900E865AB"
+               BuildableName = "WebPTests macOS.xctest"
+               BlueprintName = "WebPTests macOS"
+               ReferencedContainer = "container:WebP.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "BD5FC4CF1DB3EE2B000A0A38"
+            BuildableName = "WebP.framework"
+            BlueprintName = "WebP macOS"
+            ReferencedContainer = "container:WebP.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

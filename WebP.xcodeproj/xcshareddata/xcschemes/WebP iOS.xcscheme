@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D95E1BE51D88D63400F94976"
-               BuildableName = "WebPTests.xctest"
-               BlueprintName = "WebPTests"
+               BuildableName = "WebPTests iOS.xctest"
+               BlueprintName = "WebPTests iOS"
                ReferencedContainer = "container:WebP.xcodeproj">
             </BuildableReference>
          </TestableReference>

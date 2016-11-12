@@ -170,6 +170,11 @@
 		BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
 		BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */; };
 		BD6180121DB2CD0900AB0C54 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6180111DB2CD0900AB0C54 /* WebPError.swift */; };
+		BD72CD171DD6F31800E865AB /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */; };
+		BD72CD291DD6F55200E865AB /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD72CD271DD6F51D00E865AB /* jiro.jpg */; };
+		BD72CD341DD6FBDB00E865AB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */; };
+		BD72CD3A1DD6FC2A00E865AB /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */; };
+		BD72CD3B1DD6FC3000E865AB /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD72CD271DD6F51D00E865AB /* jiro.jpg */; };
 		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
 		BDA6403D1DD0FE8600FD6F5D /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9D1DBBE58B00FB54F4 /* decode.h */; };
 		BDA6403E1DD0FE8600FD6F5D /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF4EE9E1DBBE58B00FB54F4 /* demux.h */; };
@@ -344,7 +349,6 @@
 		BDFF4FBD1DC6611300739AA1 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFF4FBC1DC6611300739AA1 /* InternalRawRepresentable.swift */; };
 		BDFF4FBF1DC661AA00739AA1 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFF4FBC1DC6611300739AA1 /* InternalRawRepresentable.swift */; };
 		D95E1BE71D88D63400F94976 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* WebP.framework */; };
-		D95E1BEC1D88D63400F94976 /* WebPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BEB1D88D63400F94976 /* WebPTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,6 +358,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BD4C079D1DD0E313000B8058;
 			remoteInfo = "webp macOS";
+		};
+		BD72CD351DD6FBDB00E865AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95E1BD41D88D63200F94976 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD5FC4CF1DB3EE2B000A0A38;
+			remoteInfo = "WebP macOS";
 		};
 		BDF4EFEF1DBBEE5800FB54F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -425,6 +436,10 @@
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD6180111DB2CD0900AB0C54 /* WebPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPError.swift; sourceTree = "<group>"; };
 		BD622E111DB3562D00E34457 /* CWebP-umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWebP-umbrella.h"; sourceTree = "<group>"; };
+		BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
+		BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
+		BD72CD271DD6F51D00E865AB /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = jiro.jpg; path = "macOS Example/jiro.jpg"; sourceTree = SOURCE_ROOT; };
+		BD72CD2F1DD6FBDA00E865AB /* WebPTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebPTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDA640521DD24B1D00FD6F5D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		BDF4EDFA1DBBE58B00FB54F4 /* alpha.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha.c; sourceTree = "<group>"; };
 		BDF4EDFB1DBBE58B00FB54F4 /* alphai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alphai.h; sourceTree = "<group>"; };
@@ -595,8 +610,7 @@
 		D95E1BDD1D88D63300F94976 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BE01D88D63300F94976 /* WebP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebP.h; sourceTree = "<group>"; };
 		D95E1BE11D88D63300F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D95E1BE61D88D63400F94976 /* WebPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D95E1BEB1D88D63400F94976 /* WebPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPTests.swift; sourceTree = "<group>"; };
+		D95E1BE61D88D63400F94976 /* WebPTests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebPTests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BED1D88D63400F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPSimple.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -615,6 +629,14 @@
 			files = (
 				BDA640511DD24A8600FD6F5D /* libwebp.a in Frameworks */,
 				BDA640531DD24B1D00FD6F5D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD72CD2C1DD6FBDA00E865AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD72CD341DD6FBDB00E865AB /* WebP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +691,22 @@
 				BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD72CD111DD6F22400E865AB /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		BD72CD121DD6F22F00E865AB /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */,
+			);
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		BDF4EDF31DBBE4AF00FB54F4 /* libwebp */ = {
@@ -921,10 +959,11 @@
 			isa = PBXGroup;
 			children = (
 				D95E1BDD1D88D63300F94976 /* WebP.framework */,
-				D95E1BE61D88D63400F94976 /* WebPTests.xctest */,
+				D95E1BE61D88D63400F94976 /* WebPTests iOS.xctest */,
 				BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */,
 				BDF4EF4C1DBBE5E800FB54F4 /* libwebp.a */,
 				BD4C083E1DD0E313000B8058 /* libwebp.a */,
+				BD72CD2F1DD6FBDA00E865AB /* WebPTests macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -947,7 +986,9 @@
 		D95E1BEA1D88D63400F94976 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				D95E1BEB1D88D63400F94976 /* WebPTests.swift */,
+				BD72CD271DD6F51D00E865AB /* jiro.jpg */,
+				BD72CD121DD6F22F00E865AB /* macOS */,
+				BD72CD111DD6F22400E865AB /* iOS */,
 				D95E1BED1D88D63400F94976 /* Info.plist */,
 			);
 			path = Tests;
@@ -1110,6 +1151,24 @@
 			productReference = BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		BD72CD2E1DD6FBDA00E865AB /* WebPTests macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD72CD371DD6FBDB00E865AB /* Build configuration list for PBXNativeTarget "WebPTests macOS" */;
+			buildPhases = (
+				BD72CD2B1DD6FBDA00E865AB /* Sources */,
+				BD72CD2C1DD6FBDA00E865AB /* Frameworks */,
+				BD72CD2D1DD6FBDA00E865AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BD72CD361DD6FBDB00E865AB /* PBXTargetDependency */,
+			);
+			name = "WebPTests macOS";
+			productName = "WebPTests macOS";
+			productReference = BD72CD2F1DD6FBDA00E865AB /* WebPTests macOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BDF4EF4B1DBBE5E800FB54F4 /* webp iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BDF4EF521DBBE5E800FB54F4 /* Build configuration list for PBXNativeTarget "webp iOS" */;
@@ -1148,9 +1207,9 @@
 			productReference = D95E1BDD1D88D63300F94976 /* WebP.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D95E1BE51D88D63400F94976 /* WebPTests */ = {
+		D95E1BE51D88D63400F94976 /* WebPTests iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D95E1BF41D88D63400F94976 /* Build configuration list for PBXNativeTarget "WebPTests" */;
+			buildConfigurationList = D95E1BF41D88D63400F94976 /* Build configuration list for PBXNativeTarget "WebPTests iOS" */;
 			buildPhases = (
 				D95E1BE21D88D63400F94976 /* Sources */,
 				D95E1BE31D88D63400F94976 /* Frameworks */,
@@ -1161,9 +1220,9 @@
 			dependencies = (
 				D95E1BE91D88D63400F94976 /* PBXTargetDependency */,
 			);
-			name = WebPTests;
+			name = "WebPTests iOS";
 			productName = WebPTests;
-			productReference = D95E1BE61D88D63400F94976 /* WebPTests.xctest */;
+			productReference = D95E1BE61D88D63400F94976 /* WebPTests iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1172,7 +1231,7 @@
 		D95E1BD41D88D63200F94976 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = satoshi.namai;
 				TargetAttributes = {
@@ -1181,6 +1240,11 @@
 					};
 					BD5FC4CF1DB3EE2B000A0A38 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 2Q7H62SFG3;
+						ProvisioningStyle = Automatic;
+					};
+					BD72CD2E1DD6FBDA00E865AB = {
+						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 2Q7H62SFG3;
 						ProvisioningStyle = Automatic;
 					};
@@ -1214,7 +1278,8 @@
 			targets = (
 				D95E1BDC1D88D63300F94976 /* WebP iOS */,
 				BD5FC4CF1DB3EE2B000A0A38 /* WebP macOS */,
-				D95E1BE51D88D63400F94976 /* WebPTests */,
+				D95E1BE51D88D63400F94976 /* WebPTests iOS */,
+				BD72CD2E1DD6FBDA00E865AB /* WebPTests macOS */,
 				BDF4EF4B1DBBE5E800FB54F4 /* webp iOS */,
 				BD4C079D1DD0E313000B8058 /* webp macOS */,
 			);
@@ -1229,6 +1294,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BD72CD2D1DD6FBDA00E865AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD72CD3B1DD6FC3000E865AB /* jiro.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D95E1BDB1D88D63300F94976 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1240,6 +1313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD72CD291DD6F55200E865AB /* jiro.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1373,6 +1447,14 @@
 				BD5FC4DB1DB3EE36000A0A38 /* WebPError.swift in Sources */,
 				BDFF4FBF1DC661AA00739AA1 /* InternalRawRepresentable.swift in Sources */,
 				BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD72CD2B1DD6FBDA00E865AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD72CD3A1DD6FC2A00E865AB /* WebPEncoderMacOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1510,7 +1592,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95E1BEC1D88D63400F94976 /* WebPTests.swift in Sources */,
+				BD72CD171DD6F31800E865AB /* WebPEncoderIOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1521,6 +1603,11 @@
 			isa = PBXTargetDependency;
 			target = BD4C079D1DD0E313000B8058 /* webp macOS */;
 			targetProxy = BD4C083F1DD0E32A000B8058 /* PBXContainerItemProxy */;
+		};
+		BD72CD361DD6FBDB00E865AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BD5FC4CF1DB3EE2B000A0A38 /* WebP macOS */;
+			targetProxy = BD72CD351DD6FBDB00E865AB /* PBXContainerItemProxy */;
 		};
 		BDF4EFF01DBBEE5800FB54F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1611,6 +1698,38 @@
 			};
 			name = Release;
 		};
+		BD72CD381DD6FBDB00E865AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2Q7H62SFG3;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.WebPTests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		BD72CD391DD6FBDB00E865AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2Q7H62SFG3;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.WebPTests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		BDF4EF531DBBE5E800FB54F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1619,6 +1738,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				PUBLIC_HEADERS_FOLDER_PATH = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1631,6 +1751,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				PUBLIC_HEADERS_FOLDER_PATH = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1830,6 +1951,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		BD72CD371DD6FBDB00E865AB /* Build configuration list for PBXNativeTarget "WebPTests macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD72CD381DD6FBDB00E865AB /* Debug */,
+				BD72CD391DD6FBDB00E865AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		BDF4EF521DBBE5E800FB54F4 /* Build configuration list for PBXNativeTarget "webp iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1857,7 +1986,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D95E1BF41D88D63400F94976 /* Build configuration list for PBXNativeTarget "WebPTests" */ = {
+		D95E1BF41D88D63400F94976 /* Build configuration list for PBXNativeTarget "WebPTests iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D95E1BF51D88D63400F94976 /* Debug */,
