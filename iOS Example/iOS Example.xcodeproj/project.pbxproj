@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BD466CAD1DBBEEA700FFDD2E /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; };
-		BD466CAE1DBBEEA700FFDD2E /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */; };
 		BDEC2D101DB3CF43004AB3C7 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
@@ -17,20 +16,6 @@
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
 		D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		BD466CAF1DBBEEA800FFDD2E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BD466CAE1DBBEEA700FFDD2E /* WebP.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -116,7 +101,6 @@
 				D95E1C3D1D88E71A00F94976 /* Sources */,
 				D95E1C3E1D88E71A00F94976 /* Frameworks */,
 				D95E1C3F1D88E71A00F94976 /* Resources */,
-				BD466CAF1DBBEEA800FFDD2E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -139,7 +123,7 @@
 				TargetAttributes = {
 					D95E1C401D88E71A00F94976 = {
 						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -306,9 +290,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
@@ -321,9 +306,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
