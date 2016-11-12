@@ -12,6 +12,7 @@ env:
     - DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     POD_LINT="NO"
 script:
   - set -o pipefail
+  - xcrun simctl list
   - xcodebuild -version
   - xcodebuild -showsdks
   - xcodebuild -list
@@ -29,5 +30,5 @@ script:
   # Run `pod lib lint` if specified
   - if [ $POD_LINT == "YES" ]; then
       pod lib lint;
-    fi
+  __  fi
   # - CheckCocoaPodsQualityIndexes.rb __PROJECT_NAME__
