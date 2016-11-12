@@ -693,20 +693,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BD72CD111DD6F22400E865AB /* iOS */ = {
+		BD72CD111DD6F22400E865AB /* iOSTests */ = {
 			isa = PBXGroup;
 			children = (
 				BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */,
 			);
-			path = iOS;
+			path = iOSTests;
 			sourceTree = "<group>";
 		};
-		BD72CD121DD6F22F00E865AB /* macOS */ = {
+		BD72CD121DD6F22F00E865AB /* macOSTests */ = {
 			isa = PBXGroup;
 			children = (
 				BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */,
 			);
-			path = macOS;
+			path = macOSTests;
 			sourceTree = "<group>";
 		};
 		BDF4EDF31DBBE4AF00FB54F4 /* libwebp */ = {
@@ -987,8 +987,8 @@
 			isa = PBXGroup;
 			children = (
 				BD72CD271DD6F51D00E865AB /* jiro.jpg */,
-				BD72CD121DD6F22F00E865AB /* macOS */,
-				BD72CD111DD6F22400E865AB /* iOS */,
+				BD72CD121DD6F22F00E865AB /* macOSTests */,
+				BD72CD111DD6F22400E865AB /* iOSTests */,
 				D95E1BED1D88D63400F94976 /* Info.plist */,
 			);
 			path = Tests;
@@ -1959,6 +1959,7 @@
 				BD72CD391DD6FBDB00E865AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BDF4EF521DBBE5E800FB54F4 /* Build configuration list for PBXNativeTarget "webp iOS" */ = {
 			isa = XCConfigurationList;
