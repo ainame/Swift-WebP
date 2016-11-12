@@ -32,3 +32,5 @@ script:
       pod lib lint;
     fi
   # - CheckCocoaPodsQualityIndexes.rb __PROJECT_NAME__
+notifications:
+    email: false
