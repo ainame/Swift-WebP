@@ -11,19 +11,19 @@ import CWebP
 import CoreGraphics
 
 public struct WebPSimple {
-    public static func encode(_ rgbaDataPtr: UnsafeMutablePointer<UInt8>, width: Int, height: Int, stride: Int, quality: Float) throws -> Data {
+    public static func encode(_ rgbaDataPtr: UnsafeMutablePointer<UInt8>, width: Int, height: Int, stride: Int, quality: Float) -> Data {
         var outputPtr: UnsafeMutablePointer<UInt8>? = nil
 
         let size = WebPEncodeRGB(rgbaDataPtr, Int32(width), Int32(height), Int32(stride), quality, &outputPtr)
         if size == 0 {
-            throw WebPError.encodeError
+            fatalError("can't encode a data")
         }
 
         return Data(bytes: UnsafeMutableRawPointer(outputPtr!), count: size)
     }
 
-    public static func decode(_ webPData: Data) throws -> CGImage {
-        var config: CWebP.WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
+    public static func decode(_ webPData: Data) -> CGImage {
+        var config: CWebP.WebPDecoderConfig = webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
             var config = CWebP.WebPDecoderConfig()
             if WebPInitDecoderConfig(&config) == 0 {
                 fatalError("can't init decoder config")
@@ -31,13 +31,13 @@ public struct WebPSimple {
 
             var features = CWebP.WebPBitstreamFeatures()
             if WebPGetFeatures(body, webPData.count, &features) != VP8_STATUS_OK {
-                throw WebPError.brokenHeaderError
+                fatalError("can't get features by CWebP.WebPGetFeatures")
             }
 
             config.output.colorspace = MODE_RGBA
 
             if WebPDecode(body, webPData.count, &config) != VP8_STATUS_OK {
-                throw WebPError.decodeError
+                fatalError("can't decode a data by CWebP.WebPDecode")
             }
             return config
         }

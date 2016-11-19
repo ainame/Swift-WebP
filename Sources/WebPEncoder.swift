@@ -89,7 +89,7 @@ public struct WebPEncoder {
                         resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         var config = config.rawValue
         if WebPValidateConfig(&config) == 0 {
-            throw WebPError.invalidParameter
+            fatalError("detect invalid config")
         }
         
         var picture = WebPPicture()
@@ -108,12 +108,12 @@ public struct WebPEncoder {
         let ok = importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             WebPPictureFree(&picture)
-            throw WebPError.importError
+            fatalError("import error")
         }
         
         if resizeHeight > 0 && resizeHeight > 0 {
             if (WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0) {
-                throw WebPError.encodeError
+                fatalError("fail to rescale by CWebP.WebPPictureRescale")
             }
         }
         

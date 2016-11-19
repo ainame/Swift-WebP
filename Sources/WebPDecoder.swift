@@ -43,13 +43,13 @@ public struct WebPDecoder {
         
         var features = originalConfig.input
         if WebPGetFeatures(dataPtr, size, &features) != VP8_STATUS_OK {
-            throw WebPError.brokenHeaderError
+            fatalError("can't get features by CWebP.WebPGetFeatures")
         }
         
         originalConfig.output.colorspace = MODE_RGBA
         
         if WebPDecode(dataPtr, size, &originalConfig) != VP8_STATUS_OK {
-            throw WebPError.decodeError
+            fatalError("can't decode data by CWebP.WebPDecode")
         }
 
         return Data()
