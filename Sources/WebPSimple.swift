@@ -16,7 +16,7 @@ public struct WebPSimple {
 
         let size = WebPEncodeRGB(rgbaDataPtr, Int32(width), Int32(height), Int32(stride), quality, &outputPtr)
         if size == 0 {
-            throw WebPError.encodeError
+            fatalError("failure encode")
         }
 
         return Data(bytes: UnsafeMutableRawPointer(outputPtr!), count: size)
@@ -31,13 +31,13 @@ public struct WebPSimple {
 
             var features = CWebP.WebPBitstreamFeatures()
             if WebPGetFeatures(body, webPData.count, &features) != VP8_STATUS_OK {
-                throw WebPError.brokenHeaderError
+                fatalError("broken header")
             }
 
             config.output.colorspace = MODE_RGBA
 
             if WebPDecode(body, webPData.count, &config) != VP8_STATUS_OK {
-                throw WebPError.decodeError
+                fatalError("failure decode")
             }
             return config
         }
