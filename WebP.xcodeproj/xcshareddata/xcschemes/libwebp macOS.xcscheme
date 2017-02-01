@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD4C079D1DD0E313000B8058"
+               BlueprintIdentifier = "BDCC9EB31E42440000D914B4"
                BuildableName = "libwebp.a"
                BlueprintName = "webp macOS"
                ReferencedContainer = "container:WebP.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BD4C079D1DD0E313000B8058"
+            BlueprintIdentifier = "BDCC9EB31E42440000D914B4"
             BuildableName = "libwebp.a"
             BlueprintName = "webp macOS"
             ReferencedContainer = "container:WebP.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BD4C079D1DD0E313000B8058"
+            BlueprintIdentifier = "BDCC9EB31E42440000D914B4"
             BuildableName = "libwebp.a"
             BlueprintName = "webp macOS"
             ReferencedContainer = "container:WebP.xcodeproj">
