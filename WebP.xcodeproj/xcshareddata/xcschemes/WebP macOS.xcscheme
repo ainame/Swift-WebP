@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0820"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD72CD181DD6F32900E865AB"
+               BlueprintIdentifier = "BD72CD2E1DD6FBDA00E865AB"
                BuildableName = "WebPTests macOS.xctest"
                BlueprintName = "WebPTests macOS"
                ReferencedContainer = "container:WebP.xcodeproj">
