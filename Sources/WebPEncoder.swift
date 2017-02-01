@@ -126,11 +126,14 @@ public struct WebPEncoder {
         picture.custom_ptr = UnsafeMutableRawPointer(&buffer)
         
         if WebPEncode(&config, &picture) == 0 {
+            WebPPictureFree(&picture)
+
             let error = WebPEncodeError(rawValue:  Int(picture.error_code.rawValue))!
             print("encode error \(error)")
             throw error
         }
-        
+        WebPPictureFree(&picture)
+
         return Data(bytes: buffer.mem, count: buffer.size)
     }
 }
