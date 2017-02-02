@@ -16,13 +16,14 @@ class WebPEncoderIOSTests: XCTestCase {
     override func setUp() {
         super.setUp()
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
 
     func testExample() {
         let encoder = WebPEncoder()
+
         let path = Bundle(for: self.classForCoder).bundlePath.appendingFormat("/jiro.jpg")
         let uiimage = UIImage(contentsOfFile: path)!
         let data = try? encoder.encode(uiimage, config: .preset(.photo, quality: 100))
