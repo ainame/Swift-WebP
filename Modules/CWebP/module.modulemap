@@ -2,9 +2,6 @@ module CWebP [system] {
     header "/usr/local/include/webp/encode.h"
     header "/usr/local/include/webp/decode.h"
     header "/usr/local/include/webp/types.h"
-    header "/usr/local/include/webp/mux.h"
-    header "/usr/local/include/webp/mux_types.h"
-    header "/usr/local/include/webp/demux.h"
 
     link "webp"
     export *

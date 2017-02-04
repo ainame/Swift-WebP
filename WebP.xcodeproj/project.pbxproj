@@ -143,11 +143,7 @@
 		BDCC9F3B1E4244E300D914B4 /* mux_types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BED1E42407800D914B4 /* mux_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDCC9F3C1E4244E300D914B4 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDCC9F3D1E42450D00D914B4 /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; };
-		BDCC9F3E1E42450D00D914B4 /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BE91E42407800D914B4 /* demux.h */; };
 		BDCC9F3F1E42450D00D914B4 /* encode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; };
-		BDCC9F401E42450D00D914B4 /* format_constants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEB1E42407800D914B4 /* format_constants.h */; };
-		BDCC9F411E42450D00D914B4 /* mux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEC1E42407800D914B4 /* mux.h */; };
-		BDCC9F421E42450D00D914B4 /* mux_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BED1E42407800D914B4 /* mux_types.h */; };
 		BDCC9F431E42450D00D914B4 /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; };
 		BDCC9F461E42453500D914B4 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EBC1E42445100D914B4 /* libwebp.a */; };
 		BDCC9F471E42454100D914B4 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EB41E42440000D914B4 /* libwebp.a */; };
@@ -264,11 +260,7 @@
 		BDCC9FB81E4246B900D914B4 /* thread_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9BE31E42407800D914B4 /* thread_utils.c */; };
 		BDCC9FB91E4246B900D914B4 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9BE51E42407800D914B4 /* utils.c */; };
 		BDCC9FBA1E4246CA00D914B4 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BDCC9FBB1E4246CA00D914B4 /* demux.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BE91E42407800D914B4 /* demux.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDCC9FBC1E4246CA00D914B4 /* encode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BDCC9FBD1E4246CA00D914B4 /* format_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEB1E42407800D914B4 /* format_constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BDCC9FBE1E4246CA00D914B4 /* mux.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEC1E42407800D914B4 /* mux.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BDCC9FBF1E4246CA00D914B4 /* mux_types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BED1E42407800D914B4 /* mux_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDCC9FC01E4246CA00D914B4 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDCC9FC21E4246FD00D914B4 /* decode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; };
 		BDCC9FC31E4246FD00D914B4 /* demux.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BE91E42407800D914B4 /* demux.h */; };
@@ -329,11 +321,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				BDCC9F3D1E42450D00D914B4 /* decode.h in CopyFiles */,
-				BDCC9F3E1E42450D00D914B4 /* demux.h in CopyFiles */,
 				BDCC9F3F1E42450D00D914B4 /* encode.h in CopyFiles */,
-				BDCC9F401E42450D00D914B4 /* format_constants.h in CopyFiles */,
-				BDCC9F411E42450D00D914B4 /* mux.h in CopyFiles */,
-				BDCC9F421E42450D00D914B4 /* mux_types.h in CopyFiles */,
 				BDCC9F431E42450D00D914B4 /* types.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
@@ -363,7 +351,6 @@
 		BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BD622E111DB3562D00E34457 /* CWebP-umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWebP-umbrella.h"; sourceTree = "<group>"; };
 		BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
 		BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
 		BD72CD271DD6F51D00E865AB /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = jiro.jpg; path = "macOS Example/jiro.jpg"; sourceTree = SOURCE_ROOT; };
@@ -599,7 +586,6 @@
 			isa = PBXGroup;
 			children = (
 				BD196F991DB2989600F7387E /* module.modulemap */,
-				BD622E111DB3562D00E34457 /* CWebP-umbrella.h */,
 			);
 			path = CWebP;
 			sourceTree = "<group>";
@@ -920,11 +906,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDCC9FBA1E4246CA00D914B4 /* decode.h in Headers */,
-				BDCC9FBB1E4246CA00D914B4 /* demux.h in Headers */,
 				BDCC9FBC1E4246CA00D914B4 /* encode.h in Headers */,
-				BDCC9FBD1E4246CA00D914B4 /* format_constants.h in Headers */,
-				BDCC9FBE1E4246CA00D914B4 /* mux.h in Headers */,
-				BDCC9FBF1E4246CA00D914B4 /* mux_types.h in Headers */,
 				BDCC9FC01E4246CA00D914B4 /* types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
