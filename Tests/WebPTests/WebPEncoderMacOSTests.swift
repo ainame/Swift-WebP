@@ -6,6 +6,7 @@
 //  Copyright © 2016年 satoshi.namai. All rights reserved.
 //
 
+#if os(macOS)
 import XCTest
 import Foundation
 import AppKit
@@ -16,12 +17,12 @@ class WebPEncoderMacOSTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testExample() {
         let path = Bundle(for: self.classForCoder).resourcePath!.appendingFormat("/jiro.jpg")
         let nsimage = NSImage(contentsOfFile: path)!
@@ -30,3 +31,4 @@ class WebPEncoderMacOSTests: XCTestCase {
         XCTAssertNotNil(webPImage)
     }
 }
+#endif

@@ -5,7 +5,7 @@
 //  Created by Namai Satoshi on 2016/11/12.
 //  Copyright © 2016年 satoshi.namai. All rights reserved.
 //
-
+#if os(iOS)
 import XCTest
 import Foundation
 import UIKit
@@ -31,3 +31,4 @@ class WebPEncoderIOSTests: XCTestCase {
     }
 
 }
+#endif
