@@ -8,6 +8,8 @@
 
 import Foundation
 import CWebP
+
+#if os(iOS) || os(macOS)
 import CoreGraphics
 
 
@@ -44,7 +46,7 @@ public struct WebPSimple {
             }
             return config
         }
-        
+
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let context = CGContext(data: config.output.u.RGBA.rgba,
             width: Int(config.input.width),
@@ -71,4 +73,6 @@ extension WebPSimple {
         return webPData
     }
 }
+#endif
+
 #endif
