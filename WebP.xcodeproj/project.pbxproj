@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD3B12341E4768C100E04471 /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */; };
+		BD3B12351E4768C100E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
 		BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
 		BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
 		BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */; };
-		BD72CD171DD6F31800E865AB /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */; };
 		BD72CD291DD6F55200E865AB /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD72CD271DD6F51D00E865AB /* jiro.jpg */; };
 		BD72CD341DD6FBDB00E865AB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */; };
-		BD72CD3A1DD6FC2A00E865AB /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */; };
 		BD72CD3B1DD6FC3000E865AB /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD72CD271DD6F51D00E865AB /* jiro.jpg */; };
 		BD98BB1F1DBC5AE500B084CB /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */; };
 		BDA640531DD24B1D00FD6F5D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA640521DD24B1D00FD6F5D /* CoreGraphics.framework */; };
@@ -336,11 +336,11 @@
 		BD196F931DB2845600F7387E /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoder.swift; sourceTree = "<group>"; };
 		BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderConfig.swift; sourceTree = "<group>"; };
 		BD196F991DB2989600F7387E /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
+		BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
 		BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
-		BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
 		BD72CD271DD6F51D00E865AB /* jiro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = jiro.jpg; path = "macOS Example/jiro.jpg"; sourceTree = SOURCE_ROOT; };
 		BD72CD2F1DD6FBDA00E865AB /* WebPTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebPTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDA640521DD24B1D00FD6F5D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -587,20 +587,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BD72CD111DD6F22400E865AB /* iOS */ = {
+		BD3B12311E4768C100E04471 /* WebPTests */ = {
 			isa = PBXGroup;
 			children = (
-				BD72CD161DD6F31800E865AB /* WebPEncoderIOSTests.swift */,
+				BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */,
+				BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */,
 			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		BD72CD121DD6F22F00E865AB /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				BD72CD131DD6F26C00E865AB /* WebPEncoderMacOSTests.swift */,
-			);
-			path = macOS;
+			path = WebPTests;
 			sourceTree = "<group>";
 		};
 		BDCC9B3D1E42407700D914B4 /* src */ = {
@@ -871,9 +864,8 @@
 		D95E1BEA1D88D63400F94976 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BD3B12311E4768C100E04471 /* WebPTests */,
 				BD72CD271DD6F51D00E865AB /* jiro.jpg */,
-				BD72CD121DD6F22F00E865AB /* macOS */,
-				BD72CD111DD6F22400E865AB /* iOS */,
 				D95E1BED1D88D63400F94976 /* Info.plist */,
 			);
 			path = Tests;
@@ -1142,7 +1134,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD72CD3A1DD6FC2A00E865AB /* WebPEncoderMacOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1390,8 +1381,10 @@
 			files = (
 				BDCC9EAA1E4241EE00D914B4 /* InternalRawRepresentable.swift in Sources */,
 				BDCC9EAB1E4241EE00D914B4 /* WebPEncoder.swift in Sources */,
+				BD3B12341E4768C100E04471 /* WebPEncoderIOSTests.swift in Sources */,
 				BDCC9EAC1E4241EE00D914B4 /* WebPEncoder+Platform.swift in Sources */,
 				BDCC9EAD1E4241EE00D914B4 /* WebPEncoderConfig.swift in Sources */,
+				BD3B12351E4768C100E04471 /* WebPEncoderMacOSTests.swift in Sources */,
 				BDCC9EAF1E4241EE00D914B4 /* WebPSimple.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1400,7 +1393,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD72CD171DD6F31800E865AB /* WebPEncoderIOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
