@@ -1524,7 +1524,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"-DWEBP_USE_SSE2",
-					"-DWEBP_SWAP_16BIT_CSP",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = webp;
 				SDKROOT = macosx;
@@ -1540,7 +1540,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"-DWEBP_USE_SSE2",
-					"-DWEBP_SWAP_16BIT_CSP",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = webp;
 				SDKROOT = macosx;
@@ -1552,7 +1552,10 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "-DWEBP_SWAP_16BIT_CSP";
+				OTHER_CFLAGS = (
+					"-DWEBP_SWAP_16BIT_CSP",
+					"-DNDEBUG",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
@@ -1564,7 +1567,10 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "-DWEBP_SWAP_16BIT_CSP";
+				OTHER_CFLAGS = (
+					"-DWEBP_SWAP_16BIT_CSP",
+					"-DNDEBUG",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
