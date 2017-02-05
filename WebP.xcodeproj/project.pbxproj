@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
 		BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
+		BD3B127C1E478B3300E04471 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B127D1E478B3300E04471 /* encode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B127E1E478B3300E04471 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B127F1E478B4300E04471 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B12801E478B4300E04471 /* encode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B12811E478B4300E04471 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD3B12831E479B0000E04471 /* CWebP-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BD3B12821E479B0000E04471 /* CWebP-umbrella.h */; };
+		BD3B12861E479FE400E04471 /* CWebP-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BD3B12821E479B0000E04471 /* CWebP-umbrella.h */; };
 		BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
 		BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
@@ -330,6 +338,7 @@
 		BD196F991DB2989600F7387E /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
 		BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
+		BD3B12821E479B0000E04471 /* CWebP-umbrella.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWebP-umbrella.h"; sourceTree = "<group>"; };
 		BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -565,6 +574,7 @@
 		BD196F9A1DB2989C00F7387E /* CWebP */ = {
 			isa = PBXGroup;
 			children = (
+				BD3B12821E479B0000E04471 /* CWebP-umbrella.h */,
 				BD196F991DB2989600F7387E /* module.modulemap */,
 			);
 			path = CWebP;
@@ -870,6 +880,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD3B127F1E478B4300E04471 /* decode.h in Headers */,
+				BD3B12801E478B4300E04471 /* encode.h in Headers */,
+				BD3B12811E478B4300E04471 /* types.h in Headers */,
+				BD3B12861E479FE400E04471 /* CWebP-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,6 +911,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD3B12831E479B0000E04471 /* CWebP-umbrella.h in Headers */,
+				BD3B127C1E478B3300E04471 /* decode.h in Headers */,
+				BD3B127D1E478B3300E04471 /* encode.h in Headers */,
+				BD3B127E1E478B3300E04471 /* types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1429,6 +1447,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.macos;
 				PRODUCT_NAME = WebP;
 				SDKROOT = macosx;
@@ -1454,6 +1473,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.macos;
 				PRODUCT_NAME = WebP;
 				SDKROOT = macosx;
