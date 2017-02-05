@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
 		BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
+		BD3B12391E47714C00E04471 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12361E47714C00E04471 /* WebPDecoder+Platform.swift */; };
+		BD3B123A1E47714C00E04471 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12371E47714C00E04471 /* WebPDecoder.swift */; };
+		BD3B123B1E47714C00E04471 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12381E47714C00E04471 /* WebPDecoderConfig.swift */; };
 		BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
 		BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
@@ -338,6 +341,9 @@
 		BD196F991DB2989600F7387E /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderIOSTests.swift; sourceTree = "<group>"; };
 		BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderMacOSTests.swift; sourceTree = "<group>"; };
+		BD3B12361E47714C00E04471 /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
+		BD3B12371E47714C00E04471 /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoder.swift; sourceTree = "<group>"; };
+		BD3B12381E47714C00E04471 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoderConfig.swift; sourceTree = "<group>"; };
 		BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		BD5FC4D01DB3EE2B000A0A38 /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD61800F1DB2C2C300AB0C54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -853,6 +859,9 @@
 				D95E1BE11D88D63300F94976 /* Info.plist */,
 				BDFF4FBC1DC6611300739AA1 /* InternalRawRepresentable.swift */,
 				D95E1BE01D88D63300F94976 /* WebP.h */,
+				BD3B12371E47714C00E04471 /* WebPDecoder.swift */,
+				BD3B12361E47714C00E04471 /* WebPDecoder+Platform.swift */,
+				BD3B12381E47714C00E04471 /* WebPDecoderConfig.swift */,
 				BD196F931DB2845600F7387E /* WebPEncoder.swift */,
 				BD466CB01DBBFB3E00FFDD2E /* WebPEncoder+Platform.swift */,
 				BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */,
@@ -1381,7 +1390,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDCC9EAA1E4241EE00D914B4 /* InternalRawRepresentable.swift in Sources */,
+				BD3B123A1E47714C00E04471 /* WebPDecoder.swift in Sources */,
+				BD3B12391E47714C00E04471 /* WebPDecoder+Platform.swift in Sources */,
 				BDCC9EAB1E4241EE00D914B4 /* WebPEncoder.swift in Sources */,
+				BD3B123B1E47714C00E04471 /* WebPDecoderConfig.swift in Sources */,
 				BDCC9EAC1E4241EE00D914B4 /* WebPEncoder+Platform.swift in Sources */,
 				BDCC9EAD1E4241EE00D914B4 /* WebPEncoderConfig.swift in Sources */,
 				BDCC9EAF1E4241EE00D914B4 /* WebPSimple.swift in Sources */,
