@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BD3B12341E4768C100E04471 /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */; };
-		BD3B12351E4768C100E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
+		BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
+		BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
 		BD5FC4D81DB3EE36000A0A38 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */; };
 		BD5FC4D91DB3EE36000A0A38 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F951DB2848500F7387E /* WebPEncoderConfig.swift */; };
 		BD5FC4DA1DB3EE36000A0A38 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD196F931DB2845600F7387E /* WebPEncoder.swift */; };
@@ -1134,6 +1134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,10 +1382,8 @@
 			files = (
 				BDCC9EAA1E4241EE00D914B4 /* InternalRawRepresentable.swift in Sources */,
 				BDCC9EAB1E4241EE00D914B4 /* WebPEncoder.swift in Sources */,
-				BD3B12341E4768C100E04471 /* WebPEncoderIOSTests.swift in Sources */,
 				BDCC9EAC1E4241EE00D914B4 /* WebPEncoder+Platform.swift in Sources */,
 				BDCC9EAD1E4241EE00D914B4 /* WebPEncoderConfig.swift in Sources */,
-				BD3B12351E4768C100E04471 /* WebPEncoderMacOSTests.swift in Sources */,
 				BDCC9EAF1E4241EE00D914B4 /* WebPSimple.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1393,6 +1392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
