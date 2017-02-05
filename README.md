@@ -23,7 +23,7 @@ Support Versions:
 #### Features.
 
 * [x] support macOS build
-* [x] support iOS build
+* [x] support iOS build (maybe broken)
 * [x] support Linux build
 * [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api): WebPEncoder, WebPEncoderConfig
 * [x] [Simple Decoding API](https://developers.google.com/speed/webp/docs/api#simple_decoding_api): WebPSimple#decode(...) <= will remove
