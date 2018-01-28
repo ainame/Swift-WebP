@@ -48,9 +48,6 @@
 		BDCC9ED31E4244B900D914B4 /* alpha_processing_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B591E42407700D914B4 /* alpha_processing_neon.c */; };
 		BDCC9ED41E4244B900D914B4 /* alpha_processing_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5A1E42407700D914B4 /* alpha_processing_sse2.c */; };
 		BDCC9ED51E4244B900D914B4 /* alpha_processing_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5B1E42407700D914B4 /* alpha_processing_sse41.c */; };
-		BDCC9ED61E4244B900D914B4 /* argb.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5C1E42407700D914B4 /* argb.c */; };
-		BDCC9ED71E4244B900D914B4 /* argb_mips_dsp_r2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5D1E42407700D914B4 /* argb_mips_dsp_r2.c */; };
-		BDCC9ED81E4244B900D914B4 /* argb_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5E1E42407700D914B4 /* argb_sse2.c */; };
 		BDCC9ED91E4244B900D914B4 /* cost.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B601E42407700D914B4 /* cost.c */; };
 		BDCC9EDA1E4244B900D914B4 /* cost_mips32.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B611E42407700D914B4 /* cost_mips32.c */; };
 		BDCC9EDB1E4244B900D914B4 /* cost_mips_dsp_r2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B621E42407700D914B4 /* cost_mips_dsp_r2.c */; };
@@ -168,9 +165,6 @@
 		BDCC9F581E4246B900D914B4 /* alpha_processing_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B591E42407700D914B4 /* alpha_processing_neon.c */; };
 		BDCC9F591E4246B900D914B4 /* alpha_processing_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5A1E42407700D914B4 /* alpha_processing_sse2.c */; };
 		BDCC9F5A1E4246B900D914B4 /* alpha_processing_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5B1E42407700D914B4 /* alpha_processing_sse41.c */; };
-		BDCC9F5B1E4246B900D914B4 /* argb.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5C1E42407700D914B4 /* argb.c */; };
-		BDCC9F5C1E4246B900D914B4 /* argb_mips_dsp_r2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5D1E42407700D914B4 /* argb_mips_dsp_r2.c */; };
-		BDCC9F5D1E4246B900D914B4 /* argb_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B5E1E42407700D914B4 /* argb_sse2.c */; };
 		BDCC9F5E1E4246B900D914B4 /* cost.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B601E42407700D914B4 /* cost.c */; };
 		BDCC9F5F1E4246B900D914B4 /* cost_mips32.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B611E42407700D914B4 /* cost_mips32.c */; };
 		BDCC9F601E4246B900D914B4 /* cost_mips_dsp_r2.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B621E42407700D914B4 /* cost_mips_dsp_r2.c */; };
@@ -271,6 +265,10 @@
 		BDCC9FC81E4246FD00D914B4 /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; };
 		BDFF4FBF1DC661AA00739AA1 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFF4FBC1DC6611300739AA1 /* InternalRawRepresentable.swift */; };
 		D95E1BE71D88D63400F94976 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* WebP.framework */; };
+		FD7547F1201E5A4300A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
+		FD7547F2201E5A4300A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
+		FD7547F3201E5A4300A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
+		FD7547F5201E5A5E00A3D93D /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -368,9 +366,6 @@
 		BDCC9B591E42407700D914B4 /* alpha_processing_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha_processing_neon.c; sourceTree = "<group>"; };
 		BDCC9B5A1E42407700D914B4 /* alpha_processing_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha_processing_sse2.c; sourceTree = "<group>"; };
 		BDCC9B5B1E42407700D914B4 /* alpha_processing_sse41.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha_processing_sse41.c; sourceTree = "<group>"; };
-		BDCC9B5C1E42407700D914B4 /* argb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = argb.c; sourceTree = "<group>"; };
-		BDCC9B5D1E42407700D914B4 /* argb_mips_dsp_r2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = argb_mips_dsp_r2.c; sourceTree = "<group>"; };
-		BDCC9B5E1E42407700D914B4 /* argb_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = argb_sse2.c; sourceTree = "<group>"; };
 		BDCC9B5F1E42407700D914B4 /* common_sse2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common_sse2.h; sourceTree = "<group>"; };
 		BDCC9B601E42407700D914B4 /* cost.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cost.c; sourceTree = "<group>"; };
 		BDCC9B611E42407700D914B4 /* cost_mips32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cost_mips32.c; sourceTree = "<group>"; };
@@ -509,6 +504,10 @@
 		D95E1BE61D88D63400F94976 /* WebPTests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebPTests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95E1BED1D88D63400F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95E1BFA1D88E2D500F94976 /* WebPSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPSimple.swift; sourceTree = "<group>"; };
+		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
+		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
+		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
+		FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = backward_references_cost_enc.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -647,75 +646,75 @@
 		BDCC9B561E42407700D914B4 /* dsp */ = {
 			isa = PBXGroup;
 			children = (
-				BDCC9B571E42407700D914B4 /* alpha_processing.c */,
 				BDCC9B581E42407700D914B4 /* alpha_processing_mips_dsp_r2.c */,
 				BDCC9B591E42407700D914B4 /* alpha_processing_neon.c */,
 				BDCC9B5A1E42407700D914B4 /* alpha_processing_sse2.c */,
 				BDCC9B5B1E42407700D914B4 /* alpha_processing_sse41.c */,
-				BDCC9B5C1E42407700D914B4 /* argb.c */,
-				BDCC9B5D1E42407700D914B4 /* argb_mips_dsp_r2.c */,
-				BDCC9B5E1E42407700D914B4 /* argb_sse2.c */,
+				BDCC9B571E42407700D914B4 /* alpha_processing.c */,
 				BDCC9B5F1E42407700D914B4 /* common_sse2.h */,
-				BDCC9B601E42407700D914B4 /* cost.c */,
-				BDCC9B611E42407700D914B4 /* cost_mips32.c */,
 				BDCC9B621E42407700D914B4 /* cost_mips_dsp_r2.c */,
+				BDCC9B611E42407700D914B4 /* cost_mips32.c */,
 				BDCC9B631E42407700D914B4 /* cost_sse2.c */,
+				BDCC9B601E42407700D914B4 /* cost.c */,
 				BDCC9B641E42407700D914B4 /* cpu.c */,
-				BDCC9B651E42407700D914B4 /* dec.c */,
 				BDCC9B661E42407700D914B4 /* dec_clip_tables.c */,
-				BDCC9B671E42407700D914B4 /* dec_mips32.c */,
 				BDCC9B681E42407700D914B4 /* dec_mips_dsp_r2.c */,
+				BDCC9B671E42407700D914B4 /* dec_mips32.c */,
 				BDCC9B691E42407700D914B4 /* dec_msa.c */,
 				BDCC9B6A1E42407700D914B4 /* dec_neon.c */,
 				BDCC9B6B1E42407700D914B4 /* dec_sse2.c */,
 				BDCC9B6C1E42407700D914B4 /* dec_sse41.c */,
+				BDCC9B651E42407700D914B4 /* dec.c */,
 				BDCC9B6D1E42407700D914B4 /* dsp.h */,
-				BDCC9B6E1E42407700D914B4 /* enc.c */,
 				BDCC9B6F1E42407700D914B4 /* enc_avx2.c */,
-				BDCC9B701E42407700D914B4 /* enc_mips32.c */,
 				BDCC9B711E42407700D914B4 /* enc_mips_dsp_r2.c */,
+				BDCC9B701E42407700D914B4 /* enc_mips32.c */,
 				BDCC9B721E42407700D914B4 /* enc_msa.c */,
 				BDCC9B731E42407700D914B4 /* enc_neon.c */,
 				BDCC9B741E42407700D914B4 /* enc_sse2.c */,
 				BDCC9B751E42407700D914B4 /* enc_sse41.c */,
-				BDCC9B761E42407700D914B4 /* filters.c */,
+				BDCC9B6E1E42407700D914B4 /* enc.c */,
 				BDCC9B771E42407700D914B4 /* filters_mips_dsp_r2.c */,
 				BDCC9B781E42407700D914B4 /* filters_msa.c */,
 				BDCC9B791E42407700D914B4 /* filters_neon.c */,
 				BDCC9B7A1E42407700D914B4 /* filters_sse2.c */,
-				BDCC9B7B1E42407700D914B4 /* lossless.c */,
-				BDCC9B7C1E42407700D914B4 /* lossless.h */,
+				BDCC9B761E42407700D914B4 /* filters.c */,
 				BDCC9B7D1E42407700D914B4 /* lossless_common.h */,
-				BDCC9B7E1E42407700D914B4 /* lossless_enc.c */,
-				BDCC9B7F1E42407700D914B4 /* lossless_enc_mips32.c */,
 				BDCC9B801E42407700D914B4 /* lossless_enc_mips_dsp_r2.c */,
+				BDCC9B7F1E42407700D914B4 /* lossless_enc_mips32.c */,
 				BDCC9B811E42407700D914B4 /* lossless_enc_msa.c */,
 				BDCC9B821E42407700D914B4 /* lossless_enc_neon.c */,
 				BDCC9B831E42407700D914B4 /* lossless_enc_sse2.c */,
 				BDCC9B841E42407700D914B4 /* lossless_enc_sse41.c */,
+				BDCC9B7E1E42407700D914B4 /* lossless_enc.c */,
 				BDCC9B851E42407700D914B4 /* lossless_mips_dsp_r2.c */,
 				BDCC9B861E42407700D914B4 /* lossless_msa.c */,
 				BDCC9B871E42407700D914B4 /* lossless_neon.c */,
 				BDCC9B881E42407700D914B4 /* lossless_sse2.c */,
+				BDCC9B7B1E42407700D914B4 /* lossless.c */,
+				BDCC9B7C1E42407700D914B4 /* lossless.h */,
 				BDCC9B8A1E42407700D914B4 /* mips_macro.h */,
 				BDCC9B8B1E42407700D914B4 /* msa_macro.h */,
 				BDCC9B8C1E42407700D914B4 /* neon.h */,
-				BDCC9B8D1E42407800D914B4 /* rescaler.c */,
-				BDCC9B8E1E42407800D914B4 /* rescaler_mips32.c */,
 				BDCC9B8F1E42407800D914B4 /* rescaler_mips_dsp_r2.c */,
+				BDCC9B8E1E42407800D914B4 /* rescaler_mips32.c */,
 				BDCC9B901E42407800D914B4 /* rescaler_msa.c */,
 				BDCC9B911E42407800D914B4 /* rescaler_neon.c */,
 				BDCC9B921E42407800D914B4 /* rescaler_sse2.c */,
-				BDCC9B931E42407800D914B4 /* upsampling.c */,
+				BDCC9B8D1E42407800D914B4 /* rescaler.c */,
+				FD7547EE201E5A4200A3D93D /* ssim_sse2.c */,
+				FD7547F0201E5A4300A3D93D /* ssim.c */,
 				BDCC9B941E42407800D914B4 /* upsampling_mips_dsp_r2.c */,
 				BDCC9B951E42407800D914B4 /* upsampling_msa.c */,
 				BDCC9B961E42407800D914B4 /* upsampling_neon.c */,
 				BDCC9B971E42407800D914B4 /* upsampling_sse2.c */,
+				BDCC9B931E42407800D914B4 /* upsampling.c */,
+				BDCC9B9B1E42407800D914B4 /* yuv_mips_dsp_r2.c */,
+				BDCC9B9A1E42407800D914B4 /* yuv_mips32.c */,
+				FD7547EF201E5A4300A3D93D /* yuv_neon.c */,
+				BDCC9B9C1E42407800D914B4 /* yuv_sse2.c */,
 				BDCC9B981E42407800D914B4 /* yuv.c */,
 				BDCC9B991E42407800D914B4 /* yuv.h */,
-				BDCC9B9A1E42407800D914B4 /* yuv_mips32.c */,
-				BDCC9B9B1E42407800D914B4 /* yuv_mips_dsp_r2.c */,
-				BDCC9B9C1E42407800D914B4 /* yuv_sse2.c */,
 			);
 			path = dsp;
 			sourceTree = "<group>";
@@ -723,6 +722,7 @@
 		BDCC9B9D1E42407800D914B4 /* enc */ = {
 			isa = PBXGroup;
 			children = (
+				FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */,
 				BDCC9B9E1E42407800D914B4 /* alpha_enc.c */,
 				BDCC9B9F1E42407800D914B4 /* analysis_enc.c */,
 				BDCC9BA01E42407800D914B4 /* backward_references_enc.c */,
@@ -1168,9 +1168,6 @@
 				BDCC9F581E4246B900D914B4 /* alpha_processing_neon.c in Sources */,
 				BDCC9F591E4246B900D914B4 /* alpha_processing_sse2.c in Sources */,
 				BDCC9F5A1E4246B900D914B4 /* alpha_processing_sse41.c in Sources */,
-				BDCC9F5B1E4246B900D914B4 /* argb.c in Sources */,
-				BDCC9F5C1E4246B900D914B4 /* argb_mips_dsp_r2.c in Sources */,
-				BDCC9F5D1E4246B900D914B4 /* argb_sse2.c in Sources */,
 				BDCC9F5E1E4246B900D914B4 /* cost.c in Sources */,
 				BDCC9F5F1E4246B900D914B4 /* cost_mips32.c in Sources */,
 				BDCC9F601E4246B900D914B4 /* cost_mips_dsp_r2.c in Sources */,
@@ -1287,9 +1284,6 @@
 				BDCC9ED31E4244B900D914B4 /* alpha_processing_neon.c in Sources */,
 				BDCC9ED41E4244B900D914B4 /* alpha_processing_sse2.c in Sources */,
 				BDCC9ED51E4244B900D914B4 /* alpha_processing_sse41.c in Sources */,
-				BDCC9ED61E4244B900D914B4 /* argb.c in Sources */,
-				BDCC9ED71E4244B900D914B4 /* argb_mips_dsp_r2.c in Sources */,
-				BDCC9ED81E4244B900D914B4 /* argb_sse2.c in Sources */,
 				BDCC9ED91E4244B900D914B4 /* cost.c in Sources */,
 				BDCC9EDA1E4244B900D914B4 /* cost_mips32.c in Sources */,
 				BDCC9EDB1E4244B900D914B4 /* cost_mips_dsp_r2.c in Sources */,
@@ -1389,11 +1383,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD7547F1201E5A4300A3D93D /* ssim_sse2.c in Sources */,
 				BDCC9EAA1E4241EE00D914B4 /* InternalRawRepresentable.swift in Sources */,
+				FD7547F5201E5A5E00A3D93D /* backward_references_cost_enc.c in Sources */,
 				BDCC9EAB1E4241EE00D914B4 /* WebPEncoder.swift in Sources */,
+				FD7547F3201E5A4300A3D93D /* ssim.c in Sources */,
 				BDCC9EAC1E4241EE00D914B4 /* WebPEncoder+Platform.swift in Sources */,
 				BDCC9EAD1E4241EE00D914B4 /* WebPEncoderConfig.swift in Sources */,
 				BDCC9EAF1E4241EE00D914B4 /* WebPSimple.swift in Sources */,
+				FD7547F2201E5A4300A3D93D /* yuv_neon.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,6 +1526,7 @@
 				);
 				PRODUCT_NAME = webp;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Debug;
 		};
@@ -1544,6 +1543,7 @@
 				);
 				PRODUCT_NAME = webp;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Release;
 		};
@@ -1559,6 +1559,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Debug;
 		};
@@ -1574,6 +1575,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Release;
 		};
@@ -1693,6 +1695,7 @@
 		D95E1BF21D88D63400F94976 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
@@ -1714,12 +1717,14 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Debug;
 		};
 		D95E1BF31D88D63400F94976 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
@@ -1739,6 +1744,7 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Release;
 		};
