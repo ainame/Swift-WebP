@@ -269,6 +269,14 @@
 		FD7547F2201E5A4300A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
 		FD7547F3201E5A4300A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547F5201E5A5E00A3D93D /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */; };
+		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
+		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
+		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
+		FD7547FD201FD02800A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
+		FD7547FE201FD02800A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
+		FD7547FF201FD02800A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
+		FD754800201FD02800A3D93D /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */; };
+		FD754801201FD03000A3D93D /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1151,6 +1159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD7547FD201FD02800A3D93D /* ssim_sse2.c in Sources */,
+				FD7547FE201FD02800A3D93D /* ssim.c in Sources */,
+				FD7547FF201FD02800A3D93D /* yuv_neon.c in Sources */,
+				FD754800201FD02800A3D93D /* backward_references_cost_enc.c in Sources */,
 				BDCC9F4A1E4246B900D914B4 /* alpha_dec.c in Sources */,
 				BDCC9F4B1E4246B900D914B4 /* buffer_dec.c in Sources */,
 				BDCC9F4C1E4246B900D914B4 /* frame_dec.c in Sources */,
@@ -1267,6 +1279,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD754801201FD03000A3D93D /* backward_references_cost_enc.c in Sources */,
+				FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */,
+				FD7547FB201FD01D00A3D93D /* ssim.c in Sources */,
+				FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */,
 				BDCC9EC51E4244B900D914B4 /* alpha_dec.c in Sources */,
 				BDCC9EC61E4244B900D914B4 /* buffer_dec.c in Sources */,
 				BDCC9EC71E4244B900D914B4 /* frame_dec.c in Sources */,
