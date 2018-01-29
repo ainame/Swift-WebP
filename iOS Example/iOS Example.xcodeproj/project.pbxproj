@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BD466CAD1DBBEEA700FFDD2E /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF90F181DBBDFFA00A87149 /* WebP.framework */; };
 		BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */; };
 		BDEC2D101DB3CF43004AB3C7 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDEC2D0F1DB3CF43004AB3C7 /* jiro.jpg */; };
 		D95E1C451D88E71A00F94976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95E1C441D88E71A00F94976 /* AppDelegate.swift */; };
@@ -15,7 +14,23 @@
 		D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C481D88E71A00F94976 /* Main.storyboard */; };
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
 		D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */; };
+		FD7547F7201FCF5800A3D93D /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7547F6201FCF5800A3D93D /* WebP.framework */; };
+		FD7547F8201FCF5800A3D93D /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD7547F6201FCF5800A3D93D /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD7547F9201FCF5800A3D93D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FD7547F8201FCF5800A3D93D /* WebP.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BD62469A1DB3CAB5007B9482 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -28,6 +43,7 @@
 		D95E1C4B1D88E71A00F94976 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D95E1C4E1D88E71A00F94976 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D95E1C501D88E71A00F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD7547F6201FCF5800A3D93D /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD466CAD1DBBEEA700FFDD2E /* WebP.framework in Frameworks */,
+				FD7547F7201FCF5800A3D93D /* WebP.framework in Frameworks */,
 				BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,6 +70,7 @@
 		D95E1C381D88E71A00F94976 = {
 			isa = PBXGroup;
 			children = (
+				FD7547F6201FCF5800A3D93D /* WebP.framework */,
 				BDEC2D111DB3CF4D004AB3C7 /* Resources */,
 				D95E1C431D88E71A00F94976 /* Sources */,
 				D95E1C421D88E71A00F94976 /* Products */,
@@ -101,6 +118,7 @@
 				D95E1C3D1D88E71A00F94976 /* Sources */,
 				D95E1C3E1D88E71A00F94976 /* Frameworks */,
 				D95E1C3F1D88E71A00F94976 /* Resources */,
+				FD7547F9201FCF5800A3D93D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
