@@ -101,10 +101,6 @@ public struct WebPEncoder {
         picture.width = Int32(originWidth)
         picture.height = Int32(originHeight)
 
-        if WebPPictureAlloc(&picture) == 0 {
-            fatalError("memory error")
-        }
-
         let ok = importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             WebPPictureFree(&picture)
