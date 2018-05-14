@@ -26,10 +26,10 @@ enum WebPEncodeError : Int, Error {
 
 public struct WebPEncoder {
     typealias WebPPictureImporter = (UnsafeMutablePointer<WebPPicture>, UnsafeMutablePointer<UInt8>, Int32) -> Int32
-    
+
     public init() {
     }
-    
+
     public func encode(RGB: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -38,7 +38,7 @@ public struct WebPEncoder {
         }
         return try encode(RGB, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     public func encode(RGBA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -47,7 +47,7 @@ public struct WebPEncoder {
         }
         return try encode(RGBA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     public func encode(RGBX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -56,7 +56,7 @@ public struct WebPEncoder {
         }
         return try encode(RGBX, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     public func encode(BGR: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -65,7 +65,7 @@ public struct WebPEncoder {
         }
         return try encode(BGR, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     public func encode(BGRA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -74,7 +74,7 @@ public struct WebPEncoder {
         }
         return try encode(BGRA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     public func encode(BGRX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
                        originWidth: Int, originHeight: Int, stride: Int,
                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -83,7 +83,7 @@ public struct WebPEncoder {
         }
         return try encode(BGRX, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
-    
+
     private func encode(_ dataPtr: UnsafeMutablePointer<UInt8>, importer: WebPPictureImporter,
                         config: WebPEncoderConfig, originWidth: Int, originHeight: Int, stride: Int,
                         resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
@@ -91,32 +91,32 @@ public struct WebPEncoder {
         if WebPValidateConfig(&config) == 0 {
             fatalError("invalid config")
         }
-        
+
         var picture = WebPPicture()
         if WebPPictureInit(&picture) == 0 {
             fatalError("version error")
         }
-        
-        picture.use_argb = 1
+
+        picture.use_argb = config.lossless == 0 ? 0 : 1
         picture.width = Int32(originWidth)
         picture.height = Int32(originHeight)
-        
+
         if WebPPictureAlloc(&picture) == 0 {
             fatalError("memory error")
         }
-        
+
         let ok = importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             WebPPictureFree(&picture)
             fatalError("can't import picture")
         }
-        
+
         if resizeHeight > 0 && resizeHeight > 0 {
             if (WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0) {
                 fatalError("can't rescale picture")
             }
         }
-        
+
         var buffer = WebPMemoryWriter()
         WebPMemoryWriterInit(&buffer)
         let writeWebP: @convention(c) (UnsafePointer<UInt8>?, Int, UnsafePointer<WebPPicture>?) -> Int32 = { (data, size, picture) -> Int32 in
@@ -124,7 +124,7 @@ public struct WebPEncoder {
         }
         picture.writer = writeWebP
         picture.custom_ptr = UnsafeMutableRawPointer(&buffer)
-        
+
         if WebPEncode(&config, &picture) == 0 {
             WebPPictureFree(&picture)
 
