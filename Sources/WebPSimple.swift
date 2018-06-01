@@ -12,10 +12,18 @@ import CWebP
 #if os(iOS) || os(macOS)
 import CoreGraphics
 
+private func webp_freeWebPData(info: UnsafeMutableRawPointer?, data: UnsafeRawPointer, size: Int) -> Void {
+    if let info = info {
+        var config = info.assumingMemoryBound(to: CWebP.WebPDecoderConfig.self).pointee
+        WebPFreeDecBuffer(&config.output)
+    }
+    free(UnsafeMutableRawPointer(mutating: data))
+}
 
 // WebPSimple class is temporary implementation until v0.1"
 @available(*, deprecated: 0.1)
 public struct WebPSimple {
+
     public static func encode(_ rgbaDataPtr: UnsafeMutablePointer<UInt8>, width: Int, height: Int, stride: Int, quality: Float) throws -> Data {
         var outputPtr: UnsafeMutablePointer<UInt8>? = nil
 
@@ -48,15 +56,24 @@ public struct WebPSimple {
         }
 
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let context = CGContext(data: config.output.u.RGBA.rgba,
+        let provider = CGDataProvider(dataInfo: &config,
+                                      data: config.output.u.RGBA.rgba,
+                                      size: (Int(config.input.width) * Int(config.input.height) * 4),
+                                      releaseData: webp_freeWebPData)!
+        let cgImage = CGImage(
             width: Int(config.input.width),
             height: Int(config.input.height),
             bitsPerComponent: 8,
+            bitsPerPixel: 32,
             bytesPerRow: Int(config.output.u.RGBA.stride),
             space: colorSpace,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
-        WebPFreeDecBuffer(&config.output)
-        return context.makeImage()!
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: CGColorRenderingIntent.defaultIntent)!
+
+        return cgImage
     }
 }
 
