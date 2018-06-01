@@ -16,7 +16,7 @@ Currently, this is very experimental project. Please feedback me!
 
 Support Versions:
 
-* libwebp: v0.6.0
+* libwebp: v1.0.0
 * iOS Deployment Target: 8.0
 * macOS Deployment Target: 10.11
 
@@ -24,7 +24,6 @@ Support Versions:
 
 * [x] support macOS build
 * [x] support iOS build (maybe broken)
-* [x] support Linux build
 * [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api): WebPEncoder, WebPEncoderConfig
 * [x] [Simple Decoding API](https://developers.google.com/speed/webp/docs/api#simple_decoding_api): WebPSimple#decode(...) <= will remove
 
@@ -32,7 +31,10 @@ Support Versions:
 
 will implement following features
 
+* [ ] Cocoapods supports
+* [ ] support Linux build (Now this repo has incompleted Package.swift)
 * [ ] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api)
+* [ ] Progressively decoding option
 
 ## Usage
 
