@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name = 'WebP'
+  s.name = 'Swift-WebP'
   s.version = '0.0.5'
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.summary = 'Very thin libwebp wrapper written by Swift'
