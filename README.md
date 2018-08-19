@@ -31,7 +31,6 @@ Support Versions:
 
 will implement following features
 
-* [ ] Cocoapods supports
 * [ ] support Linux build (Now this repo has incompleted Package.swift)
 * [ ] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api)
 * [ ] Progressively decoding option
@@ -48,7 +47,7 @@ queue.async {
     let data = try! encoder.encode(image, config: .preset(.picture, quality: 95))
     // using webp binary data...
 }
-```
+``**
 
 ## Example
 
@@ -59,6 +58,8 @@ Please check example projects
 No need the requirement about libwebp for yourself, this framework contains it.
 
 ## Installation
+
+This library won't support CocoaPods. It's difficult to create and maintain podspec files for static libraries. (But contribution for that is always welcome.)
 
 ### Carthage
 
