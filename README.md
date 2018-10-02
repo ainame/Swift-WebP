@@ -1,9 +1,9 @@
 # Swift-WebP
 
 [![CI Status](http://img.shields.io/travis/ainame/Swift-WebP.svg?style=flat)](https://travis-ci.org/ainame/Swift-WebP)
-<!-- [![Version](https://img.shields.io/cocoapods/v/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP) -->
-<!-- [![License](https://img.shields.io/cocoapods/l/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP) -->
-<!-- [![Platform](https://img.shields.io/cocoapods/p/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP) -->
+[![Version](https://img.shields.io/cocoapods/v/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
+[![License](https://img.shields.io/cocoapods/l/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
+[![Platform](https://img.shields.io/cocoapods/p/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 <!-- <a href="https://placehold.it/400?text=Screen+shot"><img width=200 height=200 src="https://placehold.it/400?text=Screen+shot" alt="Screenshot" /></a> -->
@@ -47,7 +47,7 @@ queue.async {
     let data = try! encoder.encode(image, config: .preset(.picture, quality: 95))
     // using webp binary data...
 }
-``**
+```
 
 ## Example
 
