@@ -1078,7 +1078,7 @@
 					};
 					D95E1BDC1D88D63300F94976 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					D95E1BE51D88D63400F94976 = {
@@ -1740,8 +1740,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Debug;
@@ -1766,8 +1765,7 @@
 				PRODUCT_NAME = WebP;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Release;

@@ -142,7 +142,7 @@
 					D95E1C401D88E71A00F94976 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 2Q7H62SFG3;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -333,8 +333,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -353,8 +352,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
