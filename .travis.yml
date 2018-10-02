@@ -6,10 +6,10 @@ env:
   - LANG=en_US.UTF-8
   - WORKSPACE="WebP.xcworkspace"
   - IOS_FRAMEWORK_SCHEME="WebP iOS"
-  - IOS_SDK=iphonesimulator11.3
+  - IOS_SDK=iphonesimulator12.0
   - EXAMPLE_SCHEME="iOS Example"
   matrix:
-    - DESTINATION="OS=11.3,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" POD_LINT="NO"
+    - DESTINATION="OS=12.0,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" POD_LINT="NO"
 script:
   - set -o pipefail
   - xcrun simctl list
