@@ -1,9 +1,6 @@
 # Swift-WebP
 
 [![CI Status](http://img.shields.io/travis/ainame/Swift-WebP.svg?style=flat)](https://travis-ci.org/ainame/Swift-WebP)
-[![Version](https://img.shields.io/cocoapods/v/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
-[![License](https://img.shields.io/cocoapods/l/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
-[![Platform](https://img.shields.io/cocoapods/p/WebP.svg?style=flat)](https://cocoapods.org/pods/WebP)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 <!-- <a href="https://placehold.it/400?text=Screen+shot"><img width=200 height=200 src="https://placehold.it/400?text=Screen+shot" alt="Screenshot" /></a> -->
@@ -78,7 +75,9 @@ To integrate WebP into your Xcode project using Carthage, specify it in your `Ca
 github "ainame/Swift-WebP"
 ```
 
-Run `carthage update` to build the framework and drag the built `WebP.framework` into your Xcode project.
+Run `carthage update --use-submodules` to build the framework and drag the built `WebP.framework** into your Xcode project.
+
+**Don't forget to use `--use-submodules` flag!**
 
 
 ## Author
