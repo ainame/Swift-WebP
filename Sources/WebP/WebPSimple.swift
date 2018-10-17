@@ -25,7 +25,7 @@ private func webp_freeWebPData(info: UnsafeMutableRawPointer?, data: UnsafeRawPo
 public struct WebPSimple {
 
     public static func decode(_ webPData: Data) throws -> CGImage {
-        var config: CWebP.WebPDecoderConfig = try webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
+        var config: CWebP.WebPDecoderConfig = webPData.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
             var config = CWebP.WebPDecoderConfig()
             if WebPInitDecoderConfig(&config) == 0 {
                 fatalError("can't init decoder config")
