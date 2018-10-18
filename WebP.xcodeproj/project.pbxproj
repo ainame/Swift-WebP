@@ -254,16 +254,10 @@
 		BDCC9FC81E4246FD00D914B4 /* types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; };
 		D95E1BE71D88D63400F94976 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95E1BDD1D88D63300F94976 /* WebP.framework */; };
 		FD027E4C20A8F859004634B2 /* common_sse41.h in Headers */ = {isa = PBXBuildFile; fileRef = FD027E4920A8F859004634B2 /* common_sse41.h */; };
-		FD027E4D20A8F859004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
-		FD027E4E20A8F859004634B2 /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4B20A8F859004634B2 /* upsampling_sse41.c */; };
 		FD027E4F20A8F893004634B2 /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4B20A8F859004634B2 /* upsampling_sse41.c */; };
 		FD027E5020A8F893004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
 		FD027E5120A8F89D004634B2 /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4B20A8F859004634B2 /* upsampling_sse41.c */; };
 		FD027E5220A8F89D004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
-		FD7547F1201E5A4300A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
-		FD7547F2201E5A4300A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
-		FD7547F3201E5A4300A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
-		FD7547F5201E5A5E00A3D93D /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F4201E5A5E00A3D93D /* backward_references_cost_enc.c */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -277,6 +271,11 @@
 		FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */; };
 		FD8F55502177FDF500322BA2 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55492177FDF500322BA2 /* WebPSimple.swift */; };
 		FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */; };
+		FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */; };
+		FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */; };
+		FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */; };
+		FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */; };
+		FD8F555B2178029600322BA2 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55492177FDF500322BA2 /* WebPSimple.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -515,6 +514,7 @@
 		FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalRawRepresentable.swift; path = WebP/InternalRawRepresentable.swift; sourceTree = "<group>"; };
 		FD8F55492177FDF500322BA2 /* WebPSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPSimple.swift; path = WebP/WebPSimple.swift; sourceTree = "<group>"; };
 		FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPEncoder.swift; path = WebP/WebPEncoder.swift; sourceTree = "<group>"; };
+		FD8F55522178000700322BA2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebP/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -878,6 +878,7 @@
 		FD8F55432177FDDE00322BA2 /* WebP */ = {
 			isa = PBXGroup;
 			children = (
+				FD8F55522178000700322BA2 /* Info.plist */,
 				FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */,
 				FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */,
 				FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */,
@@ -1016,7 +1017,6 @@
 				D95E1BD81D88D63300F94976 /* Sources */,
 				D95E1BD91D88D63300F94976 /* Frameworks */,
 				D95E1BDA1D88D63300F94976 /* Headers */,
-				D95E1BDB1D88D63300F94976 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1053,11 +1053,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = satoshi.namai;
 				TargetAttributes = {
 					BD5FC4CF1DB3EE2B000A0A38 = {
 						CreatedOnToolsVersion = 8.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					BD72CD2E1DD6FBDA00E865AB = {
@@ -1124,13 +1125,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D95E1BDB1D88D63300F94976 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D95E1BE41D88D63400F94976 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1146,6 +1140,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */,
+				FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */,
+				FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */,
+				FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */,
+				FD8F555B2178029600322BA2 /* WebPSimple.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1404,16 +1403,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */,
-				FD7547F1201E5A4300A3D93D /* ssim_sse2.c in Sources */,
-				FD7547F5201E5A5E00A3D93D /* backward_references_cost_enc.c in Sources */,
-				FD7547F3201E5A4300A3D93D /* ssim.c in Sources */,
-				FD027E4D20A8F859004634B2 /* yuv_sse41.c in Sources */,
 				FD8F55502177FDF500322BA2 /* WebPSimple.swift in Sources */,
-				FD7547F2201E5A4300A3D93D /* yuv_neon.c in Sources */,
 				FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */,
 				FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */,
 				FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */,
-				FD027E4E20A8F859004634B2 /* upsampling_sse41.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,7 +1454,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/WebP/";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -1471,7 +1464,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1485,7 +1479,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/WebP/";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -1495,13 +1489,15 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
 		BD72CD381DD6FBDB00E865AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
@@ -1518,6 +1514,7 @@
 		BD72CD391DD6FBDB00E865AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
@@ -1610,6 +1607,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1617,6 +1615,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1645,6 +1644,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/WebP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1670,6 +1670,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1677,6 +1678,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1699,6 +1701,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/WebP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -1721,8 +1724,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources";
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/Sources";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/WebP";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1747,7 +1749,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/WebP";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
