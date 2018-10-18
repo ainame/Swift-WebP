@@ -12,12 +12,8 @@ import CWebP
 #if os(iOS) || os(macOS)
 import CoreGraphics
 
-private func webp_freeWebPData(info: UnsafeMutableRawPointer?, data: UnsafeRawPointer, size: Int) -> Void {
-    if let info = info {
-        var config = info.assumingMemoryBound(to: CWebP.WebPDecoderConfig.self).pointee
-        WebPFreeDecBuffer(&config.output)
-    }
-    free(UnsafeMutableRawPointer(mutating: data))
+private func releaseData(info: UnsafeMutableRawPointer?, data: UnsafeRawPointer, size: Int) -> Void {
+    // core foundation objects are managed by ARC so don't need to do anything here
 }
 
 // WebPSimple class is temporary implementation until v0.1"
@@ -48,7 +44,7 @@ public struct WebPSimple {
         let provider = CGDataProvider(dataInfo: &config,
                                       data: config.output.u.RGBA.rgba,
                                       size: (Int(config.input.width) * Int(config.input.height) * 4),
-                                      releaseData: webp_freeWebPData)!
+                                      releaseData: releaseData)!
         let cgImage = CGImage(
             width: Int(config.input.width),
             height: Int(config.input.height),
@@ -61,7 +57,7 @@ public struct WebPSimple {
             decode: nil,
             shouldInterpolate: false,
             intent: CGColorRenderingIntent.defaultIntent)!
-
+        WebPFreeDecBuffer(&config.output)
         return cgImage
     }
 }
