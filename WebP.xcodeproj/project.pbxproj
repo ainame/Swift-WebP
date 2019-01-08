@@ -275,13 +275,11 @@
 		FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */; };
 		FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */; };
 		FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */; };
-		FD8F55502177FDF500322BA2 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55492177FDF500322BA2 /* WebPSimple.swift */; };
 		FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */; };
 		FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */; };
 		FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */; };
 		FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */; };
 		FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */; };
-		FD8F555B2178029600322BA2 /* WebPSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55492177FDF500322BA2 /* WebPSimple.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -521,7 +519,6 @@
 		FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WebPEncoder+Platform.swift"; path = "WebP/WebPEncoder+Platform.swift"; sourceTree = "<group>"; };
 		FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPEncoderConfig.swift; path = WebP/WebPEncoderConfig.swift; sourceTree = "<group>"; };
 		FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalRawRepresentable.swift; path = WebP/InternalRawRepresentable.swift; sourceTree = "<group>"; };
-		FD8F55492177FDF500322BA2 /* WebPSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPSimple.swift; path = WebP/WebPSimple.swift; sourceTree = "<group>"; };
 		FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPEncoder.swift; path = WebP/WebPEncoder.swift; sourceTree = "<group>"; };
 		FD8F55522178000700322BA2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebP/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -895,7 +892,6 @@
 				FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */,
 				FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */,
 				FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */,
-				FD8F55492177FDF500322BA2 /* WebPSimple.swift */,
 			);
 			name = WebP;
 			sourceTree = "<group>";
@@ -1159,7 +1155,6 @@
 				FD16BABB21E443A100F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */,
 				FD16BAB821E4439900F80360 /* WebPDecoder.swift in Sources */,
-				FD8F555B2178029600322BA2 /* WebPSimple.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,7 +1415,6 @@
 				FD16BAB621E4431100F80360 /* WebPDecoder.swift in Sources */,
 				FD16BAB721E4431100F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */,
-				FD8F55502177FDF500322BA2 /* WebPSimple.swift in Sources */,
 				FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */,
 				FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */,
 				FD16BAB521E4431100F80360 /* WebPDecoderConfig.swift in Sources */,
