@@ -19,18 +19,19 @@ Support Versions:
 
 #### Features.
 
-* [x] support macOS build
-* [x] support iOS build
+* [x] Support macOS build
+* [x] Support iOS build
 * [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api): WebPEncoder, WebPEncoderConfig
-* [x] [Simple Decoding API](https://developers.google.com/speed/webp/docs/api#simple_decoding_api): WebPSimple#decode(...) <= will remove
+* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api): WebPDecoder, WebPDecoderConfig
 
 #### TODO
 
 will implement following features
 
-* [ ] support Linux build
-* [ ] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api)
-* [ ] Progressively decoding option
+* [ ] Support Linux build
+* [ ] Muxer/Demuxer
+* [ ] Animated WebP
+* [ ] Progressively encoding/decoding
 
 ## Usage
 
