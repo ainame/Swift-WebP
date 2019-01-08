@@ -14,8 +14,6 @@
 		D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C481D88E71A00F94976 /* Main.storyboard */; };
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
 		D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */; };
-		FD7547F7201FCF5800A3D93D /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7547F6201FCF5800A3D93D /* WebP.framework */; };
-		FD7547F8201FCF5800A3D93D /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD7547F6201FCF5800A3D93D /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,7 +23,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FD7547F8201FCF5800A3D93D /* WebP.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,7 +40,6 @@
 		D95E1C4B1D88E71A00F94976 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D95E1C4E1D88E71A00F94976 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D95E1C501D88E71A00F94976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD7547F6201FCF5800A3D93D /* WebP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WebP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD7547F7201FCF5800A3D93D /* WebP.framework in Frameworks */,
 				BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,7 +65,6 @@
 		D95E1C381D88E71A00F94976 = {
 			isa = PBXGroup;
 			children = (
-				FD7547F6201FCF5800A3D93D /* WebP.framework */,
 				BDEC2D111DB3CF4D004AB3C7 /* Resources */,
 				D95E1C431D88E71A00F94976 /* Sources */,
 				D95E1C421D88E71A00F94976 /* Products */,
@@ -337,6 +331,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../Modules";
 				SWIFT_VERSION = 4.2;
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64 i386";
 			};
@@ -357,6 +352,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.iOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../Modules";
 				SWIFT_VERSION = 4.2;
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64 i386";
 			};
