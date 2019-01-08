@@ -10,7 +10,6 @@
 		BD5FC4CA1DB3E826000A0A38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5FC4C91DB3E826000A0A38 /* CoreGraphics.framework */; };
 		BD8A9EC91DB3E3E80070CF41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD8A9EC81DB3E3E80070CF41 /* Main.storyboard */; };
 		BD8A9ECC1DB3E4CB0070CF41 /* jiro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD8A9ECB1DB3E4CB0070CF41 /* jiro.jpg */; };
-		BD98BB1D1DBC5A9700B084CB /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD98BB1C1DBC5A9700B084CB /* WebP.framework */; };
 		BD98BB1E1DBC5A9700B084CB /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD98BB1C1DBC5A9700B084CB /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BDEC2D401DB3E0AF004AB3C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2D3F1DB3E0AF004AB3C7 /* AppDelegate.swift */; };
 		BDEC2D421DB3E0AF004AB3C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEC2D411DB3E0AF004AB3C7 /* ViewController.swift */; };
@@ -48,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD98BB1D1DBC5A9700B084CB /* WebP.framework in Frameworks */,
 				BD5FC4CA1DB3E826000A0A38 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +306,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.macOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../Modules";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};
@@ -327,6 +326,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.macOS-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../Modules";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};

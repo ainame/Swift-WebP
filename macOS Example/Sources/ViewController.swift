@@ -36,6 +36,7 @@ class MacOSViewController: NSViewController {
         state = .processing
 
         let encoder = WebPEncoder()
+        let decoder = WebPDecoder()
         let queue = DispatchQueue(label: "me.ainam.webp")
         let image = self.beforeImageView.image!
         let size = self.beforeImageView.frame.size
@@ -43,9 +44,12 @@ class MacOSViewController: NSViewController {
         queue.async {
             do {
                 print("convert start")
-                let data = try! encoder.encode(image, config: .preset(.photo, quality: 95))
-                // let data = try! WebPSimple.encode(self.beforeImageView.image!, quality: 95.0)
-                let webpImage = try NSImage(cgImage: WebPSimple.decode(data), size: size)
+                let data = try encoder.encode(image, config: .preset(.photo, quality: 95))
+                var options = WebPDecoderOptions()
+                options.scaledWidth = Int(image.size.width)
+                options.scaledHeight = Int(image.size.height)
+                let cgImage: CGImage = try decoder.decode(data, options: options)
+                let webpImage = NSImage(cgImage: cgImage, size: size)
                 print("decode finish")
                 DispatchQueue.main.async {
                     self.afterImageView.image = webpImage
