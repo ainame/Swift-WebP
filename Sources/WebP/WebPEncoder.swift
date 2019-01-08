@@ -130,6 +130,6 @@ public struct WebPEncoder {
         }
         WebPPictureFree(&picture)
 
-        return Data(bytes: buffer.mem, count: buffer.size)
+        return Data(bytesNoCopy: buffer.mem, count: buffer.size, deallocator: .free)
     }
 }
