@@ -258,12 +258,12 @@
 		FD027E5220A8F89D004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
 		FD16BB1821E6E87600F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EB41E42440000D914B4 /* libwebp.a */; };
 		FD16BB1921E6E88300F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EBC1E42445100D914B4 /* libwebp.a */; };
-		FD16BAB521E4431100F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB221E4431000F80360 /* WebPDecoderConfig.swift */; };
-		FD16BAB621E4431100F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB321E4431100F80360 /* WebPDecoder.swift */; };
-		FD16BAB721E4431100F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB421E4431100F80360 /* WebPDecoder+Platform.swift */; };
-		FD16BAB821E4439900F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB321E4431100F80360 /* WebPDecoder.swift */; };
-		FD16BABA21E4439E00F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB421E4431100F80360 /* WebPDecoder+Platform.swift */; };
-		FD16BABB21E443A100F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BAB221E4431000F80360 /* WebPDecoderConfig.swift */; };
+		FD16BB1D21E6F91A00F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */; };
+		FD16BB1E21E6F91A00F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */; };
+		FD16BB1F21E6F91A00F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */; };
+		FD16BB2021E6F97D00F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */; };
+		FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */; };
+		FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -509,9 +509,9 @@
 		FD027E4920A8F859004634B2 /* common_sse41.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common_sse41.h; sourceTree = "<group>"; };
 		FD027E4A20A8F859004634B2 /* yuv_sse41.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_sse41.c; sourceTree = "<group>"; };
 		FD027E4B20A8F859004634B2 /* upsampling_sse41.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upsampling_sse41.c; sourceTree = "<group>"; };
-		FD16BAB221E4431000F80360 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoderConfig.swift; sourceTree = "<group>"; };
-		FD16BAB321E4431100F80360 /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPDecoder.swift; sourceTree = "<group>"; };
-		FD16BAB421E4431100F80360 /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
+		FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoder.swift; path = WebP/WebPDecoder.swift; sourceTree = "<group>"; };
+		FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WebPDecoder+Platform.swift"; path = "WebP/WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
+		FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoderConfig.swift; path = WebP/WebPDecoderConfig.swift; sourceTree = "<group>"; };
 		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
 		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
 		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
@@ -886,9 +886,9 @@
 			children = (
 				FD8F55522178000700322BA2 /* Info.plist */,
 				FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */,
-				FD16BAB321E4431100F80360 /* WebPDecoder.swift */,
-				FD16BAB421E4431100F80360 /* WebPDecoder+Platform.swift */,
-				FD16BAB221E4431000F80360 /* WebPDecoderConfig.swift */,
+				FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */,
+				FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */,
+				FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */,
 				FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */,
 				FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */,
 				FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */,
@@ -1149,12 +1149,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */,
+				FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */,
+				FD16BB2021E6F97D00F80360 /* WebPDecoder.swift in Sources */,
+				FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */,
-				FD16BABA21E4439E00F80360 /* WebPDecoder+Platform.swift in Sources */,
-				FD16BABB21E443A100F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */,
-				FD16BAB821E4439900F80360 /* WebPDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1412,12 +1412,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD16BAB621E4431100F80360 /* WebPDecoder.swift in Sources */,
-				FD16BAB721E4431100F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */,
+				FD16BB1F21E6F91A00F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */,
+				FD16BB1D21E6F91A00F80360 /* WebPDecoder.swift in Sources */,
+				FD16BB1E21E6F91A00F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */,
-				FD16BAB521E4431100F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
