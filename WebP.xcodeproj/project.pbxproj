@@ -136,8 +136,6 @@
 		BDCC9F3D1E42450D00D914B4 /* decode.h in Copy Files */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; };
 		BDCC9F3F1E42450D00D914B4 /* encode.h in Copy Files */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; };
 		BDCC9F431E42450D00D914B4 /* types.h in Copy Files */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; };
-		BDCC9F461E42453500D914B4 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EBC1E42445100D914B4 /* libwebp.a */; };
-		BDCC9F471E42454100D914B4 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EB41E42440000D914B4 /* libwebp.a */; };
 		BDCC9F4A1E4246B900D914B4 /* alpha_dec.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B3F1E42407700D914B4 /* alpha_dec.c */; };
 		BDCC9F4B1E4246B900D914B4 /* buffer_dec.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B411E42407700D914B4 /* buffer_dec.c */; };
 		BDCC9F4C1E4246B900D914B4 /* frame_dec.c in Sources */ = {isa = PBXBuildFile; fileRef = BDCC9B431E42407700D914B4 /* frame_dec.c */; };
@@ -258,6 +256,8 @@
 		FD027E5020A8F893004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
 		FD027E5120A8F89D004634B2 /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4B20A8F859004634B2 /* upsampling_sse41.c */; };
 		FD027E5220A8F89D004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
+		FD16BB1821E6E87600F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EB41E42440000D914B4 /* libwebp.a */; };
+		FD16BB1921E6E88300F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EBC1E42445100D914B4 /* libwebp.a */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -522,7 +522,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDCC9F471E42454100D914B4 /* libwebp.a in Frameworks */,
+				FD16BB1821E6E87600F80360 /* libwebp.a in Frameworks */,
 				BDA640531DD24B1D00FD6F5D /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,7 +553,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDCC9F461E42453500D914B4 /* libwebp.a in Frameworks */,
+				FD16BB1921E6E88300F80360 /* libwebp.a in Frameworks */,
 				BD6180101DB2C2C300AB0C54 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1571,7 +1571,6 @@
 					"-DWEBP_SWAP_16BIT_CSP",
 					"-DNDEBUG",
 				);
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
@@ -1587,7 +1586,6 @@
 					"-DWEBP_SWAP_16BIT_CSP",
 					"-DNDEBUG",
 				);
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
