@@ -33,13 +33,18 @@ class IOSViewController: UIViewController {
         if state == .processing { return }
         state = .processing
         let encoder = WebPEncoder()
+        let decoder = WebPDecoder()
         let queue = DispatchQueue(label: "me.ainam.webp")
         let image = beforeImageView.image!
         queue.async {
             do {
                 print("convert start")
                 let data = try! encoder.encode(image, config: .preset(.picture, quality: 95))
-                let webpImage = try UIImage(cgImage: WebPSimple.decode(data))
+                var options = WebPDecoderOptions()
+                options.scaledWidth = Int(image.size.width)
+                options.scaledHeight = Int(image.size.height)
+                let cgImage: CGImage = try decoder.decode(data, options: options)
+                let webpImage = UIImage(cgImage: cgImage)
                 print("decode finish")
                 DispatchQueue.main.async {
                     self.afterImageView.image = webpImage
