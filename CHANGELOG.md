@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.0.8
+
+### Bug fix
+
+Fixed wrong file paths of WebPDecoder
+
 ## v0.0.7
 
 ### Changed
