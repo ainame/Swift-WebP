@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.0.7
+
+### Changed
+
+* Added WebPDecoder
+
+### Removed
+
+* WebPSimple.decode
+
+## v0.0.7
+
+### Changed
+
+Support Xcode10 and Swift4.2 (nothing changed at all)
+
 ## v0.0.5
 
 ### Changed
