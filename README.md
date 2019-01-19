@@ -7,26 +7,25 @@
 
 Swift Wrapper of libwebp
 
-### Current project status
+### Target
 
-Currently, this is very experimental project. Please feedback me!
+Swift-WebP aims to deal with image processing flexibly for WebP format in Swift unlike an image loading library; such as SDWebImage. So this library allows you to use many features libwebp has without hassles to use C API from Swift. And also you don't need to install libwebp by yourself. This contains it inside the framework.
 
-Support Versions:
+
+### Support Versions:
 
 * libwebp: v1.0.0
 * iOS Deployment Target: 8.0
 * macOS Deployment Target: 10.11
 
-#### Features.
+#### Features
 
 * [x] support macOS build
 * [x] support iOS build
 * [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api): WebPEncoder, WebPEncoderConfig
-* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api)
+* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api): WebPDecoder, WebPDecoderConfig
 
 #### TODO
-
-will implement following features
 
 * [ ] Progressively encoding/decoding option
 * [ ] Animated WebP
@@ -49,10 +48,6 @@ queue.async {
 ## Example
 
 Please check example projects
-
-## Requirements
-
-No need the requirement about libwebp for yourself, this framework contains it.
 
 ## Installation
 
