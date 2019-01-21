@@ -33,6 +33,8 @@ Swift-WebP aims to deal with image processing flexibly for WebP format in Swift 
 
 ## Usage
 
+#### Encoding
+
 ```swift
 let image = UIImage(named: "demo")
 let encoder = WebPEncoder()
@@ -44,6 +46,28 @@ queue.async {
     // using webp binary data...
 }
 ```
+
+#### Decoding
+
+```swift
+let data: Data = loadWebPData()
+let encoder = WebPDecoder()
+let queue =  DispatchQueue(label: "me.ainam.webp")
+
+// should decode in background
+queue.async {
+    var options = WebPDecoderOptions()
+    options.scaledWidth = Int(originalWidth / 2)
+    options.scaledHeight = Int(originalHeight / 2)
+    let cgImage = try! decoder.decode(data, options: options)
+    let webpImage = UIImage(cgImage: cgImage)
+
+    DispatchQueue.main.async {
+        self.imageView.image = webpImage
+    }
+}
+```
+
 
 ## Example
 
