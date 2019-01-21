@@ -9,7 +9,7 @@ Swift Wrapper of libwebp
 
 ### Target
 
-Swift-WebP aims to deal with image processing flexibly for WebP format in Swift unlike an image loading library; such as SDWebImage. So this library allows you to use many features libwebp has without hassles to use C API from Swift. And also you don't need to install libwebp by yourself. This contains it inside the framework.
+Swift-WebP aims to deal with image processing flexibly for WebP format in Swift unlike an image loading library; such as SDWebImage. So this library allows you to use many features libwebp has without hassles to use C API from Swift. And also you don't need to install libwebp by yourself if you install this via Carthage. This contains it inside the framework.
 
 
 ### Support Versions:
