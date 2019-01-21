@@ -18,9 +18,9 @@ cache:
 before_cache:
 - brew cleanup
 before_install:
-- brew update
 - brew install webp
 before_deploy:
+- brew update
 - brew outdated carthage || brew upgrade carthage
 - carthage build --no-skip-current
 - carthage archive $FRAMEWORK_NAME
