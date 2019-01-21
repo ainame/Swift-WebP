@@ -12,8 +12,15 @@ env:
   matrix:
   - DESTINATION="OS=12.0,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK"
     POD_LINT="NO"
-before_deploy:
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+before_cache:
+- brew cleanup
+before_install:
 - brew update
+- brew install webp
+before_deploy:
 - brew outdated carthage || brew upgrade carthage
 - carthage build --no-skip-current
 - carthage archive $FRAMEWORK_NAME
