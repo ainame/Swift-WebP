@@ -23,11 +23,12 @@ class WebPEncoderMacOSTests: XCTestCase {
         super.tearDown()
     }
 
-    func testExample() {
-        let path = Bundle(for: self.classForCoder).resourcePath!.appendingFormat("/jiro.jpg")
+    func testExample() throws {
+        let fileManager = FileManager.default
+        let path = fileManager.currentDirectoryPath.appendingFormat("/macOS Example/jiro.jpg")
         let nsimage = NSImage(contentsOfFile: path)!
         let encoder = WebPEncoder()
-        let webPImage = try! encoder.encode(nsimage, config: .preset(.photo, quality: 10))
+        let webPImage = try encoder.encode(nsimage, config: .preset(.photo, quality: 10))
         XCTAssertNotNil(webPImage)
     }
 }

@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "WebP", targets: ["WebP"])
     ],
     targets: [
-        .systemLibrary(name: "CWebP", path: "./Modules/CWebP"),
+        .systemLibrary(name: "CWebP", path: "./Modules/CWebP", pkgConfig: "libwebp"),
         .target(name: "WebP", dependencies: ["CWebP"]),
         .testTarget(name: "WebPTests", dependencies: ["WebP"])
     ]
