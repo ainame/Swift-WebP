@@ -1,6 +1,6 @@
 # Swift-WebP
 
-[![CI Status](http://img.shields.io/travis/ainame/Swift-WebP.svg?style=flat)](https://travis-ci.org/ainame/Swift-WebP)
+[![Build Status](https://travis-ci.org/ainame/Swift-WebP.svg?branch=travis-ci-release)](https://travis-ci.org/ainame/Swift-WebP)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 <!-- <a href="https://placehold.it/400?text=Screen+shot"><img width=200 height=200 src="https://placehold.it/400?text=Screen+shot" alt="Screenshot" /></a> -->
