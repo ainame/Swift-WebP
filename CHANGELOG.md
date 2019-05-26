@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.0.9
+
+### Changed
+
+* Support Xcode 10.2's build and Swift 5
+
 ## v0.0.8
 
 ### Bug fix
