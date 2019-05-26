@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "WebP",
     products: [
-        .library(name: "WebP", targets: ["WebP"])
+        .library(name: "WebP", targets: ["WebP"]),
     ],
     targets: [
-        .systemLibrary(name: "CWebP", path: "./Modules/CWebP"),
+        .systemLibrary(name: "CWebP", pkgConfig: "libwebp", providers: [.brew(["webp"])]),
         .target(name: "WebP", dependencies: ["CWebP"]),
         .testTarget(name: "WebPTests", dependencies: ["WebP"])
     ]

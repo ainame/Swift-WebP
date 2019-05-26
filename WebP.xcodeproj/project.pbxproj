@@ -1476,7 +1476,7 @@
 				PRODUCT_NAME = WebP;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1501,7 +1501,7 @@
 				PRODUCT_NAME = WebP;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1746,7 +1746,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.ios;
 				PRODUCT_NAME = WebP;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
@@ -1771,7 +1771,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.ios;
 				PRODUCT_NAME = WebP;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Modules";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
