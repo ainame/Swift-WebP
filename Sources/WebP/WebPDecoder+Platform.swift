@@ -10,9 +10,14 @@ extension WebPDecoder {
 
         let decodedData: Data = try decode(byrgbA: webPData, options: options)
         
-        return decodedData.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> CGImage in
+        return try decodedData.withUnsafeBytes { rawPtr in
+
+            guard let bindedBasePtr = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+                throw WebPDecodingError.unknownError
+            }
+
             let provider = CGDataProvider(dataInfo: nil,
-                                          data: ptr,
+                                          data: bindedBasePtr,
                                           size: decodedData.count,
                                           releaseData: { (_, _, _) in  })!
             let bitmapInfo = CGBitmapInfo(

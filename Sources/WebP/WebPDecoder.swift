@@ -12,6 +12,7 @@ public enum WebPDecodingError : UInt32, Error {
     case suspended
     case userAbort
     case notEnoughData
+    case unknownError = 9999 // This is an own error to deal with internal problems
 }
 
 public struct WebPDecoder {
@@ -144,8 +145,13 @@ public struct WebPDecoder {
         var mutableWebPData = webPData
         var rawConfig: CWebP.WebPDecoderConfig = config.rawValue
 
-        try mutableWebPData.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> Void in
-            let status = WebPDecode(ptr, webPData.count, &rawConfig)
+        try mutableWebPData.withUnsafeMutableBytes { rawPtr in
+
+            guard let bindedBasePtr = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+                throw WebPDecodingError.unknownError
+            }
+
+            let status = WebPDecode(bindedBasePtr, webPData.count, &rawConfig)
             if status != VP8_STATUS_OK {
                 throw WebPDecodingError(rawValue: status.rawValue)!
             }
