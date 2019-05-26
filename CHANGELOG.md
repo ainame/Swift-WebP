@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.0.10
+
+### Changed
+
+* Support swift-tools-version 5.0 to build with swift package manager
+
 ## v0.0.9
 
 ### Changed
