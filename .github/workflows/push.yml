@@ -1,0 +1,14 @@
+on: [push, pull_request]
+name: CI Test
+jobs:
+  run_tests:
+    name: Run Tests
+    runs-on: macOS-latest
+    steps:
+      - name: Run Tests
+        run: ./.github/bin/test.sh
+        env:
+          DESTINATION: OS=12.2,name=iPhone X
+          SCHEME: WebP iOS
+          SDK: iphonesimulator12.2
+          WORKSPACE: WebP.xcworkspace
