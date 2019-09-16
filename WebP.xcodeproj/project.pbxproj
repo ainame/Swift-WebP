@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
-		BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */; };
 		BD3B127C1E478B3300E04471 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BE81E42407800D914B4 /* decode.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BD3B127D1E478B3300E04471 /* encode.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEA1E42407800D914B4 /* encode.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BD3B127E1E478B3300E04471 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = BDCC9BEE1E42407800D914B4 /* types.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -264,6 +263,7 @@
 		FD16BB2021E6F97D00F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */; };
 		FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */; };
 		FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */; };
+		FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -1427,7 +1427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD3B123F1E47752E00E04471 /* WebPEncoderMacOSTests.swift in Sources */,
+				FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1499,7 +1499,6 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.macos;
 				PRODUCT_NAME = WebP;
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

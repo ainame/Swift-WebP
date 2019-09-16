@@ -23,12 +23,21 @@ class WebPEncoderMacOSTests: XCTestCase {
         super.tearDown()
     }
 
-    func testExample() {
+    func testExample() throws {
         let path = Bundle(for: self.classForCoder).resourcePath!.appendingFormat("/jiro.jpg")
-        let nsimage = NSImage(contentsOfFile: path)!
+        let nsImage = NSImage(contentsOfFile: path)!
         let encoder = WebPEncoder()
-        let webPImage = try! encoder.encode(nsimage, config: .preset(.photo, quality: 10))
-        XCTAssertNotNil(webPImage)
+        let data = try encoder.encode(nsImage, config: .preset(.photo, quality: 10))
+        XCTAssertTrue(data.count > 0)
+
+        let decoder = WebPDecoder()
+        var options = WebPDecoderOptions()
+        options.scaledWidth = Int(nsImage.size.width)
+        options.scaledHeight = Int(nsImage.size.height)
+        options.useScaling = true
+        let decodedImage = try decoder.decode(data, options: options)
+        XCTAssertEqual(decodedImage.width, options.scaledWidth)
+        XCTAssertEqual(decodedImage.height, options.scaledHeight)
     }
 }
 #endif
