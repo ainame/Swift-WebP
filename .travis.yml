@@ -6,12 +6,13 @@ env:
   - LANG=en_US.UTF-8
   - WORKSPACE="WebP.xcworkspace"
   - IOS_FRAMEWORK_SCHEME="WebP iOS"
+  - MACOS_FRAMEWORK_SCHEME="WebP macOS"
   - IOS_SDK=iphonesimulator12.2
-  - EXAMPLE_SCHEME="iOS Example"
+  - MAC_OS_SDK="macosx10.14"
   - FRAMEWORK_NAME="WebP"
   matrix:
-  - DESTINATION="OS=12.2,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK"
-    POD_LINT="NO"
+  - EXAMPLE_SCHEME="iOS Example" DESTINATION="OS=12.2,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" POD_LINT="NO"
+  - EXAMPLE_SCHEME="macOS Example" DESTINATION="platform=OS X,arch=x86_64" SCHEME="$MACOS_FRAMEWORK_SCHEME" SDK="$MAC_OS_SDK" POD_LINT="NO"
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
