@@ -264,6 +264,8 @@
 		FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */; };
 		FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */; };
 		FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */; };
+		FD1A7A5223319F93000C9647 /* WebPImageInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */; };
+		FD1A7A542331A0A1000C9647 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1A7A532331A0A1000C9647 /* WebPError.swift */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -512,6 +514,8 @@
 		FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoder.swift; path = WebP/WebPDecoder.swift; sourceTree = "<group>"; };
 		FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WebPDecoder+Platform.swift"; path = "WebP/WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
 		FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoderConfig.swift; path = WebP/WebPDecoderConfig.swift; sourceTree = "<group>"; };
+		FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPImageInspector.swift; sourceTree = "<group>"; };
+		FD1A7A532331A0A1000C9647 /* WebPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPError.swift; sourceTree = "<group>"; };
 		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
 		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
 		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
@@ -892,6 +896,8 @@
 				FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */,
 				FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */,
 				FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */,
+				FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */,
+				FD1A7A532331A0A1000C9647 /* WebPError.swift */,
 			);
 			name = WebP;
 			sourceTree = "<group>";
@@ -1413,12 +1419,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */,
+				FD1A7A5223319F93000C9647 /* WebPImageInspector.swift in Sources */,
 				FD16BB1F21E6F91A00F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */,
 				FD16BB1D21E6F91A00F80360 /* WebPDecoder.swift in Sources */,
 				FD16BB1E21E6F91A00F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */,
 				FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */,
+				FD1A7A542331A0A1000C9647 /* WebPError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
