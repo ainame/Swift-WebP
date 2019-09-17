@@ -14,7 +14,8 @@
 		D95E1C4A1D88E71A00F94976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C481D88E71A00F94976 /* Main.storyboard */; };
 		D95E1C4C1D88E71A00F94976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4B1D88E71A00F94976 /* Assets.xcassets */; };
 		D95E1C4F1D88E71A00F94976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95E1C4D1D88E71A00F94976 /* LaunchScreen.storyboard */; };
-		FD16BB1721E6E59F00F80360 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD16BB1621E6E59F00F80360 /* WebP.framework */; };
+		FD1A7A4F23319A7F000C9647 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD16BB1621E6E59F00F80360 /* WebP.framework */; };
+		FD1A7A5023319A7F000C9647 /* WebP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD16BB1621E6E59F00F80360 /* WebP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,6 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FD1A7A5023319A7F000C9647 /* WebP.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD16BB1721E6E59F00F80360 /* WebP.framework in Frameworks */,
+				FD1A7A4F23319A7F000C9647 /* WebP.framework in Frameworks */,
 				BD62469B1DB3CAB5007B9482 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
