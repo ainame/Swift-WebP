@@ -9,7 +9,7 @@ jobs:
       - name: Run Tests
         run: ./.github/bin/test.sh
         env:
-          DESTINATION: OS=12.2,name=iPhone X
+          DESTINATION: OS=12.4,name=iPhone X
           SCHEME: WebP iOS
-          SDK: iphonesimulator12.2
+          SDK: iphonesimulator12.4
           WORKSPACE: WebP.xcworkspace
