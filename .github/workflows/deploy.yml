@@ -1,0 +1,32 @@
+name: Deploy built-framework for Carthage when tagged
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  deploy:
+    name: Deploy built-framework to GitHub releases
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        framework: [WebP]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v1
+      - name: Archive built framework with Carthage
+        if: true
+        run: |
+          set -o pipefail
+          brew update
+          brew outdated carthage || brew upgrade carthage
+          git submodule update -i
+          carthage build --no-skip-current
+          carthage archive ${{ matrix.framework }}
+      - name: Upload built framework to GitHub Release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          file: '${{ matrix.framework }}.framework.zip'
+          asset_name: '${{ matrix.framework }}.framework.zip'
+          tag: ${{ github.ref }}
+          overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
