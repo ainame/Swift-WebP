@@ -1,0 +1,43 @@
+name: PR checks
+on: [pull_request]
+jobs:
+  run_tests:
+    strategy:
+      matrix:
+        # os: [macOS-latest, ubuntu-18.04]
+        os: [macOS-latest]
+        platform: [iOS, macOS, SPM]
+        include:
+          - platform: iOS
+            destination: OS=latest,name=iPhone 8
+            scheme: WebP iOS
+            workspace: WebP.xcworkspace
+            sdk: iphonesimulator
+          - platform: macOS
+            destination: platform=OS X,arch=x86_64
+            scheme: WebP macOS
+            workspace: WebP.xcworkspace
+            sdk: macosx10.14
+         # exclude:
+         #   - os: ubuntu-18.04
+         #     platform: iOS
+         #   - os: ubuntu-18.04
+         #     platform: macOS
+    name: Run Tests
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run Tests with xcodebuild
+        if: matrix.platform != 'SPM'
+        run: ./.github/bin/test.sh
+        env:
+          DESTINATION: ${{ matrix.destination }}
+          SCHEME: ${{ matrix.scheme }}
+          WORKSPACE: ${{ matrix.workspace }}
+          SDK: ${{ matrix.sdk }}
+      - name: Build package with swift package manager
+        if: matrix.platform == 'SPM'
+        run: |
+          set -o pipefail
+          brew install pkg-config webp
+          swift test

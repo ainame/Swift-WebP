@@ -24,8 +24,21 @@ class WebPEncoderMacOSTests: XCTestCase {
     }
 
     func testExample() throws {
-        let path = Bundle(for: self.classForCoder).resourcePath!.appendingFormat("/jiro.jpg")
-        let nsImage = NSImage(contentsOfFile: path)!
+        let currentFileURL = URL(fileURLWithPath: String(#file))
+        let imagePath = currentFileURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("iOS Example")
+            .appendingPathComponent("Resources")
+            .appendingPathComponent("jiro.jpg", isDirectory: false)
+            .path
+
+        guard FileManager.default.fileExists(atPath: imagePath) else {
+            XCTFail("Image couldn't be found at \(imagePath)")
+            return
+        }
+
+        let nsImage = NSImage(contentsOfFile: imagePath)!
         let encoder = WebPEncoder()
         let data = try encoder.encode(nsImage, config: .preset(.photo, quality: 10))
         XCTAssertTrue(data.count > 0)

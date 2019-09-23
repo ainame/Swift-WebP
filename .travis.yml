@@ -1,19 +1,13 @@
 language: objective-c
-osx_image: xcode10.2
+osx_image: xcode10.3
 env:
   global:
     - LC_CTYPE=en_US.UTF-8
     - LANG=en_US.UTF-8
     - WORKSPACE="WebP.xcworkspace"
-    - IOS_FRAMEWORK_SCHEME="WebP iOS"
-    - MACOS_FRAMEWORK_SCHEME="WebP macOS"
-    - IOS_SDK=iphonesimulator12.2
-    - MAC_OS_SDK="macosx10.14"
-    - FRAMEWORK_NAME="WebP"
   matrix:
-    # Deploy new built-framework during iOS's build
-    - DEPLOY=true EXAMPLE_SCHEME="iOS Example" DESTINATION="OS=latest,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK"
-    - EXAMPLE_SCHEME="macOS Example" DESTINATION="platform=OS X,arch=x86_64" SCHEME="$MACOS_FRAMEWORK_SCHEME" SDK="$MAC_OS_SDK"
+    - DESTINATION="OS=latest,name=iPhone X" SCHEME="WebP iOS" SDK="iphonesimulator"
+    - DESTINATION="platform=OS X,arch=x86_64" SCHEME="WebP macOS" SDK="macosx10.14"
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
@@ -21,31 +15,7 @@ before_cache:
   - brew cleanup
 before_install:
   - brew install webp
-before_deploy:
-  - brew update
-  - brew outdated carthage || brew upgrade carthage
-  - carthage build --no-skip-current
-  - carthage archive $FRAMEWORK_NAME
 script:
-  - set -o pipefail
-  - xcrun simctl list
-  - xcodebuild -version
-  - xcodebuild -showsdks
-  - xcodebuild -list
-  - xcodebuild -workspace "$WORKSPACE" -list
-  - xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean test | xcpretty
-  - xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration ReleaseTest ONLY_ACTIVE_ARCH=NO clean build | xcpretty
-  - xcodebuild -workspace "$WORKSPACE" -scheme "$EXAMPLE_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean build | xcpretty
-  - swift build
+  - .github/bin/test.sh
 notifications:
   email: false
-deploy:
-  provider: releases
-  api_key:
-    secure: vYi+DMk6Pswlw/J0O1zkXfelAL9dcPmb4D6vnkzcTy4FUN7oiezoG/dZJ4IVD0XNb0hZqkXSsdNsWs0oenRdBhk/05t0eexQudjtKbCANRPaTpraLrBIZyw4l7/QXpC34MuENWS+G0D6Tvgi5v/dyByTnoa5UuPTtT5F40oNFOlLnWn3XSngROFhdXAXxbGtT5XB3vP4V45z1x8fHbDRqVvBa3UC0PBhOm0kQqm9nWa8kjfsx3d+e4G236egi+fnKfu4B0sU68lp6GIHgVtHhrYKYfU+uvxn3ZEcgxupL7cz+J2Z90ar1ORmHex7LeFP/41PvLZ1SGfUSvb1812oCntKLix5h9LJiQw4SR8+4TZGF51YHf5nPBsWyUqKBEAaRKCMc9BETZ7dj5nhC8gqtrcRLm36tNgVetDIGxfFpSTXvbFQMgRxFM1vOTjk4Gis+tYdDZ0/a7U86t6k7WWLMVcZsD1Ezx08b5R1xv/FUYS+N2WW/R2OkBOUrquHeXuWK1wppStcYJ2zwKmYbtMhE2Xo9WS/+S64YY8wW9qx2daq5/el3SOarzGmPzQdl6VsYX2YAsGbFOyFCurOpMK+SBSAhlNIgOuyzhMnWaEk8YfRfAFQLvr7evMO/YMuxV3dAR5IiO9mKjUhBDsDIxKHSG3p6m5X9pw1joM+yQJfNLE=
-  file: "$FRAMEWORK_NAME.framework.zip"
-  skip_cleanup: true
-  on:
-    repo: ainame/Swift-WebP
-    tags: true
-    condition: $DEPLOY = true
