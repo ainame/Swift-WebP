@@ -1,4 +1,4 @@
-name: Deploy built-framework for Carthage when tagged
+name: Deploy prebuilt-framework for Carthage when tagged
 on:
   push:
     tags:
@@ -13,8 +13,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v1
-      - name: Archive built framework with Carthage
-        if: true
+      - name: Archive prebuilt framework with Carthage
         run: |
           set -o pipefail
           brew update
