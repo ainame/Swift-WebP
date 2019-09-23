@@ -516,8 +516,8 @@
 		FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoder.swift; path = WebP/WebPDecoder.swift; sourceTree = "<group>"; };
 		FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WebPDecoder+Platform.swift"; path = "WebP/WebPDecoder+Platform.swift"; sourceTree = "<group>"; };
 		FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoderConfig.swift; path = WebP/WebPDecoderConfig.swift; sourceTree = "<group>"; };
-		FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPImageInspector.swift; sourceTree = "<group>"; };
-		FD1A7A532331A0A1000C9647 /* WebPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPError.swift; sourceTree = "<group>"; };
+		FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebPImageInspector.swift; path = WebP/WebPImageInspector.swift; sourceTree = "<group>"; };
+		FD1A7A532331A0A1000C9647 /* WebPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebPError.swift; path = WebP/WebPError.swift; sourceTree = "<group>"; };
 		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
 		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
 		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
