@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.1.0
+
+### Changed
+
+* Add WebPImageInspector
+
+### Bug fix
+
+* Fixed a memory issue in WebPDecoder+Platform.swift
+
+
 ## v0.0.10
 
 ### Changed
