@@ -255,6 +255,7 @@
 		FD027E5020A8F893004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
 		FD027E5120A8F89D004634B2 /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4B20A8F859004634B2 /* upsampling_sse41.c */; };
 		FD027E5220A8F89D004634B2 /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = FD027E4A20A8F859004634B2 /* yuv_sse41.c */; };
+		FD05ADF423384D3C002057E2 /* WebPImageInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */; };
 		FD16BB1821E6E87600F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EB41E42440000D914B4 /* libwebp.a */; };
 		FD16BB1921E6E88300F80360 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCC9EBC1E42445100D914B4 /* libwebp.a */; };
 		FD16BB1D21E6F91A00F80360 /* WebPDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */; };
@@ -1157,6 +1158,7 @@
 				FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */,
 				FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */,
+				FD05ADF423384D3C002057E2 /* WebPImageInspector.swift in Sources */,
 				FD16BB2021E6F97D00F80360 /* WebPDecoder.swift in Sources */,
 				FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */,
