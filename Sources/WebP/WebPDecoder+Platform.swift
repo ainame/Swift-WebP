@@ -37,3 +37,25 @@ extension WebPDecoder {
     }
 }
 #endif
+
+#if os(iOS)
+import UIKit
+
+extension WebPDecoder {
+    public func decode(toUImage webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
+        let cgImage: CGImage = try decode(webPData, options: options)
+        return UIImage(cgImage: cgImage)
+    }
+}
+#endif
+
+#if os(macOS)
+import AppKit
+
+extension WebPDecoder {
+    public func decode(toNSImage webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
+        let cgImage: CGImage = try decode(webPData, options: options)
+        return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
+    }
+}
+#endif
