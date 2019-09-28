@@ -24,14 +24,7 @@ class WebPEncoderMacOSTests: XCTestCase {
     }
 
     func testExample() throws {
-        let currentFileURL = URL(fileURLWithPath: String(#file))
-        let imagePath = currentFileURL.deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("iOS Example")
-            .appendingPathComponent("Resources")
-            .appendingPathComponent("jiro.jpg", isDirectory: false)
-            .path
+        let imagePath = ResourceAccessHelper.getExamplImagePath()
 
         guard FileManager.default.fileExists(atPath: imagePath) else {
             XCTFail("Image couldn't be found at \(imagePath)")

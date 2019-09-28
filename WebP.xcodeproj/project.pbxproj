@@ -268,6 +268,10 @@
 		FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */; };
 		FD1A7A5223319F93000C9647 /* WebPImageInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */; };
 		FD1A7A542331A0A1000C9647 /* WebPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1A7A532331A0A1000C9647 /* WebPError.swift */; };
+		FD3D2DBF233F4D3300D22145 /* WebPImageInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */; };
+		FD3D2DC0233F4D3400D22145 /* WebPImageInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */; };
+		FD3D2DC4233F506000D22145 /* ResourceAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */; };
+		FD3D2DC5233F506100D22145 /* ResourceAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -518,6 +522,9 @@
 		FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPDecoderConfig.swift; path = WebP/WebPDecoderConfig.swift; sourceTree = "<group>"; };
 		FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebPImageInspector.swift; path = WebP/WebPImageInspector.swift; sourceTree = "<group>"; };
 		FD1A7A532331A0A1000C9647 /* WebPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebPError.swift; path = WebP/WebPError.swift; sourceTree = "<group>"; };
+		FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPImageInspectorTests.swift; sourceTree = "<group>"; };
+		FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAccessHelper.swift; sourceTree = "<group>"; };
+		FD3D2DC6233F552800D22145 /* jiro.webp */ = {isa = PBXFileReference; lastKnownFileType = file; name = jiro.webp; path = Tests/jiro.webp; sourceTree = SOURCE_ROOT; };
 		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
 		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
 		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
@@ -610,8 +617,10 @@
 		BD3B12311E4768C100E04471 /* WebPTests */ = {
 			isa = PBXGroup;
 			children = (
+				FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */,
 				BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */,
 				BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */,
+				FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */,
 			);
 			path = WebPTests;
 			sourceTree = "<group>";
@@ -882,6 +891,7 @@
 			children = (
 				BD3B12311E4768C100E04471 /* WebPTests */,
 				BD72CD271DD6F51D00E865AB /* jiro.jpg */,
+				FD3D2DC6233F552800D22145 /* jiro.webp */,
 				D95E1BED1D88D63400F94976 /* Info.plist */,
 			);
 			path = Tests;
@@ -1173,6 +1183,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */,
+				FD3D2DC0233F4D3400D22145 /* WebPImageInspectorTests.swift in Sources */,
+				FD3D2DC5233F506100D22145 /* ResourceAccessHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,6 +1451,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */,
+				FD3D2DBF233F4D3300D22145 /* WebPImageInspectorTests.swift in Sources */,
+				FD3D2DC4233F506000D22145 /* ResourceAccessHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
