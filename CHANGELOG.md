@@ -3,11 +3,18 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.1.1 (incomming)
+
+### Enhanced
+
+* Make WebPImageInspector publicly exposed
+* Added `WebPDecoder.decode(toUIImage:, options:)` and `WebPDecoder.decode(toNSImage:, options:)`
+
 ## v0.1.0
 
 ### Changed
 
-* Add WebPImageInspector
+* Add WebPImageInspector internally
 
 ### Bug fix
 
