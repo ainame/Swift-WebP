@@ -4,8 +4,7 @@ jobs:
   run_tests:
     strategy:
       matrix:
-        # os: [macOS-latest, ubuntu-18.04]
-        os: [macOS-latest]
+        os: [macOS-latest, ubuntu-18.04]
         platform: [iOS, macOS, SPM]
         include:
           - platform: iOS
@@ -18,16 +17,16 @@ jobs:
             scheme: WebP macOS
             workspace: WebP.xcworkspace
             sdk: macosx10.14
-         # exclude:
-         #   - os: ubuntu-18.04
-         #     platform: iOS
-         #   - os: ubuntu-18.04
-         #     platform: macOS
+        exclude:
+          - os: ubuntu-18.04
+            platform: iOS
+          - os: ubuntu-18.04
+            platform: macOS
     name: Run Tests
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
-      - name: Run Tests with xcodebuild
+      - name: Run Tests with xcodebuild against ${{ matrix.platform }} platform
         if: matrix.platform != 'SPM'
         run: ./.github/bin/test.sh
         env:
@@ -35,9 +34,18 @@ jobs:
           SCHEME: ${{ matrix.scheme }}
           WORKSPACE: ${{ matrix.workspace }}
           SDK: ${{ matrix.sdk }}
-      - name: Build package with swift package manager
-        if: matrix.platform == 'SPM'
+      - name: Run Tests with Swift Package Manager
+        if: matrix.platform == 'SPM' && matrix.os == 'macOS-latest'
         run: |
           set -o pipefail
           brew install pkg-config webp
-          swift test
+          xcversion select 11.0
+          swift test -v
+      - name: Run Tests with Swift Package Manager
+        if: matrix.platform == 'SPM' && matrix.os == 'ubuntu-18.04'
+        uses: docker://swift:5.1
+        with:
+          entrypoint: .github/bin/entrypoint.sh
+          github_token: ${{ secrets.github_token }}
+          github_actor: ainame
+          github_branch: ${{ github.head_ref }}
