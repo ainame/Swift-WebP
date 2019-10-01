@@ -26,7 +26,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
-      - name: (${{ matrix.os }}) Run Tests with xcodebuild against ${{ matrix.platform }} platform
+      - name: Run Tests with xcodebuild against ${{ matrix.platform }} platform
         if: matrix.platform != 'SPM'
         run: ./.github/bin/test.sh
         env:
@@ -34,14 +34,14 @@ jobs:
           SCHEME: ${{ matrix.scheme }}
           WORKSPACE: ${{ matrix.workspace }}
           SDK: ${{ matrix.sdk }}
-      - name: (${{ matrix.os }}) Run Tests with Swift Package Manager
+      - name: Run Tests with Swift Package Manager
         if: matrix.platform == 'SPM' && matrix.os == 'macOS-latest'
         run: |
           set -o pipefail
           brew install pkg-config webp
           xcversion select 11.0
           swift test -v
-      - name: (${{ matrix.os }}) Run Tests with Swift Package Manager
+      - name: Run Tests with Swift Package Manager
         if: matrix.platform == 'SPM' && matrix.os == 'ubuntu-18.04'
         uses: docker://swift:5.1
         with:
