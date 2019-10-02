@@ -14,22 +14,23 @@ Swift-WebP aims to deal with image processing flexibly for WebP format in Swift 
 
 ### Support Versions:
 
-* libwebp: v1.0.0
+* libwebp: v1.0.3
 * iOS Deployment Target: 8.0
 * macOS Deployment Target: 10.11
 
 #### Features
 
-* [x] support macOS build
-* [x] support iOS build
-* [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api): WebPEncoder, WebPEncoderConfig
-* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api): WebPDecoder, WebPDecoderConfig
+* [x] Support mutiplatform; iOS, macOS, and Linux (swift-docker)
+* [x] Support SPM
+* [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api) - WebPEncoder, WebPEncoderConfig
+* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api) - WebPDecoder, WebPDecoderOptions
+* [x] Image inspection for WebP files  - WebPImageInspector
 
 #### TODO
 
 * [ ] Progressively encoding/decoding option
 * [ ] Animated WebP
-* [ ] support Linux build
+
 
 ## Usage
 
