@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 * Make WebPImageInspector publicly exposed
 * Added `WebPDecoder.decode(toUIImage:, options:)` and `WebPDecoder.decode(toNSImage:, options:)`
+* Bump embeded libwebp version to v1.0.3 (was v1.0.0)
 
 ## v0.1.0
 
