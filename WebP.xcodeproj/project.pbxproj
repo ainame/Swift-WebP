@@ -1610,6 +1610,7 @@
 				OTHER_CFLAGS = (
 					"-DWEBP_SWAP_16BIT_CSP",
 					"-DNDEBUG",
+					"-fembed-bitcode",
 				);
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
@@ -1625,6 +1626,7 @@
 				OTHER_CFLAGS = (
 					"-DWEBP_SWAP_16BIT_CSP",
 					"-DNDEBUG",
+					"-fembed-bitcode",
 				);
 				PRODUCT_NAME = webp;
 				SKIP_INSTALL = YES;
