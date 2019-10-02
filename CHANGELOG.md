@@ -3,13 +3,16 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
-## v0.1.1 (incomming)
+## v0.3.0 (incomming)
+
+## v0.2.0
 
 ### Enhanced
 
 * Make WebPImageInspector publicly exposed
 * Added `WebPDecoder.decode(toUIImage:, options:)` and `WebPDecoder.decode(toNSImage:, options:)`
 * Bump embeded libwebp version to v1.0.3 (was v1.0.0)
+* Add -fembed-bitcode flag to CFLAGS when compiling libwebp for iOS
 
 ## v0.1.0
 
