@@ -537,6 +537,7 @@
 		FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalRawRepresentable.swift; path = WebP/InternalRawRepresentable.swift; sourceTree = "<group>"; };
 		FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPEncoder.swift; path = WebP/WebPEncoder.swift; sourceTree = "<group>"; };
 		FD8F55522178000700322BA2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebP/Info.plist; sourceTree = "<group>"; };
+		FD951FCB237A185C00CA850E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = CWebP/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -602,6 +603,7 @@
 		BD196F9A1DB2989C00F7387E /* CWebP */ = {
 			isa = PBXGroup;
 			children = (
+				FD951FCB237A185C00CA850E /* Info.plist */,
 				BD3B12821E479B0000E04471 /* CWebP-umbrella.h */,
 				BD196F991DB2989600F7387E /* module.modulemap */,
 			);
@@ -1577,6 +1579,7 @@
 		BDCC9EB61E42440000D914B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
 				EXECUTABLE_PREFIX = lib;
@@ -1591,6 +1594,7 @@
 		BDCC9EB71E42440000D914B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
 				EXECUTABLE_PREFIX = lib;
@@ -1605,7 +1609,9 @@
 		BDCC9EC31E42445100D914B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
+				INFOPLIST_FILE = CWebP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = (
 					"-DWEBP_SWAP_16BIT_CSP",
@@ -1621,7 +1627,9 @@
 		BDCC9EC41E42445100D914B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
 				DEVELOPMENT_TEAM = 2Q7H62SFG3;
+				INFOPLIST_FILE = CWebP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = (
 					"-DWEBP_SWAP_16BIT_CSP",
@@ -1776,9 +1784,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.ios;
 				PRODUCT_NAME = WebP;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Debug;
@@ -1802,8 +1812,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.ainam.WebP.ios;
 				PRODUCT_NAME = WebP;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Sources";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/libwebp";
 			};
 			name = Release;
