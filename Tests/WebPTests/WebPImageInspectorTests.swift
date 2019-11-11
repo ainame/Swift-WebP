@@ -26,7 +26,7 @@ class WebPImageInspectorTests: XCTestCase {
         }
         XCTAssertThrowsError(try WebPImageInspector.inspect(data)) { _error in
             if let error = _error as? WebPError,
-                case .unexpectedError(let message) = error {
+                case .unexpectedError(let _) = error {
                 XCTAssert(true)
             } else {
                 XCTFail()
