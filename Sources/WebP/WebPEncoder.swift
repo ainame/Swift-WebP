@@ -9,7 +9,15 @@
 import Foundation
 import CWebP
 
-enum WebPEncodeError : Int, Error {
+// This is customised error that describes the pattern of error causes.
+// However, the error is unlikely to happen normally but it's still better to handle with throw-catch than fatal error.
+public enum WebPEncoderError: Error {
+    case invalidParameter
+    case versionMismatched
+}
+
+// This is the mapped error codes that CWebP.WebPEncode returns
+public enum WebPEncodeStatusCode: Int, Error {
     case ok = 0
     case outOfMemory           // memory error allocating objects
     case bitstreamOutOfMemory  // memory error while flushing bits
@@ -89,12 +97,12 @@ public struct WebPEncoder {
                         resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
         var config = config.rawValue
         if WebPValidateConfig(&config) == 0 {
-            fatalError("invalid config")
+            throw WebPEncoderError.invalidParameter
         }
 
         var picture = WebPPicture()
         if WebPPictureInit(&picture) == 0 {
-            fatalError("version error")
+            throw WebPEncoderError.invalidParameter
         }
 
         picture.use_argb = config.lossless == 0 ? 0 : 1
@@ -104,12 +112,12 @@ public struct WebPEncoder {
         let ok = importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             WebPPictureFree(&picture)
-            fatalError("can't import picture")
+            throw WebPEncoderError.versionMismatched
         }
 
-        if resizeHeight > 0 && resizeHeight > 0 {
+        if resizeHeight > 0 && resizeWidth > 0 {
             if (WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0) {
-                fatalError("can't rescale picture")
+                throw WebPEncodeStatusCode.outOfMemory
             }
         }
 
@@ -124,8 +132,7 @@ public struct WebPEncoder {
         if WebPEncode(&config, &picture) == 0 {
             WebPPictureFree(&picture)
 
-            let error = WebPEncodeError(rawValue:  Int(picture.error_code.rawValue))!
-            print("encode error \(error)")
+            let error = WebPEncodeStatusCode(rawValue:  Int(picture.error_code.rawValue))!
             throw error
         }
         WebPPictureFree(&picture)
