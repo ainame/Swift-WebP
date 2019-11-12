@@ -33,8 +33,7 @@ import Foundation
         public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
             let cgImage = convertUIImageToCGImageWithRGBA(image)
             let stride = cgImage.bytesPerRow
-            let dataPtr = CFDataGetMutableBytePtr((cgImage.dataProvider!.data as! CFMutableData))!
-            let webPData = try encode(RGBA: dataPtr, config: config,
+            let webPData = try encode(RGBA: cgImage.getBaseAddress(), config: config,
                                       originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
                                       resizeWidth: width, resizeHeight: height)
             return webPData
