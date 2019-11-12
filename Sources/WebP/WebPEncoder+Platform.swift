@@ -1,11 +1,3 @@
-//
-//  WebPEncoder+Platform.swift
-//  WebP
-//
-//  Created by Namai Satoshi on 2016/10/23.
-//  Copyright © 2016年 satoshi.namai. All rights reserved.
-//
-
 import Foundation
 
 #if os(macOS)

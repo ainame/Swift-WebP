@@ -1,11 +1,3 @@
-//
-//  WebPEncoderTests.swift
-//  WebP
-//
-//  Created by Namai Satoshi on 2016/11/12.
-//  Copyright © 2016年 satoshi.namai. All rights reserved.
-//
-
 #if os(macOS)
 import XCTest
 import Foundation
