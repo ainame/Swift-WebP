@@ -3,7 +3,7 @@ import CWebP
 
 /// There's no definition of WebPDecodingError in libwebp.
 /// We map VP8StatusCode enum as WebPDecodingError instead.
-public enum WebPDecodingError : UInt32, Error {
+public enum WebPDecodingError: UInt32, Error {
     case ok = 0  // shouldn't be used as this is the succseed case
     case outOfMemory
     case invalidParam
@@ -20,7 +20,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byRGB webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .RGB)
         try decode(webPData, config: &config)
 
@@ -30,7 +29,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byRGBA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .RGBA)
         try decode(webPData, config: &config)
 
@@ -41,7 +39,6 @@ public struct WebPDecoder {
 
     public func decode(byBGR webPData: Data, options: WebPDecoderOptions,
                        width: Int, height: Int) throws -> Data {
-
         var config = makeConfig(options, .BGR)
         try decode(webPData, config: &config)
 
@@ -51,7 +48,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byBGRA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .BGRA)
         try decode(webPData, config: &config)
 
@@ -61,7 +57,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byARGB webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .ARGB)
         try decode(webPData, config: &config)
 
@@ -81,7 +76,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byRGB565 webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .RGB565)
         try decode(webPData, config: &config)
 
@@ -91,7 +85,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byrgbA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .rgbA)
         try decode(webPData, config: &config)
 
@@ -101,7 +94,6 @@ public struct WebPDecoder {
     }
 
     public func decode(bybgrA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .bgrA)
         try decode(webPData, config: &config)
 
@@ -111,7 +103,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byArgb webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .Argb)
         try decode(webPData, config: &config)
 
@@ -121,7 +112,6 @@ public struct WebPDecoder {
     }
 
     public func decode(byrgbA4444 webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         var config = makeConfig(options, .rgbA4444)
         try decode(webPData, config: &config)
 
@@ -131,17 +121,14 @@ public struct WebPDecoder {
     }
 
     public func decode(byYUV webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         fatalError("didn't implement this yet")
     }
 
     public func decode(byYUVA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
         fatalError("didn't implement this yet")
     }
 
     private func decode(_ webPData: Data, config: inout WebPDecoderConfig) throws {
-
         var mutableWebPData = webPData
         var rawConfig: CWebP.WebPDecoderConfig = config.rawValue
 
@@ -167,7 +154,6 @@ public struct WebPDecoder {
 
     private func makeConfig(_ options: WebPDecoderOptions,
                             _ colorspace: ColorspaceMode) -> WebPDecoderConfig {
-
         var config = WebPDecoderConfig()
         config.options = options
         config.output.colorspace = colorspace
