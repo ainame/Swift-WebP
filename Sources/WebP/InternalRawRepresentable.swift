@@ -1,11 +1,3 @@
-//
-//  InternalRawRepresentable.swift
-//  WebP
-//
-//  Created by Namai Satoshi on 2016/10/29.
-//  Copyright © 2016年 satoshi.namai. All rights reserved.
-//
-
 import Foundation
 
 protocol InternalRawRepresentable {
