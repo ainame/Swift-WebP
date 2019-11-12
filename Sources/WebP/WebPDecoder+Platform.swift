@@ -5,9 +5,7 @@ import CWebP
 import CoreGraphics
 
 extension WebPDecoder {
-
     public func decode(_ webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
-
         let feature = try WebPImageInspector.inspect(webPData)
         let height: Int = options.useScaling ? options.scaledHeight : feature.height
         let width: Int = options.useScaling ? options.scaledWidth : feature.width
