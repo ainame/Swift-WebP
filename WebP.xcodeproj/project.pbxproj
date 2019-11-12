@@ -273,6 +273,11 @@
 		FD3D2DC0233F4D3400D22145 /* WebPImageInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */; };
 		FD3D2DC4233F506000D22145 /* ResourceAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */; };
 		FD3D2DC5233F506100D22145 /* ResourceAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */; };
+		FD4BB75E237A2F68004536EB /* CGImage+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4BB75D237A2F68004536EB /* CGImage+Util.swift */; };
+		FD4BB767237A3C21004536EB /* WebPEncoderCGImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4BB765237A3C1B004536EB /* WebPEncoderCGImageTests.swift */; };
+		FD4BB768237A3C22004536EB /* WebPEncoderCGImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4BB765237A3C1B004536EB /* WebPEncoderCGImageTests.swift */; };
+		FD4BB769237A3C7B004536EB /* WebPEncoder+CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD951FCC237A298000CA850E /* WebPEncoder+CGImage.swift */; };
+		FD4BB76A237A3CB6004536EB /* CGImage+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4BB75D237A2F68004536EB /* CGImage+Util.swift */; };
 		FD7547FA201FD01D00A3D93D /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EE201E5A4200A3D93D /* ssim_sse2.c */; };
 		FD7547FB201FD01D00A3D93D /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547F0201E5A4300A3D93D /* ssim.c */; };
 		FD7547FC201FD01D00A3D93D /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = FD7547EF201E5A4300A3D93D /* yuv_neon.c */; };
@@ -289,6 +294,7 @@
 		FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */; };
 		FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */; };
 		FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */; };
+		FD951FCD237A298000CA850E /* WebPEncoder+CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD951FCC237A298000CA850E /* WebPEncoder+CGImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -528,6 +534,8 @@
 		FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPImageInspectorTests.swift; sourceTree = "<group>"; };
 		FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAccessHelper.swift; sourceTree = "<group>"; };
 		FD3D2DC6233F552800D22145 /* jiro.webp */ = {isa = PBXFileReference; lastKnownFileType = file; name = jiro.webp; path = Tests/jiro.webp; sourceTree = SOURCE_ROOT; };
+		FD4BB75D237A2F68004536EB /* CGImage+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGImage+Util.swift"; path = "WebP/CGImage+Util.swift"; sourceTree = "<group>"; };
+		FD4BB765237A3C1B004536EB /* WebPEncoderCGImageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPEncoderCGImageTests.swift; sourceTree = "<group>"; };
 		FD7547EE201E5A4200A3D93D /* ssim_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim_sse2.c; sourceTree = "<group>"; };
 		FD7547EF201E5A4300A3D93D /* yuv_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yuv_neon.c; sourceTree = "<group>"; };
 		FD7547F0201E5A4300A3D93D /* ssim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssim.c; sourceTree = "<group>"; };
@@ -538,6 +546,7 @@
 		FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPEncoder.swift; path = WebP/WebPEncoder.swift; sourceTree = "<group>"; };
 		FD8F55522178000700322BA2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebP/Info.plist; sourceTree = "<group>"; };
 		FD951FCB237A185C00CA850E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = CWebP/Info.plist; sourceTree = SOURCE_ROOT; };
+		FD951FCC237A298000CA850E /* WebPEncoder+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WebPEncoder+CGImage.swift"; path = "WebP/WebPEncoder+CGImage.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -625,6 +634,7 @@
 				FD3D2DC2233F500200D22145 /* ResourceAccessHelper.swift */,
 				BD3B12321E4768C100E04471 /* WebPEncoderIOSTests.swift */,
 				BD3B12331E4768C100E04471 /* WebPEncoderMacOSTests.swift */,
+				FD4BB765237A3C1B004536EB /* WebPEncoderCGImageTests.swift */,
 				FD3D2DBC233F4D2A00D22145 /* WebPImageInspectorTests.swift */,
 			);
 			path = WebPTests;
@@ -908,15 +918,17 @@
 			isa = PBXGroup;
 			children = (
 				FD8F55522178000700322BA2 /* Info.plist */,
+				FD4BB75D237A2F68004536EB /* CGImage+Util.swift */,
 				FD8F55482177FDF500322BA2 /* InternalRawRepresentable.swift */,
 				FD16BB1A21E6F91A00F80360 /* WebPDecoder.swift */,
 				FD16BB1B21E6F91A00F80360 /* WebPDecoder+Platform.swift */,
 				FD16BB1C21E6F91A00F80360 /* WebPDecoderConfig.swift */,
 				FD8F554A2177FDF500322BA2 /* WebPEncoder.swift */,
+				FD951FCC237A298000CA850E /* WebPEncoder+CGImage.swift */,
 				FD8F55442177FDF500322BA2 /* WebPEncoder+Platform.swift */,
 				FD8F55452177FDF500322BA2 /* WebPEncoderConfig.swift */,
-				FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */,
 				FD1A7A532331A0A1000C9647 /* WebPError.swift */,
+				FD1A7A5123319F93000C9647 /* WebPImageInspector.swift */,
 			);
 			name = WebP;
 			sourceTree = "<group>";
@@ -1177,11 +1189,13 @@
 				FD8F55572178029600322BA2 /* InternalRawRepresentable.swift in Sources */,
 				FD16BB2221E6F98500F80360 /* WebPDecoderConfig.swift in Sources */,
 				FD8F55582178029600322BA2 /* WebPEncoder.swift in Sources */,
+				FD4BB76A237A3CB6004536EB /* CGImage+Util.swift in Sources */,
 				FD05ADF423384D3C002057E2 /* WebPImageInspector.swift in Sources */,
 				FD16BB2021E6F97D00F80360 /* WebPDecoder.swift in Sources */,
 				FD16BB2121E6F98100F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F55592178029600322BA2 /* WebPEncoder+Platform.swift in Sources */,
 				FD8F555A2178029600322BA2 /* WebPEncoderConfig.swift in Sources */,
+				FD4BB769237A3C7B004536EB /* WebPEncoder+CGImage.swift in Sources */,
 				FD05ADF52338AB82002057E2 /* WebPError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1192,6 +1206,7 @@
 			files = (
 				BD3B123E1E47752800E04471 /* WebPEncoderMacOSTests.swift in Sources */,
 				FD3D2DC0233F4D3400D22145 /* WebPImageInspectorTests.swift in Sources */,
+				FD4BB768237A3C22004536EB /* WebPEncoderCGImageTests.swift in Sources */,
 				FD3D2DC5233F506100D22145 /* ResourceAccessHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1445,11 +1460,13 @@
 				FD8F554B2177FDF500322BA2 /* WebPEncoder+Platform.swift in Sources */,
 				FD1A7A5223319F93000C9647 /* WebPImageInspector.swift in Sources */,
 				FD16BB1F21E6F91A00F80360 /* WebPDecoderConfig.swift in Sources */,
+				FD4BB75E237A2F68004536EB /* CGImage+Util.swift in Sources */,
 				FD8F55512177FDF500322BA2 /* WebPEncoder.swift in Sources */,
 				FD16BB1D21E6F91A00F80360 /* WebPDecoder.swift in Sources */,
 				FD16BB1E21E6F91A00F80360 /* WebPDecoder+Platform.swift in Sources */,
 				FD8F554C2177FDF500322BA2 /* WebPEncoderConfig.swift in Sources */,
 				FD8F554F2177FDF500322BA2 /* InternalRawRepresentable.swift in Sources */,
+				FD951FCD237A298000CA850E /* WebPEncoder+CGImage.swift in Sources */,
 				FD1A7A542331A0A1000C9647 /* WebPError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1460,6 +1477,7 @@
 			files = (
 				FD1A7A4E23304F85000C9647 /* WebPEncoderIOSTests.swift in Sources */,
 				FD3D2DBF233F4D3300D22145 /* WebPImageInspectorTests.swift in Sources */,
+				FD4BB767237A3C21004536EB /* WebPEncoderCGImageTests.swift in Sources */,
 				FD3D2DC4233F506000D22145 /* ResourceAccessHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1551,7 +1569,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.WebPTests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1568,7 +1586,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ainam.WebPTests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
