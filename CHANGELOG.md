@@ -3,7 +3,11 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
-## v0.3.0 (incomming)
+## v0.4.0 (incomming)
+
+## v0.3.0
+
+* Added `WebPDecoder.encode(RGBA cgImage: CGImage, ...)` and so on for ainame/Swift-WebP#40
 
 ## v0.2.0
 
