@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
-## v0.4.0 (incomming)
+## v0.5.0 (incomming)
+
+## v0.4.0
+
+### Enhanced
+
+* Bump embeded libwebp version to v1.1.0 (was v1.0.3)
 
 ## v0.3.0
 
