@@ -48,4 +48,3 @@ jobs:
           entrypoint: .github/bin/entrypoint.sh
           github_token: ${{ secrets.github_token }}
           github_actor: ainame
-          github_branch: ${{ github.head_ref }}
