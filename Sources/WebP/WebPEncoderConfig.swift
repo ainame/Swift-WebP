@@ -124,12 +124,13 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
     // value is 0.
     public var exact: Int
 
+    public var qmin: Int = 0
+    public var qmax: Int = 100
+
     // reserved for future lossless feature
     var useDeltaPalette: Bool
     // if needed, use sharp (and slow) RGB->YUV conversion
     var useSharpYUV: Bool
-
-    public var pad: (Int, Int)
 
     static public func preset(_ preset: Preset, quality: Float) -> WebPEncoderConfig {
         let webPConfig = preset.webPConfig(quality: quality)
@@ -164,7 +165,8 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         exact = Int(rawValue.exact)
         useDeltaPalette = rawValue.use_delta_palette != 0 ? true : false
         useSharpYUV = rawValue.use_sharp_yuv != 0 ? true : false
-        pad = (Int(rawValue.pad.0), Int(rawValue.pad.1))
+        qmin = Int(rawValue.qmin)
+        qmax = Int(rawValue.qmax)
     }
 
     internal var rawValue: CWebP.WebPConfig {
@@ -202,7 +204,8 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
             exact: Int32(exact),
             use_delta_palette: Int32(use_delta_palette),
             use_sharp_yuv: Int32(use_sharp_yuv),
-            pad: (UInt32(pad.0), UInt32(pad.1))
+            qmin: Int32(qmin),
+            qmax: Int32(qmax)
         )
     }
 
