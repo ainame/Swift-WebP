@@ -1,18 +1,18 @@
 import Foundation
-import CWebP
+import libwebp
 
-extension CWebP.WebPImageHint: ExpressibleByIntegerLiteral {
+extension libwebp.WebPImageHint: ExpressibleByIntegerLiteral {
     /// Create an instance initialized to `value`.
     public init(integerLiteral value: Int) {
         switch UInt32(value) {
-        case CWebP.WEBP_HINT_DEFAULT.rawValue:
-            self = CWebP.WEBP_HINT_DEFAULT
-        case CWebP.WEBP_HINT_PICTURE.rawValue:
-            self = CWebP.WEBP_HINT_PICTURE
-        case CWebP.WEBP_HINT_PHOTO.rawValue:
-            self = CWebP.WEBP_HINT_PHOTO
-        case CWebP.WEBP_HINT_GRAPH.rawValue:
-            self = CWebP.WEBP_HINT_GRAPH
+        case libwebp.WEBP_HINT_DEFAULT.rawValue:
+            self = libwebp.WEBP_HINT_DEFAULT
+        case libwebp.WEBP_HINT_PICTURE.rawValue:
+            self = libwebp.WEBP_HINT_PICTURE
+        case libwebp.WEBP_HINT_PHOTO.rawValue:
+            self = libwebp.WEBP_HINT_PHOTO
+        case libwebp.WEBP_HINT_GRAPH.rawValue:
+            self = libwebp.WEBP_HINT_GRAPH
         default:
             fatalError()
         }
@@ -20,9 +20,9 @@ extension CWebP.WebPImageHint: ExpressibleByIntegerLiteral {
 }
 
 
-// mapping from CWebP.WebPConfig
+// mapping from libwebp.WebPConfig
 public struct WebPEncoderConfig: InternalRawRepresentable {
-    public enum WebPImageHint: CWebP.WebPImageHint {
+    public enum WebPImageHint: libwebp.WebPImageHint {
         case `default` = 0
         case picture = 1
         case photo = 2
@@ -137,7 +137,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         return WebPEncoderConfig(rawValue: webPConfig)!
     }
 
-    internal init?(rawValue: CWebP.WebPConfig) {
+    internal init?(rawValue: libwebp.WebPConfig) {
         lossless = Int(rawValue.lossless)
         quality = rawValue.quality
         method = Int(rawValue.method)
@@ -169,14 +169,14 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         qmax = Int(rawValue.qmax)
     }
 
-    internal var rawValue: CWebP.WebPConfig {
+    internal var rawValue: libwebp.WebPConfig {
         let show_compressed = showCompressed ? Int32(1) : Int32(0)
         let emulate_jpeg_size = emulateJpegSize ? Int32(1) : Int32(0)
         let low_memory = lowMemory ? Int32(1) : Int32(0)
         let use_delta_palette = useDeltaPalette ? Int32(1) : Int32(0)
         let use_sharp_yuv = useSharpYUV ? Int32(1) : Int32(0)
 
-        return CWebP.WebPConfig(
+        return libwebp.WebPConfig(
             lossless: Int32(lossless),
             quality: Float(quality),
             method: Int32(method),
@@ -212,8 +212,8 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
     public enum Preset {
         case `default`, picture, photo, drawing, icon, text
 
-        func webPConfig(quality: Float) -> CWebP.WebPConfig {
-            var config = CWebP.WebPConfig()
+        func webPConfig(quality: Float) -> libwebp.WebPConfig {
+            var config = libwebp.WebPConfig()
 
             switch self {
             case .default:
