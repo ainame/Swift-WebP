@@ -1,5 +1,5 @@
 import Foundation
-import CWebP
+import libwebp
 
 // This is customised error that describes the pattern of error causes.
 // However, the error is unlikely to happen normally but it's still better to handle with throw-catch than fatal error.
@@ -119,14 +119,18 @@ public struct WebPEncoder {
             return WebPMemoryWrite(data, size, picture)
         }
         picture.writer = writeWebP
-        picture.custom_ptr = UnsafeMutableRawPointer(&buffer)
+        
+        try withUnsafeMutableBytes(of: &buffer) { ptr in
+            picture.custom_ptr = ptr.baseAddress
 
-        if WebPEncode(&config, &picture) == 0 {
-            WebPPictureFree(&picture)
+            if WebPEncode(&config, &picture) == 0 {
+                WebPPictureFree(&picture)
 
-            let error = WebPEncodeStatusCode(rawValue:  Int(picture.error_code.rawValue))!
-            throw error
+                let error = WebPEncodeStatusCode(rawValue:  Int(picture.error_code.rawValue))!
+                throw error
+            }
         }
+
         WebPPictureFree(&picture)
 
         return Data(bytesNoCopy: buffer.mem, count: buffer.size, deallocator: .free)

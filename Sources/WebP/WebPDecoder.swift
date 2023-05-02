@@ -1,5 +1,5 @@
 import Foundation
-import CWebP
+import libwebp
 
 /// There's no definition of WebPDecodingError in libwebp.
 /// We map VP8StatusCode enum as WebPDecodingError instead.
@@ -130,7 +130,7 @@ public struct WebPDecoder {
 
     private func decode(_ webPData: Data, config: inout WebPDecoderConfig) throws {
         var mutableWebPData = webPData
-        var rawConfig: CWebP.WebPDecoderConfig = config.rawValue
+        var rawConfig: libwebp.WebPDecoderConfig = config.rawValue
 
         try mutableWebPData.withUnsafeMutableBytes { rawPtr in
 

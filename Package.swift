@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,9 +12,22 @@ let package = Package(
     products: [
         .library(name: "WebP", targets: ["WebP"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.2.0"),
+    ],
     targets: [
-        .systemLibrary(name: "CWebP", pkgConfig: "libwebp", providers: [.brew(["webp"])]),
-        .target(name: "WebP", dependencies: ["CWebP"]),
-        .testTarget(name: "WebPTests", dependencies: ["WebP"]),
+        .target(
+            name: "WebP",
+            dependencies: [
+                .product(name: "libwebp", package: "libwebp-Xcode")
+            ]
+        ),
+        .testTarget(
+            name: "WebPTests",
+            dependencies: ["WebP"],
+            resources: [
+                .copy("Resources/jiro.jpg")
+            ]
+        )
     ]
 )
