@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 ## v0.5.0 (incomming)
 
+### Enhanced
+
+* Bumped libwebp version to v1.2.0 or newer depending on libwebp-Xcode via SPM
+
+### Changed
+
+* Switched the source of libwebp from git submodule to libwebp-Xcode
+* Demo app is updated in SwiftUI 
+
 ## v0.4.0
 
 ### Enhanced
