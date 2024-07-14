@@ -1,5 +1,5 @@
 import Foundation
-import CWebP
+import libwebp
 
 #if os(macOS) || os(iOS)
 import CoreGraphics

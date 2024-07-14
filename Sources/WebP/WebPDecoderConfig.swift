@@ -1,5 +1,5 @@
 import Foundation
-import CWebP
+import libwebp
 
 public struct WebPDecoderConfig: InternalRawRepresentable {
     public var input: WebPBitstreamFeatures?  // Immutable bitstream features (optional)
@@ -7,21 +7,21 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
     public var options: WebPDecoderOptions    // Decoding options
 
     public init() {
-        var originConfig = CWebP.WebPDecoderConfig()
-        if (CWebP.WebPInitDecoderConfig(&originConfig) == 0) {
+        var originConfig = libwebp.WebPDecoderConfig()
+        if (libwebp.WebPInitDecoderConfig(&originConfig) == 0) {
             fatalError("can't init decoder config")
         }
         self.init(rawValue: originConfig)!
     }
 
-    internal init?(rawValue: CWebP.WebPDecoderConfig) {
+    internal init?(rawValue: libwebp.WebPDecoderConfig) {
         self.input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
         self.output = WebP.WebPDecBuffer(rawValue: rawValue.output)!
         self.options = WebP.WebPDecoderOptions(rawValue: rawValue.options)!
     }
 
-    internal var rawValue: CWebP.WebPDecoderConfig {
-        return CWebP.WebPDecoderConfig(input: (input?.rawValue)!, output: output.rawValue, options: options.rawValue)
+    internal var rawValue: libwebp.WebPDecoderConfig {
+        return libwebp.WebPDecoderConfig(input: (input?.rawValue)!, output: output.rawValue, options: options.rawValue)
     }
 }
 
@@ -44,11 +44,11 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
 
     public var pad: (Int, Int, Int, Int, Int) // padding for later use
 
-    internal var rawValue: CWebP.WebPBitstreamFeatures {
+    internal var rawValue: libwebp.WebPBitstreamFeatures {
         let has_alpha = hasAlpha ? 1 : 0
         let has_animation = hasAnimation ? 1 : 0
 
-        return CWebP.WebPBitstreamFeatures(
+        return libwebp.WebPBitstreamFeatures(
             width: Int32(width),
             height: Int32(height),
             has_alpha: Int32(has_alpha),
@@ -58,7 +58,7 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: CWebP.WebPBitstreamFeatures) {
+    internal init?(rawValue: libwebp.WebPBitstreamFeatures) {
         width = Int(rawValue.width)
         height = Int(rawValue.height)
         hasAlpha = rawValue.has_alpha != 0
@@ -160,16 +160,16 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     public var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
 
 
-    internal var rawValue: CWebP.WebPDecBuffer {
-        let originU: CWebP.WebPDecBuffer.__Unnamed_union_u
+    internal var rawValue: libwebp.WebPDecBuffer {
+        let originU: libwebp.WebPDecBuffer.__Unnamed_union_u
         switch u {
         case .RGBA(let buffer):
-            originU = CWebP.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
+            originU = libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
         case .YUVA(let buffer):
-            originU = CWebP.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
+            originU = libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
         }
-        // let u = colorspace.isRGBMode ? CWebP.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) : CWebP.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
-        return CWebP.WebPDecBuffer(
+        // let u = colorspace.isRGBMode ? libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) : libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
+        return libwebp.WebPDecBuffer(
             colorspace: WEBP_CSP_MODE(rawValue: UInt32(colorspace.rawValue)),
             width: Int32(width),
             height: Int32(height),
@@ -180,7 +180,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: CWebP.WebPDecBuffer) {
+    internal init?(rawValue: libwebp.WebPDecBuffer) {
         colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue))!
         width = Int(rawValue.width)
         height = Int(rawValue.height)
@@ -223,12 +223,12 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
 
     public var pad: (Int, Int, Int, Int, Int) // padding for later use
 
-    internal var rawValue: CWebP.WebPDecoderOptions {
+    internal var rawValue: libwebp.WebPDecoderOptions {
         let useCropping = self.useCropping ? 1 : 0
         let useScaling = self.useScaling ? 1 : 0
         let useThreads = self.useThreads ? 1 : 0
 
-        return CWebP.WebPDecoderOptions(
+        return libwebp.WebPDecoderOptions(
             bypass_filtering: Int32(bypassFiltering),
             no_fancy_upsampling: Int32(noFancyUpsampling),
             use_cropping: Int32(useCropping),
@@ -247,7 +247,7 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: CWebP.WebPDecoderOptions) {
+    internal init?(rawValue: libwebp.WebPDecoderOptions) {
         self.bypassFiltering = Int(rawValue.bypass_filtering)
         self.noFancyUpsampling = Int(rawValue.no_fancy_upsampling)
         self.useCropping = rawValue.use_cropping != 0
