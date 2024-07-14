@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "WebP",
     platforms: [
-        .iOS(SupportedPlatform.IOSVersion.v8),
-        .macOS(SupportedPlatform.MacOSVersion.v10_13)
+        .iOS(.v13),
+        .macOS(.v11)
     ],
     products: [
         .library(name: "WebP", targets: ["WebP"]),
