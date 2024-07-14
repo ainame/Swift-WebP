@@ -14,9 +14,9 @@ Swift-WebP aims to deal with image processing flexibly for WebP format in Swift 
 
 ### Support Versions:
 
-* libwebp: v1.0.3
-* iOS Deployment Target: 8.0
-* macOS Deployment Target: 10.11
+* libwebp: v1.2.0
+* iOS Deployment Target: 13.0
+* macOS Deployment Target: 11.0
 
 #### Features
 
@@ -76,28 +76,11 @@ Please check example projects
 
 ## Installation
 
-This library won't support CocoaPods. It's difficult to create and maintain podspec files for static libraries. (But contribution for that is always welcome.)
+Swift-WebP supports Swift Package Manager installation.
 
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
-
-```bash
-$ brew update
-$ brew install carthage
 ```
-
-To integrate WebP into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "ainame/Swift-WebP"
+.package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.5.0"),
 ```
-
-Run `carthage update --use-submodules` to build the framework and drag the built `WebP.framework** into your Xcode project.
-
-**Don't forget to use `--use-submodules` flag!**
 
 
 ## Author
