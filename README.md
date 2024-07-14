@@ -1,16 +1,6 @@
 # Swift-WebP
 
-[![Build Status](https://travis-ci.org/ainame/Swift-WebP.svg?branch=travis-ci-release)](https://travis-ci.org/ainame/Swift-WebP)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-
-<!-- <a href="https://placehold.it/400?text=Screen+shot"><img width=200 height=200 src="https://placehold.it/400?text=Screen+shot" alt="Screenshot" /></a> -->
-
-Swift Wrapper of libwebp
-
-### Target
-
-Swift-WebP aims to deal with image processing flexibly for WebP format in Swift unlike an image loading library; such as SDWebImage. So this library allows you to use many features libwebp has without hassles to use C API from Swift. And also you don't need to install libwebp by yourself if you install this via Carthage. This contains it inside the framework.
-
+Swift-WebP provides libwebp APIs in Swift manner for both encoding and decoding. 
 
 ### Support Versions:
 
@@ -72,7 +62,7 @@ queue.async {
 
 ## Example
 
-Please check example projects
+Please check example project
 
 ## Installation
 
