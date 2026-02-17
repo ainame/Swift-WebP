@@ -8,6 +8,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button {
+                converted = nil
                 convertImage()
             } label: {
                 Text("Convert")
