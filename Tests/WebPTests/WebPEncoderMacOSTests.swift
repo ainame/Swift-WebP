@@ -16,14 +16,12 @@ class WebPEncoderMacOSTests: XCTestCase {
     }
 
     func testExample() throws {
-        let imagePath = ResourceAccessHelper.getExamplImagePath()
-
-        guard FileManager.default.fileExists(atPath: imagePath) else {
-            XCTFail("Image couldn't be found at \(imagePath)")
+        guard let imageURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg") else {
+            XCTFail("Image couldn't be loaded from test resources")
             return
         }
 
-        let nsImage = NSImage(contentsOfFile: imagePath)!
+        let nsImage = NSImage(contentsOf: imageURL)!
         let encoder = WebPEncoder()
         let data = try encoder.encode(nsImage, config: .preset(.photo, quality: 10))
         XCTAssertTrue(data.count > 0)

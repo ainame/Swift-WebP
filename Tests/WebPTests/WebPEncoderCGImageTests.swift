@@ -9,14 +9,11 @@ import CoreImage
 
 class WebPEncoderCGImageTests: XCTestCase {
     func testRGBAImageFromCGImage() throws {
-        let imagePath = ResourceAccessHelper.getExamplImagePath()
-
-        guard FileManager.default.fileExists(atPath: imagePath) else {
-            XCTFail("Image couldn't be found at \(imagePath)")
+        guard let inputURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg") else {
+            XCTFail("Image couldn't be loaded from test resources")
             return
         }
 
-        let inputURL = URL(fileURLWithPath: imagePath)
         let cgSource = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
         let inputCGImage = CGImageSourceCreateImageAtIndex(cgSource!, 0, nil)
         let ciImage = CIImage(cgImage: inputCGImage!)
