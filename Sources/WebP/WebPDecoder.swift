@@ -65,6 +65,48 @@ public enum WebPDecodePixelFormat {
 public struct WebPDecoder {
     public init() {}
 
+    public func requiredOutputByteCount(
+        for webPData: Data,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat = .rgba
+    ) throws -> Int {
+        try requiredOutputLayout(for: webPData, options: options, format: format).byteCount
+    }
+
+    public func decode(
+        _ webPData: Data,
+        into output: UnsafeMutableBufferPointer<UInt8>,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat = .rgba
+    ) throws -> Int {
+        guard format.colorspace.isRGBMode else {
+            throw WebPError.unsupportedDecodeFormat
+        }
+        let layout = try requiredOutputLayout(for: webPData, options: options, format: format)
+        guard output.count >= layout.byteCount else {
+            throw WebPError.outputBufferTooSmall(required: layout.byteCount, actual: output.count)
+        }
+        guard let base = output.baseAddress else {
+            throw WebPError.outputBufferTooSmall(required: layout.byteCount, actual: output.count)
+        }
+
+        var config = try makeConfig(options, format.colorspace)
+        config.output.externalMemoryMode = 1
+        config.output.width = layout.width
+        config.output.height = layout.height
+        let rgbaBuffer = WebPRGBABuffer(
+            rgba: base,
+            stride: Int32(layout.stride),
+            size: layout.byteCount
+        )
+        config.output.u = .RGBA(rgbaBuffer)
+        try webPData.withUnsafeBytes { rawPtr in
+            let span = Span<UInt8>(_unsafeBytes: rawPtr)
+            try decode(span, config: &config)
+        }
+        return layout.byteCount
+    }
+
     public func decode(
         _ webPData: Data,
         options: WebPDecoderOptions,
@@ -73,21 +115,28 @@ public struct WebPDecoder {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
         }
-        var config = try makeConfig(options, format.colorspace)
-        try webPData.withUnsafeBytes { rawPtr in
-            let span = Span<UInt8>(_unsafeBytes: rawPtr)
-            try decode(span, config: &config)
-        }
-
-        guard let rgbaBuffer = config.output.u.rgba else {
-            throw WebPError.unsupportedDecodeFormat
-        }
-
-        let owner = WebPMemoryOwner(
-            pointer: rgbaBuffer.rgba,
-            count: rgbaBuffer.size
+        let requiredByteCount = try requiredOutputByteCount(
+            for: webPData,
+            options: options,
+            format: format
         )
-        return owner.takeData()
+        var output = Data(count: requiredByteCount)
+        let written = try output.withUnsafeMutableBytes { rawPtr -> Int in
+            guard let baseAddress = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+                throw WebPError.outputBufferTooSmall(required: requiredByteCount, actual: 0)
+            }
+            let buffer = UnsafeMutableBufferPointer(start: baseAddress, count: rawPtr.count)
+            return try decode(
+                webPData,
+                into: buffer,
+                options: options,
+                format: format
+            )
+        }
+        if written == output.count {
+            return output
+        }
+        return output.prefix(written)
     }
 
     private func decode(_ webPData: borrowing Span<UInt8>, config: inout WebPDecoderConfig) throws {
@@ -120,5 +169,64 @@ public struct WebPDecoder {
         config.options = options
         config.output.colorspace = colorspace
         return config
+    }
+
+    private func requiredOutputLayout(
+        for webPData: Data,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat
+    ) throws -> OutputLayout {
+        let feature = try WebPImageInspector.inspect(webPData)
+        var width = feature.width
+        var height = feature.height
+
+        if options.useCropping {
+            if options.cropWidth > 0 {
+                width = options.cropWidth
+            }
+            if options.cropHeight > 0 {
+                height = options.cropHeight
+            }
+        }
+        if options.useScaling {
+            if options.scaledWidth > 0 {
+                width = options.scaledWidth
+            }
+            if options.scaledHeight > 0 {
+                height = options.scaledHeight
+            }
+        }
+
+        let bytesPerPixel = format.bytesPerPixel
+        let stride = width * bytesPerPixel
+        let byteCount = stride * height
+        return OutputLayout(
+            width: width,
+            height: height,
+            bytesPerPixel: bytesPerPixel,
+            stride: stride,
+            byteCount: byteCount
+        )
+    }
+}
+
+private struct OutputLayout {
+    let width: Int
+    let height: Int
+    let bytesPerPixel: Int
+    let stride: Int
+    let byteCount: Int
+}
+
+private extension WebPDecodePixelFormat {
+    var bytesPerPixel: Int {
+        switch self {
+        case .rgb, .bgr:
+            3
+        case .rgba4444, .rgb565, .rgbA4444:
+            2
+        default:
+            4
+        }
     }
 }

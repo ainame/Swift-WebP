@@ -7,4 +7,5 @@ public enum WebPError: Error {
     case unsupportedColorspaceMode
     case invalidWebPConfig
     case unsupportedDecodeFormat
+    case outputBufferTooSmall(required: Int, actual: Int)
 }
