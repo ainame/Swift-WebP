@@ -118,6 +118,28 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         return WebPEncoderConfig(rawValue: webPConfig)!
     }
 
+    /// Apply the libwebp lossless preset levels [0...9].
+    /// Higher levels spend more time searching for better compression.
+    public static func losslessPreset(level: Int) throws -> WebPEncoderConfig {
+        var config = libwebp.WebPConfig()
+        guard WebPConfigInit(&config) != 0 else {
+            throw WebPError.invalidWebPConfig
+        }
+        guard WebPConfigLosslessPreset(&config, Int32(level)) != 0 else {
+            throw WebPError.invalidWebPConfig
+        }
+        guard let swiftConfig = WebPEncoderConfig(rawValue: config) else {
+            throw WebPError.invalidWebPConfig
+        }
+        return swiftConfig
+    }
+
+    /// Validate config fields against libwebp's supported ranges.
+    public func validate() -> Bool {
+        var config = rawValue
+        return WebPValidateConfig(&config) != 0
+    }
+
     init?(rawValue: libwebp.WebPConfig) {
         lossless = Int(rawValue.lossless)
         quality = rawValue.quality

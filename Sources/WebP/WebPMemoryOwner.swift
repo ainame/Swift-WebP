@@ -1,9 +1,5 @@
 import Foundation
-#if canImport(Darwin)
-import Darwin
-#elseif canImport(Glibc)
-import Glibc
-#endif
+import libwebp
 
 struct WebPMemoryOwner: ~Copyable {
     private var pointer: UnsafeMutablePointer<UInt8>?
@@ -16,7 +12,7 @@ struct WebPMemoryOwner: ~Copyable {
 
     deinit {
         if let pointer {
-            free(pointer)
+            WebPFree(pointer)
         }
     }
 
@@ -35,6 +31,8 @@ struct WebPMemoryOwner: ~Copyable {
         let count = count
         self.pointer = nil
         self.count = 0
-        return Data(bytesNoCopy: pointer, count: count, deallocator: .free)
+        return Data(bytesNoCopy: pointer, count: count, deallocator: .custom { rawPointer, _ in
+            WebPFree(rawPointer)
+        })
     }
 }

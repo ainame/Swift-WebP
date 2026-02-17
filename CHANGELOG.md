@@ -21,6 +21,11 @@ All notable changes to this project will be documented in this file.
 - Canonical APIs:
   - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`
   - `WebPDecoder.decode(_:options:format:)`
+- Bridging helpers:
+  - `WebPEncoder.libwebpVersion`
+  - `WebPDecoder.libwebpVersion`
+  - `WebPEncoderConfig.losslessPreset(level:)`
+  - `WebPEncoderConfig.validate()`
 - Internal ownership model with `~Copyable` memory ownership and `Span`-based decode/inspect internals.
 - GitHub Actions CI for macOS, Linux, and iOS package builds.
 
@@ -28,6 +33,7 @@ All notable changes to this project will be documented in this file.
 
 - Updated `libwebp-Xcode` dependency to `1.5.0`.
 - Modernized test resources to `Bundle.module` and deterministic fixture generation.
+- Memory ownership now frees libwebp-allocated buffers via `WebPFree`.
 
 ### Fixed
 
