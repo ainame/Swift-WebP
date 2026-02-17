@@ -3,8 +3,11 @@ import WebP
 import UIKit
 
 struct ContentView: View {
-    @State var converted: UIImage?
-    
+    @State private var converted: UIImage?
+    private let encoder = WebPEncoder()
+    private let decoder = WebPDecoder()
+    private let queue = DispatchQueue(label: "me.ainam.webp")
+
     var body: some View {
         VStack {
             Button {
@@ -48,25 +51,24 @@ struct ContentView: View {
         }
         .containerRelativeFrame([.horizontal, .vertical])
     }
-    
+
     func convertImage() {
-        let encoder = WebPEncoder()
-        let decoder = WebPDecoder()
-        let queue = DispatchQueue(label: "me.ainam.webp")
         let image = UIImage(named: "jiro")!
 
         queue.async {
             do {
-                let data = try! encoder.encode(image, config: .preset(.picture, quality: 10))
-                var options = WebPDecoderOptions()
-                options.scaledWidth = Int(image.size.width)
-                options.scaledHeight = Int(image.size.height)
-                let webpImage = try decoder.decodeUIImage(from: data, options: options)
-                
-                DispatchQueue.main.async {
-                    self.converted = webpImage
+                let webpImage = try autoreleasepool {
+                    let data = try encoder.encode(image, config: .preset(.picture, quality: 10))
+                    var options = WebPDecoderOptions()
+                    options.scaledWidth = Int(image.size.width)
+                    options.scaledHeight = Int(image.size.height)
+                    return try decoder.decodeUIImage(from: data, options: options)
                 }
-            } catch let error {
+
+                DispatchQueue.main.async {
+                    converted = webpImage
+                }
+            } catch {
                 print(error)
             }
         }

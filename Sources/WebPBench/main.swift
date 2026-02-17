@@ -244,6 +244,15 @@ func currentRSSMB() -> Double {
     #endif
 }
 
+@inline(__always)
+func withAutoreleasePool<T>(_ body: () throws -> T) rethrows -> T {
+    #if canImport(ObjectiveC)
+    try autoreleasepool(invoking: body)
+    #else
+    try body()
+    #endif
+}
+
 func run() throws {
     let config = try parseArgs()
     let encoder = WebPEncoder()
@@ -281,9 +290,9 @@ func run() throws {
 
     var decodeOptions = WebPDecoderOptions()
     decodeOptions.useThreads = config.threads
-    decodeOptions.useScaling = true
-    decodeOptions.scaledWidth = seedFrame.width
-    decodeOptions.scaledHeight = seedFrame.height
+    decodeOptions.useScaling = false
+    decodeOptions.scaledWidth = 0
+    decodeOptions.scaledHeight = 0
 
     var sourceDecodeMS = [Double]()
     var encodeMS = [Double]()
@@ -315,7 +324,9 @@ func run() throws {
                 throw BenchError.invalidArgument("--mode source-decode-only requires --input")
             }
             let sourceStart = now()
-            let frame = try loadImageRGBA(path: inputPath)
+            let frame = try withAutoreleasePool {
+                try loadImageRGBA(path: inputPath)
+            }
             let sourceEnd = now()
             if runIndex >= config.warmup {
                 sourceDecodeMS.append(elapsedMS(sourceStart, sourceEnd))
@@ -331,7 +342,9 @@ func run() throws {
                 guard let inputPath = config.inputPath else {
                     throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
                 }
-                frame = try loadImageRGBA(path: inputPath)
+                frame = try withAutoreleasePool {
+                    try loadImageRGBA(path: inputPath)
+                }
             } else {
                 frame = seedFrame
             }
@@ -380,7 +393,9 @@ func run() throws {
                     throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
                 }
                 let sourceStart = now()
-                frame = try loadImageRGBA(path: inputPath)
+                frame = try withAutoreleasePool {
+                    try loadImageRGBA(path: inputPath)
+                }
                 let sourceEnd = now()
                 if runIndex >= config.warmup {
                     sourceDecodeMS.append(elapsedMS(sourceStart, sourceEnd))
@@ -390,40 +405,44 @@ func run() throws {
                 frame = seedFrame
             }
 
-            let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
-                guard let base = pointer.baseAddress else {
-                    throw BenchError.validationFailed("Unable to get source buffer pointer")
+            let expectedBytes = frame.width * frame.height * 4
+            let encoded: Data = try withAutoreleasePool {
+                try frame.rgba.withUnsafeBufferPointer { pointer in
+                    guard let base = pointer.baseAddress else {
+                        throw BenchError.validationFailed("Unable to get source buffer pointer")
+                    }
+                    let mutable = UnsafeMutablePointer(mutating: base)
+                    let start = now()
+                    let data = try encoder.encode(
+                        mutable,
+                        format: .rgba,
+                        config: .preset(.picture, quality: config.quality),
+                        originWidth: frame.width,
+                        originHeight: frame.height,
+                        stride: frame.stride
+                    )
+                    let end = now()
+                    if runIndex >= config.warmup {
+                        encodeMS.append(elapsedMS(start, end))
+                        captureStageRSS(&rssAfterEncode)
+                    }
+                    return data
                 }
-                let mutable = UnsafeMutablePointer(mutating: base)
-                let start = now()
-                let data = try encoder.encode(
-                    mutable,
-                    format: .rgba,
-                    config: .preset(.picture, quality: config.quality),
-                    originWidth: frame.width,
-                    originHeight: frame.height,
-                    stride: frame.stride
-                )
-                let end = now()
-                if runIndex >= config.warmup {
-                    encodeMS.append(elapsedMS(start, end))
-                    captureStageRSS(&rssAfterEncode)
-                }
-                return data
             }
 
-            let decodeStart = now()
-            let decoded = try decoder.decode(encoded, options: decodeOptions, format: .rgba)
-            let decodeEnd = now()
-            if runIndex >= config.warmup {
-                decodeMS.append(elapsedMS(decodeStart, decodeEnd))
-                captureStageRSS(&rssAfterDecode)
-            }
-            let expectedBytes = frame.width * frame.height * 4
-            guard decoded.count == expectedBytes else {
-                throw BenchError.validationFailed(
-                    "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
-                )
+            try withAutoreleasePool {
+                let decodeStart = now()
+                let decoded = try decoder.decode(encoded, options: decodeOptions, format: .rgba)
+                let decodeEnd = now()
+                if runIndex >= config.warmup {
+                    decodeMS.append(elapsedMS(decodeStart, decodeEnd))
+                    captureStageRSS(&rssAfterDecode)
+                }
+                guard decoded.count == expectedBytes else {
+                    throw BenchError.validationFailed(
+                        "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
+                    )
+                }
             }
             encodedLast = encoded
         }
