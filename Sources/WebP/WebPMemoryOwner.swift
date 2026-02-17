@@ -5,7 +5,7 @@ import Darwin
 import Glibc
 #endif
 
-internal struct WebPMemoryOwner: ~Copyable {
+struct WebPMemoryOwner: ~Copyable {
     private var pointer: UnsafeMutablePointer<UInt8>?
     private var count: Int
 
@@ -32,7 +32,7 @@ internal struct WebPMemoryOwner: ~Copyable {
             return Data()
         }
 
-        let count = self.count
+        let count = count
         self.pointer = nil
         self.count = 0
         return Data(bytesNoCopy: pointer, count: count, deallocator: .free)

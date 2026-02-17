@@ -4,33 +4,45 @@ import Foundation
 import AppKit
 import CoreGraphics
 
-extension WebPEncoder {
-    public func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
+public extension WebPEncoder {
+    func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't convert NSImage to CGImage.")
         }
 
         let stride = cgImage.bytesPerRow
-        let webPData = try encode(cgImage.getBaseAddress(), format: .rgba, config: config,
-                                  originWidth: cgImage.width, originHeight: cgImage.height, stride: stride,
-                                  resizeWidth: width, resizeHeight: height)
-        return webPData
+        return try encode(
+            cgImage.getBaseAddress(),
+            format: .rgba,
+            config: config,
+            originWidth: cgImage.width,
+            originHeight: cgImage.height,
+            stride: stride,
+            resizeWidth: width,
+            resizeHeight: height
+        )
     }
 }
 #endif
 
 #if os(iOS)
-import UIKit
 import CoreGraphics
+import UIKit
 
 extension WebPEncoder {
     public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         let cgImage = try convertUIImageToCGImageWithRGBA(image)
         let stride = cgImage.bytesPerRow
-        let webPData = try encode(cgImage.getBaseAddress(), format: .rgba, config: config,
-                                  originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
-                                  resizeWidth: width, resizeHeight: height)
-        return webPData
+        return try encode(
+            cgImage.getBaseAddress(),
+            format: .rgba,
+            config: config,
+            originWidth: Int(image.size.width),
+            originHeight: Int(image.size.height),
+            stride: stride,
+            resizeWidth: width,
+            resizeHeight: height
+        )
     }
 
     private func convertUIImageToCGImageWithRGBA(_ image: UIImage) throws -> CGImage {
@@ -41,9 +53,15 @@ extension WebPEncoder {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
 
-        guard let context = CGContext(data: nil, width: Int(image.size.width), height: Int(image.size.height),
-                                      bitsPerComponent: 8, bytesPerRow: Int(image.size.width) * 4,
-                                      space: colorSpace, bitmapInfo: bitmapInfo.rawValue) else {
+        guard let context = CGContext(
+            data: nil,
+            width: Int(image.size.width),
+            height: Int(image.size.height),
+            bitsPerComponent: 8,
+            bytesPerRow: Int(image.size.width) * 4,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo.rawValue
+        ) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize CGContext")
         }
 

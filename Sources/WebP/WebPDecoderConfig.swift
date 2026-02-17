@@ -2,9 +2,9 @@ import Foundation
 import libwebp
 
 public struct WebPDecoderConfig: InternalRawRepresentable {
-    public var input: WebPBitstreamFeatures?  // Immutable bitstream features (optional)
-    public var output: WebPDecBuffer          // Output buffer (can point to external mem)
-    public var options: WebPDecoderOptions    // Decoding options
+    public var input: WebPBitstreamFeatures? // Immutable bitstream features (optional)
+    public var output: WebPDecBuffer // Output buffer (can point to external mem)
+    public var options: WebPDecoderOptions // Decoding options
 
     public init() throws {
         var originConfig = libwebp.WebPDecoderConfig()
@@ -17,17 +17,18 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
         self = config
     }
 
-    internal init?(rawValue: libwebp.WebPDecoderConfig) {
-        self.input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
+    init?(rawValue: libwebp.WebPDecoderConfig) {
+        input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
         guard let output = WebP.WebPDecBuffer(rawValue: rawValue.output),
-              let options = WebP.WebPDecoderOptions(rawValue: rawValue.options) else {
+              let options = WebP.WebPDecoderOptions(rawValue: rawValue.options)
+        else {
             return nil
         }
         self.output = output
         self.options = options
     }
 
-    internal var rawValue: libwebp.WebPDecoderConfig {
+    var rawValue: libwebp.WebPDecoderConfig {
         let inputValue = input?.rawValue ?? libwebp.WebPBitstreamFeatures(
             width: 0,
             height: 0,
@@ -59,7 +60,7 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
 
     public var pad: (Int, Int, Int, Int, Int) // padding for later use
 
-    internal var rawValue: libwebp.WebPBitstreamFeatures {
+    var rawValue: libwebp.WebPBitstreamFeatures {
         let has_alpha = hasAlpha ? 1 : 0
         let has_animation = hasAnimation ? 1 : 0
 
@@ -73,7 +74,7 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: libwebp.WebPBitstreamFeatures) {
+    init?(rawValue: libwebp.WebPBitstreamFeatures) {
         width = Int(rawValue.width)
         height = Int(rawValue.height)
         hasAlpha = rawValue.has_alpha != 0
@@ -125,14 +126,15 @@ public enum ColorspaceMode: Int {
 
     public var isAlphaMode: Bool {
         if self == .RGBA || self == .BGRA || self == .ARGB ||
-            self == .RGBA4444 || self == .YUVA || isPremultipliedMode {
+            self == .RGBA4444 || self == .YUVA || isPremultipliedMode
+        {
             return true
         }
         return false
     }
 
     public var isRGBMode: Bool {
-        return rawValue < ColorspaceMode.YUV.rawValue;
+        rawValue < ColorspaceMode.YUV.rawValue
     }
 }
 
@@ -142,51 +144,49 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         case YUVA(WebPYUVABuffer)
 
         var rgba: WebPRGBABuffer? {
-            if case .RGBA(let buffer) = self  {
+            if case let .RGBA(buffer) = self {
                 return buffer
             }
             return nil
         }
 
         var yuva: WebPYUVABuffer? {
-            if case .YUVA(let buffer) = self {
+            if case let .YUVA(buffer) = self {
                 return buffer
             }
             return nil
         }
     }
 
-    // Colorspace.
+    /// Colorspace.
     public var colorspace: ColorspaceMode
 
     // Dimensions.
     public var width: Int
     public var height: Int
 
-    // If non-zero, 'internal_memory' pointer is not
-    // used. If value is '2' or more, the external
-    // memory is considered 'slow' and multiple
-    // read/write will be avoided.
+    /// If non-zero, 'internal_memory' pointer is not
+    /// used. If value is '2' or more, the external
+    /// memory is considered 'slow' and multiple
+    /// read/write will be avoided.
     public var isExternalMemory: Bool
 
     public var u: Colorspace
 
-    // Nameless union of buffer parameters.
+    /// Nameless union of buffer parameters.
     public var pad: (Int, Int, Int, Int) // padding for later use
-
 
     public var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
 
-
-    internal var rawValue: libwebp.WebPDecBuffer {
-        let originU: libwebp.WebPDecBuffer.__Unnamed_union_u
-        switch u {
-        case .RGBA(let buffer):
-            originU = libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
-        case .YUVA(let buffer):
-            originU = libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
+    var rawValue: libwebp.WebPDecBuffer {
+        let originU = switch u {
+        case let .RGBA(buffer):
+            libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
+        case let .YUVA(buffer):
+            libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
         }
-        // let u = colorspace.isRGBMode ? libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) : libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
+        // let u = colorspace.isRGBMode ? libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) :
+        // libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
         return libwebp.WebPDecBuffer(
             colorspace: WEBP_CSP_MODE(rawValue: UInt32(colorspace.rawValue)),
             width: Int32(width),
@@ -198,7 +198,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: libwebp.WebPDecBuffer) {
+    init?(rawValue: libwebp.WebPDecBuffer) {
         guard let colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue)) else {
             return nil
         }
@@ -223,7 +223,7 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
 
     public var cropTop: Int
 
-    // Will be snapped to even values.
+    /// Will be snapped to even values.
     public var cropWidth: Int // dimension of the cropping area
 
     public var cropHeight: Int
@@ -244,10 +244,10 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
 
     public var pad: (Int, Int, Int, Int, Int) // padding for later use
 
-    internal var rawValue: libwebp.WebPDecoderOptions {
-        let useCropping = self.useCropping ? 1 : 0
-        let useScaling = self.useScaling ? 1 : 0
-        let useThreads = self.useThreads ? 1 : 0
+    var rawValue: libwebp.WebPDecoderOptions {
+        let useCropping = useCropping ? 1 : 0
+        let useScaling = useScaling ? 1 : 0
+        let useThreads = useThreads ? 1 : 0
 
         return libwebp.WebPDecoderOptions(
             bypass_filtering: Int32(bypassFiltering),
@@ -268,39 +268,39 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
         )
     }
 
-    internal init?(rawValue: libwebp.WebPDecoderOptions) {
-        self.bypassFiltering = Int(rawValue.bypass_filtering)
-        self.noFancyUpsampling = Int(rawValue.no_fancy_upsampling)
-        self.useCropping = rawValue.use_cropping != 0
-        self.cropLeft = Int(rawValue.crop_left)
-        self.cropTop = Int(rawValue.crop_top)
-        self.cropWidth = Int(rawValue.crop_width)
-        self.cropHeight = Int(rawValue.crop_height)
-        self.useScaling = rawValue.use_scaling != 0
-        self.scaledWidth = Int(rawValue.scaled_width)
-        self.scaledHeight = Int(rawValue.scaled_height)
-        self.useThreads = rawValue.use_threads != 0
-        self.ditheringStrength = Int(rawValue.dithering_strength)
-        self.flip = Int(rawValue.flip)
-        self.alphaDitheringStrength = Int(rawValue.alpha_dithering_strength)
-        self.pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3), Int(rawValue.pad.4))
+    init?(rawValue: libwebp.WebPDecoderOptions) {
+        bypassFiltering = Int(rawValue.bypass_filtering)
+        noFancyUpsampling = Int(rawValue.no_fancy_upsampling)
+        useCropping = rawValue.use_cropping != 0
+        cropLeft = Int(rawValue.crop_left)
+        cropTop = Int(rawValue.crop_top)
+        cropWidth = Int(rawValue.crop_width)
+        cropHeight = Int(rawValue.crop_height)
+        useScaling = rawValue.use_scaling != 0
+        scaledWidth = Int(rawValue.scaled_width)
+        scaledHeight = Int(rawValue.scaled_height)
+        useThreads = rawValue.use_threads != 0
+        ditheringStrength = Int(rawValue.dithering_strength)
+        flip = Int(rawValue.flip)
+        alphaDitheringStrength = Int(rawValue.alpha_dithering_strength)
+        pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3), Int(rawValue.pad.4))
     }
 
     public init() {
-        self.bypassFiltering = 0
-        self.noFancyUpsampling = 0
-        self.useCropping = false
-        self.cropLeft = 0
-        self.cropTop = 0
-        self.cropWidth = 0
-        self.cropHeight = 0
-        self.useScaling = false
-        self.scaledWidth = 0
-        self.scaledHeight = 0
-        self.useThreads = false
-        self.ditheringStrength = 0
-        self.flip = 0
-        self.alphaDitheringStrength = 0
-        self.pad = (0, 0, 0, 0, 0)
+        bypassFiltering = 0
+        noFancyUpsampling = 0
+        useCropping = false
+        cropLeft = 0
+        cropTop = 0
+        cropWidth = 0
+        cropHeight = 0
+        useScaling = false
+        scaledWidth = 0
+        scaledHeight = 0
+        useThreads = false
+        ditheringStrength = 0
+        flip = 0
+        alphaDitheringStrength = 0
+        pad = (0, 0, 0, 0, 0)
     }
 }

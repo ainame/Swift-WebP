@@ -4,7 +4,6 @@ import XCTest
 #if canImport(CoreGraphics) && canImport(CoreImage)
 import CoreGraphics
 import CoreImage
-
 @testable import WebP
 
 class WebPEncoderCGImageTests: XCTestCase {
@@ -15,15 +14,15 @@ class WebPEncoderCGImageTests: XCTestCase {
         }
 
         let cgSource = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
-        let inputCGImage = CGImageSourceCreateImageAtIndex(cgSource!, 0, nil)
-        let ciImage = CIImage(cgImage: inputCGImage!)
+        let inputCGImage = try CGImageSourceCreateImageAtIndex(XCTUnwrap(cgSource), 0, nil)
+        let ciImage = try CIImage(cgImage: XCTUnwrap(inputCGImage))
         let context = CIContext()
-        let cgImage = context.createCGImage(
+        let cgImage = try XCTUnwrap(try context.createCGImage(
             ciImage,
             from: ciImage.extent,
             format: CIFormat.RGBA8,
-            colorSpace: CGColorSpace(name: CGColorSpace.extendedSRGB)!
-        )!
+            colorSpace: XCTUnwrap(CGColorSpace(name: CGColorSpace.extendedSRGB))
+        ))
 
         let encoder = WebPEncoder()
         let data = try encoder.encode(cgImage, format: .rgba, config: .preset(.photo, quality: 90))

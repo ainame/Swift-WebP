@@ -1,8 +1,8 @@
 #if os(macOS)
-import XCTest
-import Foundation
 import AppKit
+import Foundation
 @testable import WebP
+import XCTest
 
 class WebPEncoderMacOSTests: XCTestCase {
     override func setUp() {
@@ -21,7 +21,7 @@ class WebPEncoderMacOSTests: XCTestCase {
             return
         }
 
-        let nsImage = NSImage(contentsOf: imageURL)!
+        let nsImage = try XCTUnwrap(NSImage(contentsOf: imageURL))
         let encoder = WebPEncoder()
         let data = try encoder.encode(nsImage, config: .preset(.photo, quality: 10))
         XCTAssertTrue(data.count > 0)

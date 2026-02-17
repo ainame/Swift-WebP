@@ -5,8 +5,9 @@ import CoreGraphics
 
 extension CGImage {
     func getBaseAddress() throws -> UnsafeMutablePointer<UInt8> {
-        guard let dataProvider = dataProvider,
-            let data = dataProvider.data else {
+        guard let dataProvider,
+              let data = dataProvider.data
+        else {
             throw WebPError.unexpectedPointerError
         }
         guard let dataPtr = CFDataGetBytePtr(data) else {

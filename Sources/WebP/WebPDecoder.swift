@@ -4,7 +4,7 @@ import libwebp
 /// There's no definition of WebPDecodingError in libwebp.
 /// We map VP8StatusCode enum as WebPDecodingError instead.
 public enum WebPDecodingError: UInt32, Error {
-    case ok = 0  // shouldn't be used as this is the succseed case
+    case ok = 0 // shouldn't be used as this is the succseed case
     case outOfMemory
     case invalidParam
     case bitstreamError
@@ -33,40 +33,43 @@ public enum WebPDecodePixelFormat {
     var colorspace: ColorspaceMode {
         switch self {
         case .rgb:
-            return .RGB
+            .RGB
         case .rgba:
-            return .RGBA
+            .RGBA
         case .bgr:
-            return .BGR
+            .BGR
         case .bgra:
-            return .BGRA
+            .BGRA
         case .argb:
-            return .ARGB
+            .ARGB
         case .rgba4444:
-            return .RGBA4444
+            .RGBA4444
         case .rgb565:
-            return .RGB565
+            .RGB565
         case .rgbA:
-            return .rgbA
+            .rgbA
         case .bgrA:
-            return .bgrA
+            .bgrA
         case .Argb:
-            return .Argb
+            .Argb
         case .rgbA4444:
-            return .rgbA4444
+            .rgbA4444
         case .yuv:
-            return .YUV
+            .YUV
         case .yuva:
-            return .YUVA
+            .YUVA
         }
     }
 }
 
 public struct WebPDecoder {
-    public init() {
-    }
+    public init() {}
 
-    public func decode(_ webPData: Data, options: WebPDecoderOptions, format: WebPDecodePixelFormat = .rgba) throws -> Data {
+    public func decode(
+        _ webPData: Data,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat = .rgba
+    ) throws -> Data {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
         }
@@ -109,8 +112,10 @@ public struct WebPDecoder {
         }
     }
 
-    private func makeConfig(_ options: WebPDecoderOptions,
-                            _ colorspace: ColorspaceMode) throws -> WebPDecoderConfig {
+    private func makeConfig(
+        _ options: WebPDecoderOptions,
+        _ colorspace: ColorspaceMode
+    ) throws -> WebPDecoderConfig {
         var config = try WebPDecoderConfig()
         config.options = options
         config.output.colorspace = colorspace

@@ -40,17 +40,18 @@ class WebPImageInspectorTests: XCTestCase {
 
     func testInspectingJpegImageThrowsError() throws {
         guard let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")?.path,
-              let data = FileManager.default.contents(atPath: path) else {
+              let data = FileManager.default.contents(atPath: path)
+        else {
             throw WebPImageInspectorTestError.cantReadTestData("jiro.jpg")
         }
         XCTAssertThrowsError(try WebPImageInspector.inspect(data)) { _error in
             if let error = _error as? WebPError,
-                case .unexpectedError = error {
+               case .unexpectedError = error
+            {
                 XCTAssert(true)
             } else {
                 XCTFail()
             }
         }
     }
-
 }

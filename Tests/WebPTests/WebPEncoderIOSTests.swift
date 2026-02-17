@@ -1,11 +1,10 @@
 #if os(iOS)
-import XCTest
 import Foundation
 import UIKit
 @testable import WebP
+import XCTest
 
 class WebPEncoderIOSTests: XCTestCase {
-
     override func setUp() {
         super.setUp()
     }
@@ -17,8 +16,8 @@ class WebPEncoderIOSTests: XCTestCase {
     func testExample() throws {
         let encoder = WebPEncoder()
 
-        let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")!
-        let uiimage = UIImage(contentsOfFile: path.path)!
+        let path = try XCTUnwrap(Bundle.module.url(forResource: "jiro", withExtension: "jpg"))
+        let uiimage = try XCTUnwrap(UIImage(contentsOfFile: path.path))
         let data = try encoder.encode(uiimage, config: .preset(.photo, quality: 100))
         XCTAssertTrue(data.count > 0)
 
@@ -31,6 +30,5 @@ class WebPEncoderIOSTests: XCTestCase {
         XCTAssertEqual(decodedImage.width, options.scaledWidth)
         XCTAssertEqual(decodedImage.height, options.scaledHeight)
     }
-
 }
 #endif

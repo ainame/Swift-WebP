@@ -4,8 +4,8 @@ import libwebp
 #if os(macOS) || os(iOS)
 import CoreGraphics
 
-extension WebPDecoder {
-    public func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
+public extension WebPDecoder {
+    func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
         let feature = try WebPImageInspector.inspect(webPData)
         let height: Int = options.useScaling ? options.scaledHeight : feature.height
         let width: Int = options.useScaling ? options.scaledWidth : feature.width
@@ -15,22 +15,25 @@ extension WebPDecoder {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize CGDataProvider")
         }
 
-        let bitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue)
+        let bitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo
+            .premultipliedLast.rawValue)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let renderingIntent = CGColorRenderingIntent.defaultIntent
         let bytesPerPixel = 4
 
-        if let cgImage = CGImage(width: width,
-                                 height: height,
-                                 bitsPerComponent: 8,
-                                 bitsPerPixel: 8 * bytesPerPixel,
-                                 bytesPerRow: bytesPerPixel * width,
-                                 space: colorSpace,
-                                 bitmapInfo: bitmapInfo,
-                                 provider: provider,
-                                 decode: nil,
-                                 shouldInterpolate: false,
-                                 intent: renderingIntent) {
+        if let cgImage = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 8 * bytesPerPixel,
+            bytesPerRow: bytesPerPixel * width,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo,
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: renderingIntent
+        ) {
             return cgImage
         }
 
@@ -42,8 +45,8 @@ extension WebPDecoder {
 #if os(iOS)
 import UIKit
 
-extension WebPDecoder {
-    public func decodeUIImage(from webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
+public extension WebPDecoder {
+    func decodeUIImage(from webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
         let cgImage: CGImage = try decodeCGImage(from: webPData, options: options)
         return UIImage(cgImage: cgImage)
     }
@@ -53,8 +56,8 @@ extension WebPDecoder {
 #if os(macOS)
 import AppKit
 
-extension WebPDecoder {
-    public func decodeNSImage(from webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
+public extension WebPDecoder {
+    func decodeNSImage(from webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
         let cgImage: CGImage = try decodeCGImage(from: webPData, options: options)
         return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
     }

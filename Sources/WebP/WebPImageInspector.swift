@@ -1,10 +1,9 @@
 import Foundation
 import libwebp
 
-public struct WebPImageInspector {
-
+public enum WebPImageInspector {
     public static func inspect(_ webPData: Data) throws -> WebPBitstreamFeatures {
-        return try webPData.withUnsafeBytes { rawPtr in
+        try webPData.withUnsafeBytes { rawPtr in
             let span = Span<UInt8>(_unsafeBytes: rawPtr)
             return try inspect(span)
         }
