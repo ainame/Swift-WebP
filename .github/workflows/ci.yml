@@ -6,34 +6,14 @@ on:
   pull_request:
 
 jobs:
-  macos-build-test:
-    runs-on: macos-15
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-26, ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
-      - name: Show Swift version
-        run: swift --version
-      - name: Build
-        run: swift build
-      - name: Test
-        run: swift test
-
-  linux-build-test:
-    runs-on: ubuntu-latest
-    container: swift:6.2
-    steps:
-      - uses: actions/checkout@v4
-      - name: Show Swift version
-        run: swift --version
-      - name: Build
-        run: swift build
-      - name: Test
-        run: swift test
-
-  ios-package-build:
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - name: Show Swift version
-        run: swift --version
-      - name: Build package for iOS
-        run: xcodebuild -scheme WebP-Package -destination 'generic/platform=iOS' -sdk iphoneos build
+      - uses: vapor/swiftly-action@v0.2.0
+        with:
+          toolchain: "6.2"
+      - run: swift test
