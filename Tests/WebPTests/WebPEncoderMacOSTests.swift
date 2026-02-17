@@ -1,30 +1,22 @@
 #if os(macOS)
 import AppKit
 import Foundation
-@testable import WebP
-import XCTest
+import Testing
+import WebP
 
-class WebPEncoderMacOSTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
-    func testExample() throws {
+struct WebPEncoderMacOSTests {
+    @Test
+    func example() throws {
         guard let imageURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg") else {
-            XCTFail("Image couldn't be loaded from test resources")
-            return
+            throw WebPError.unexpectedError(withMessage: "Image couldn't be loaded from test resources")
         }
 
-        let nsImage = try XCTUnwrap(NSImage(contentsOf: imageURL))
+        guard let nsImage = NSImage(contentsOf: imageURL) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't load NSImage")
+        }
         let encoder = WebPEncoder()
         let data = try encoder.encode(nsImage, config: .preset(.photo, quality: 10))
-        XCTAssertTrue(data.count > 0)
+        #expect(data.count > 0)
 
         let decoder = WebPDecoder()
         var options = WebPDecoderOptions()
@@ -32,11 +24,12 @@ class WebPEncoderMacOSTests: XCTestCase {
         options.scaledHeight = Int(nsImage.size.height)
         options.useScaling = true
         let decodedImage = try decoder.decodeCGImage(from: data, options: options)
-        XCTAssertEqual(decodedImage.width, options.scaledWidth)
-        XCTAssertEqual(decodedImage.height, options.scaledHeight)
+        #expect(decodedImage.width == options.scaledWidth)
+        #expect(decodedImage.height == options.scaledHeight)
     }
 
-    func testEncodeNSImagePreservesAlphaChannel() throws {
+    @Test
+    func encodeNSImagePreservesAlphaChannel() throws {
         let width = 2
         let height = 2
         let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -50,8 +43,7 @@ class WebPEncoderMacOSTests: XCTestCase {
             space: colorSpace,
             bitmapInfo: bitmapInfo.rawValue
         ) else {
-            XCTFail("Couldn't create CGContext")
-            return
+            throw WebPError.unexpectedError(withMessage: "Couldn't create CGContext")
         }
 
         context.clear(CGRect(x: 0, y: 0, width: width, height: height))
@@ -59,8 +51,7 @@ class WebPEncoderMacOSTests: XCTestCase {
         context.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
 
         guard let cgImage = context.makeImage() else {
-            XCTFail("Couldn't create CGImage")
-            return
+            throw WebPError.unexpectedError(withMessage: "Couldn't create CGImage")
         }
 
         let nsImage = NSImage(cgImage: cgImage, size: NSSize(width: width, height: height))
@@ -70,7 +61,7 @@ class WebPEncoderMacOSTests: XCTestCase {
         let encoded = try encoder.encode(nsImage, config: config)
 
         let feature = try WebPImageInspector.inspect(encoded)
-        XCTAssertTrue(feature.hasAlpha)
+        #expect(feature.hasAlpha)
     }
 }
 #endif

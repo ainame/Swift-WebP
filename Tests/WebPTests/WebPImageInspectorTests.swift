@@ -1,8 +1,8 @@
 import Foundation
+import Testing
 import WebP
-import XCTest
 
-class WebPImageInspectorTests: XCTestCase {
+struct WebPImageInspectorTests {
     enum WebPImageInspectorTestError: Error {
         case cantReadTestData(String)
     }
@@ -29,29 +29,32 @@ class WebPImageInspectorTests: XCTestCase {
         }
     }
 
-    func testInspectWebPImageHeightAndWidth() throws {
+    @Test
+    func inspectWebPImageHeightAndWidth() throws {
         let data = try makeFixtureWebP()
         let feature = try WebPImageInspector.inspect(data)
-        XCTAssert(feature.width > 0)
-        XCTAssert(feature.height > 0)
-        XCTAssertTrue(feature.hasAlpha)
-        XCTAssertFalse(feature.hasAnimation)
+        #expect(feature.width > 0)
+        #expect(feature.height > 0)
+        #expect(feature.hasAlpha)
+        #expect(!feature.hasAnimation)
     }
 
-    func testInspectingJpegImageThrowsError() throws {
+    @Test
+    func inspectingJpegImageThrowsError() throws {
         guard let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")?.path,
               let data = FileManager.default.contents(atPath: path)
         else {
             throw WebPImageInspectorTestError.cantReadTestData("jiro.jpg")
         }
-        XCTAssertThrowsError(try WebPImageInspector.inspect(data)) { _error in
-            if let error = _error as? WebPError,
-               case .unexpectedError = error
-            {
-                XCTAssert(true)
-            } else {
-                XCTFail()
+
+        var didThrowExpectedError = false
+        do {
+            _ = try WebPImageInspector.inspect(data)
+        } catch let error as WebPError {
+            if case .unexpectedError = error {
+                didThrowExpectedError = true
             }
         }
+        #expect(didThrowExpectedError)
     }
 }

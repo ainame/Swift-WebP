@@ -34,6 +34,7 @@ All notable changes to this project will be documented in this file.
 - Updated `libwebp-Xcode` dependency to `1.5.0`.
 - Modernized test resources to `Bundle.module` and deterministic fixture generation.
 - Memory ownership now frees libwebp-allocated buffers via `WebPFree`.
+- Migrated package tests from `XCTest` to Swift Testing (`import Testing`, `@Test`, `#expect`).
 
 ### Fixed
 

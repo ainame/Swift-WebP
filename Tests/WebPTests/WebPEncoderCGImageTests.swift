@@ -1,32 +1,42 @@
 import Foundation
-import XCTest
+import Testing
 
 #if canImport(CoreGraphics) && canImport(CoreImage)
 import CoreGraphics
 import CoreImage
-@testable import WebP
+import WebP
 
-class WebPEncoderCGImageTests: XCTestCase {
-    func testRGBAImageFromCGImage() throws {
+struct WebPEncoderCGImageTests {
+    @Test
+    func rgbaImageFromCGImage() throws {
         guard let inputURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg") else {
-            XCTFail("Image couldn't be loaded from test resources")
-            return
+            throw WebPError.unexpectedError(withMessage: "Image couldn't be loaded from test resources")
         }
 
         let cgSource = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
-        let inputCGImage = try CGImageSourceCreateImageAtIndex(XCTUnwrap(cgSource), 0, nil)
-        let ciImage = try CIImage(cgImage: XCTUnwrap(inputCGImage))
+        guard let cgSource else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't create CGImageSource")
+        }
+        guard let inputCGImage = CGImageSourceCreateImageAtIndex(cgSource, 0, nil) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't decode test image")
+        }
+        let ciImage = CIImage(cgImage: inputCGImage)
         let context = CIContext()
-        let cgImage = try XCTUnwrap(try context.createCGImage(
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't initialize color space")
+        }
+        guard let cgImage = context.createCGImage(
             ciImage,
             from: ciImage.extent,
             format: CIFormat.RGBA8,
-            colorSpace: XCTUnwrap(CGColorSpace(name: CGColorSpace.extendedSRGB))
-        ))
+            colorSpace: colorSpace
+        ) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't create CGImage")
+        }
 
         let encoder = WebPEncoder()
         let data = try encoder.encode(cgImage, format: .rgba, config: .preset(.photo, quality: 90))
-        XCTAssertTrue(data.count > 0)
+        #expect(data.count > 0)
 
         let decoder = WebPDecoder()
         var options = WebPDecoderOptions()
@@ -34,8 +44,8 @@ class WebPEncoderCGImageTests: XCTestCase {
         options.scaledHeight = Int(cgImage.height)
         options.useScaling = true
         let decodedImage = try decoder.decodeCGImage(from: data, options: options)
-        XCTAssertEqual(decodedImage.width, options.scaledWidth)
-        XCTAssertEqual(decodedImage.height, options.scaledHeight)
+        #expect(decodedImage.width == options.scaledWidth)
+        #expect(decodedImage.height == options.scaledHeight)
     }
 }
 
