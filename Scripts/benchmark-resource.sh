@@ -37,4 +37,4 @@ if [[ "${SOURCE_DECODE_PER_ITERATION}" == "on" ]]; then
   args+=(--decode-source-each-iteration)
 fi
 
-swift run -c release WebPBench "${args[@]}"
+swift run --package-path "${REPO_ROOT}/Benchmark" -c release WebPBench "${args[@]}"

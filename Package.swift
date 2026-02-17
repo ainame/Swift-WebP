@@ -11,7 +11,6 @@ let package = Package(
     ],
     products: [
         .library(name: "WebP", targets: ["WebP"]),
-        .executable(name: "WebPBench", targets: ["WebPBench"]),
     ],
     dependencies: [
         .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.5.0"),
@@ -24,10 +23,6 @@ let package = Package(
                 .product(name: "libwebp", package: "libwebp-Xcode")
             ],
             exclude: ["Info.plist"]
-        ),
-        .executableTarget(
-            name: "WebPBench",
-            dependencies: ["WebP"]
         ),
         .testTarget(
             name: "WebPTests",
