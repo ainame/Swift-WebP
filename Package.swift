@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "WebP",
     platforms: [
-        .iOS(.v13),
-        .macOS(.v11)
+        .iOS(.v17),
+        .macOS(.v14)
     ],
     products: [
         .library(name: "WebP", targets: ["WebP"]),
@@ -20,7 +20,8 @@ let package = Package(
             name: "WebP",
             dependencies: [
                 .product(name: "libwebp", package: "libwebp-Xcode")
-            ]
+            ],
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "WebPTests",
@@ -29,5 +30,6 @@ let package = Package(
                 .copy("Resources/jiro.jpg")
             ]
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
