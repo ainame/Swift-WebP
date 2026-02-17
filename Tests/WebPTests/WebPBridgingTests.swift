@@ -17,4 +17,12 @@ struct WebPBridgingTests {
         #expect(config.lossless == 1)
         #expect(config.validate())
     }
+
+    @Test
+    func decBufferExternalMemoryModeSemantics() throws {
+        var config = try WebPDecoderConfig()
+        config.output.externalMemoryMode = 2
+        #expect(config.output.externalMemoryMode == 2)
+        #expect(config.output.isExternalMemory)
+    }
 }

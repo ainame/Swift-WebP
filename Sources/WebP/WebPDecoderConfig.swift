@@ -116,6 +116,7 @@ public enum ColorspaceMode: Int {
     // YUV modes must come after RGB ones.
     case YUV = 11
     case YUVA = 12
+    case LAST = 13
 
     public var isPremultipliedMode: Bool {
         if self == .rgbA || self == .bgrA || self == .Argb || self == .rgbA4444 {
@@ -165,11 +166,17 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     public var width: Int
     public var height: Int
 
-    /// If non-zero, 'internal_memory' pointer is not
-    /// used. If value is '2' or more, the external
-    /// memory is considered 'slow' and multiple
-    /// read/write will be avoided.
-    public var isExternalMemory: Bool
+    /// 0 means internal memory.
+    /// 1 means external memory.
+    /// 2 or more means external memory marked as slow.
+    public var externalMemoryMode: Int
+
+    /// Backward-compatible view over `externalMemoryMode`.
+    /// Any non-zero value maps to `true`.
+    public var isExternalMemory: Bool {
+        get { externalMemoryMode != 0 }
+        set { externalMemoryMode = newValue ? 1 : 0 }
+    }
 
     public var u: Colorspace
 
@@ -191,7 +198,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
             colorspace: WEBP_CSP_MODE(rawValue: UInt32(colorspace.rawValue)),
             width: Int32(width),
             height: Int32(height),
-            is_external_memory: Int32(isExternalMemory ? 1 : 0),
+            is_external_memory: Int32(externalMemoryMode),
             u: originU,
             pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3)),
             private_memory: privateMemory
@@ -205,7 +212,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         self.colorspace = colorspace
         width = Int(rawValue.width)
         height = Int(rawValue.height)
-        isExternalMemory = rawValue.is_external_memory != 0
+        externalMemoryMode = Int(rawValue.is_external_memory)
         u = colorspace.isRGBMode ? Colorspace.RGBA(rawValue.u.RGBA) : Colorspace.YUVA(rawValue.u.YUVA)
         pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3))
         privateMemory = rawValue.private_memory

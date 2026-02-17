@@ -8,6 +8,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         case picture = 1
         case photo = 2
         case graph = 3
+        case last = 4
     }
 
     /// Lossless encoding (0=lossy(default), 1=lossless).
