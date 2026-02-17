@@ -147,6 +147,7 @@ public struct WebPEncoder {
 
         WebPPictureFree(&picture)
 
-        return Data(bytesNoCopy: buffer.mem, count: buffer.size, deallocator: .free)
+        let owner = WebPMemoryOwner(pointer: buffer.mem, count: buffer.size)
+        return owner.takeData()
     }
 }

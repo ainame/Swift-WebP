@@ -4,6 +4,13 @@ import libwebp
 public struct WebPImageInspector {
 
     public static func inspect(_ webPData: Data) throws -> WebPBitstreamFeatures {
+        return try webPData.withUnsafeBytes { rawPtr in
+            let span = Span<UInt8>(_unsafeBytes: rawPtr)
+            return try inspect(span)
+        }
+    }
+
+    static func inspect(_ webPData: borrowing Span<UInt8>) throws -> WebPBitstreamFeatures {
         let cFeature = UnsafeMutablePointer<libwebp.WebPBitstreamFeatures>.allocate(capacity: 1)
         defer { cFeature.deallocate() }
 

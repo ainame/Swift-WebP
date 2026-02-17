@@ -68,19 +68,22 @@ public struct WebPDecoder {
 
     public func decode(_ webPData: Data, options: WebPDecoderOptions, format: WebPDecodePixelFormat = .rgba) throws -> Data {
         var config = makeConfig(options, format.colorspace)
-        try decode(webPData, config: &config)
+        try webPData.withUnsafeBytes { rawPtr in
+            let span = Span<UInt8>(_unsafeBytes: rawPtr)
+            try decode(span, config: &config)
+        }
 
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
+        let owner = WebPMemoryOwner(
+            pointer: config.output.u.RGBA.rgba,
+            count: config.output.u.RGBA.size
+        )
+        return owner.takeData()
     }
 
-    private func decode(_ webPData: Data, config: inout WebPDecoderConfig) throws {
-        var mutableWebPData = webPData
+    private func decode(_ webPData: borrowing Span<UInt8>, config: inout WebPDecoderConfig) throws {
         var rawConfig: libwebp.WebPDecoderConfig = config.rawValue
 
-        try mutableWebPData.withUnsafeMutableBytes { rawPtr in
-
+        try webPData.withUnsafeBytes { rawPtr in
             guard let bindedBasePtr = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
                 throw WebPDecodingError.unknownError
             }
