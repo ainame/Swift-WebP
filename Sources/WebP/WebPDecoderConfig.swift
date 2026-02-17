@@ -201,7 +201,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     /// Nameless union of buffer parameters.
     public var pad: (Int, Int, Int, Int) // padding for later use
 
-    public var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
+    var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
 
     var rawValue: libwebp.WebPDecBuffer {
         let originU = switch u {

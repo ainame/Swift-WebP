@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
   - `WebPDecBuffer.ExternalMemoryMode.externalMemory`
   - `WebPDecBuffer.ExternalMemoryMode.externalMemorySlow`
 - Removed `WebPDecBuffer.isExternalMemory`.
+- Made `WebPDecBuffer.privateMemory` internal (no longer public API surface).
 
 ### Added
 
