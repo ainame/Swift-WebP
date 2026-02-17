@@ -13,7 +13,10 @@ jobs:
         os: [macos-26, ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
+      - name: Read Swift version
+        id: swift-version
+        run: echo "version=$(cat .swift-version)" >> "$GITHUB_OUTPUT"
       - uses: vapor/swiftly-action@v0.2.0
         with:
-          toolchain: "6.2"
+          toolchain: ${{ steps.swift-version.outputs.version }}
       - run: swift test
