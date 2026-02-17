@@ -96,4 +96,27 @@ CWEBP_OUTPUT="$(
 
 printf '%s\n' "${CWEBP_OUTPUT}"
 
+tmp_webp="/tmp/swift-webp-compare-rss-q${QUALITY}.webp"
+tmp_ppm="/tmp/swift-webp-compare-rss-q${QUALITY}.ppm"
+
+cwebp_rss_bytes="$(
+  /usr/bin/time -lp cwebp -quiet -preset picture -q "${QUALITY}" ${CWEBP_MT} "${INPUT}" -o "${tmp_webp}" 2>&1 \
+    | awk '/maximum resident set size/ { print $1 }'
+)"
+
+dwebp_rss_bytes="$(
+  /usr/bin/time -lp dwebp -quiet ${DWEBP_MT} "${tmp_webp}" -ppm -o "${tmp_ppm}" 2>&1 \
+    | awk '/maximum resident set size/ { print $1 }'
+)"
+
+if [[ -n "${cwebp_rss_bytes}" ]]; then
+  cwebp_rss_mb="$(awk -v b="${cwebp_rss_bytes}" 'BEGIN { printf "%.3f", b / (1024 * 1024) }')"
+  echo "cwebp_peak_rss_mb=${cwebp_rss_mb}"
+fi
+
+if [[ -n "${dwebp_rss_bytes}" ]]; then
+  dwebp_rss_mb="$(awk -v b="${dwebp_rss_bytes}" 'BEGIN { printf "%.3f", b / (1024 * 1024) }')"
+  echo "dwebp_peak_rss_mb=${dwebp_rss_mb}"
+fi
+
 echo "comparison_done=true"
