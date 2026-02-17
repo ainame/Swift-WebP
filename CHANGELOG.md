@@ -43,7 +43,7 @@ All notable changes to this project will be documented in this file.
   - `WebPEncoderConfig.losslessPreset(level:)`
   - `WebPEncoderConfig.validate()`
 - Internal ownership model with `~Copyable` memory ownership and `Span`-based decode/inspect internals.
-- GitHub Actions CI for macOS, Linux, and iOS package builds.
+- GitHub Actions CI for macOS and Linux package tests.
 
 ### Changed
 
@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Modernized test resources to `Bundle.module` and deterministic fixture generation.
 - Memory ownership now frees libwebp-allocated buffers via `WebPFree`.
 - Migrated package tests from `XCTest` to Swift Testing (`import Testing`, `@Test`, `#expect`).
+- Raw config bridging now uses non-failable contract-based initializers; invalid libwebp enum values are treated as programmer errors (`preconditionFailure`).
 
 ### Fixed
 
@@ -60,6 +61,8 @@ All notable changes to this project will be documented in this file.
 - Removed runtime `fatalError` paths in core decoding config conversions.
 - Replaced unsafe cast in `CGImage` byte access path.
 - Resolved retroactive conformance warning in encoder config mappings.
+- Simplified CI to run only `swift test` on separate macOS 26 and Linux jobs.
+- Linux CI now installs the Swift toolchain via `vapor/swiftly-action`, sourced from `.swift-version`.
 
 ### Migration Guide
 
