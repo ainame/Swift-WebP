@@ -140,6 +140,34 @@ public enum ColorspaceMode: Int {
 }
 
 public struct WebPDecBuffer: InternalRawRepresentable {
+    public enum ExternalMemoryMode: Equatable {
+        case internalMemory
+        case externalMemory
+        case externalMemorySlow
+
+        var libwebpValue: Int32 {
+            switch self {
+            case .internalMemory:
+                0
+            case .externalMemory:
+                1
+            case .externalMemorySlow:
+                2
+            }
+        }
+
+        init(libwebpValue: Int32) {
+            switch libwebpValue {
+            case 0:
+                self = .internalMemory
+            case 1:
+                self = .externalMemory
+            default:
+                self = .externalMemorySlow
+            }
+        }
+    }
+
     public enum Colorspace {
         case RGBA(WebPRGBABuffer)
         case YUVA(WebPYUVABuffer)
@@ -166,17 +194,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     public var width: Int
     public var height: Int
 
-    /// 0 means internal memory.
-    /// 1 means external memory.
-    /// 2 or more means external memory marked as slow.
-    public var externalMemoryMode: Int
-
-    /// Backward-compatible view over `externalMemoryMode`.
-    /// Any non-zero value maps to `true`.
-    public var isExternalMemory: Bool {
-        get { externalMemoryMode != 0 }
-        set { externalMemoryMode = newValue ? 1 : 0 }
-    }
+    public var externalMemoryMode: ExternalMemoryMode
 
     public var u: Colorspace
 
@@ -198,7 +216,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
             colorspace: WEBP_CSP_MODE(rawValue: UInt32(colorspace.rawValue)),
             width: Int32(width),
             height: Int32(height),
-            is_external_memory: Int32(externalMemoryMode),
+            is_external_memory: externalMemoryMode.libwebpValue,
             u: originU,
             pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3)),
             private_memory: privateMemory
@@ -212,7 +230,7 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         self.colorspace = colorspace
         width = Int(rawValue.width)
         height = Int(rawValue.height)
-        externalMemoryMode = Int(rawValue.is_external_memory)
+        externalMemoryMode = ExternalMemoryMode(libwebpValue: rawValue.is_external_memory)
         u = colorspace.isRGBMode ? Colorspace.RGBA(rawValue.u.RGBA) : Colorspace.YUVA(rawValue.u.YUVA)
         pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3))
         privateMemory = rawValue.private_memory

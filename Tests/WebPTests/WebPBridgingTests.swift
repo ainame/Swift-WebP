@@ -21,8 +21,7 @@ struct WebPBridgingTests {
     @Test
     func decBufferExternalMemoryModeSemantics() throws {
         var config = try WebPDecoderConfig()
-        config.output.externalMemoryMode = 2
-        #expect(config.output.externalMemoryMode == 2)
-        #expect(config.output.isExternalMemory)
+        config.output.externalMemoryMode = .externalMemorySlow
+        #expect(config.output.externalMemoryMode == .externalMemorySlow)
     }
 }

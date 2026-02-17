@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Breaking
+
+- Replaced `WebPDecBuffer.externalMemoryMode` integer semantics with a strongly typed enum:
+  - `WebPDecBuffer.ExternalMemoryMode.internalMemory`
+  - `WebPDecBuffer.ExternalMemoryMode.externalMemory`
+  - `WebPDecBuffer.ExternalMemoryMode.externalMemorySlow`
+- Removed `WebPDecBuffer.isExternalMemory`.
+
 ### Added
 
 - Added `WebPBench` executable target for repeatable encode/decode CPU and memory benchmarking with built-in validity checks.

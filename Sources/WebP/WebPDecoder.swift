@@ -91,7 +91,7 @@ public struct WebPDecoder {
         }
 
         var config = try makeConfig(options, format.colorspace)
-        config.output.externalMemoryMode = 1
+        config.output.externalMemoryMode = .externalMemory
         config.output.width = layout.width
         config.output.height = layout.height
         let rgbaBuffer = WebPRGBABuffer(
