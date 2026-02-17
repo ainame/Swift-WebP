@@ -3,61 +3,98 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
-## v0.6.0 (incomming)
+## 0.6.0
 
+### Breaking
+
+- Raised Swift tools to `6.2` and Swift language mode to `v6`.
+- Raised platform baselines to iOS 17+ and macOS 14+.
+- Removed old per-format encode/decode method families in favor of explicit format-based entrypoints.
+- Renamed platform decoding helpers:
+  - `decode(toUImage:options:)` -> `decodeUIImage(_:options:)`
+  - `decode(toNSImage:options:)` -> `decodeNSImage(_:options:)`
+  - `decode(_:options:)` (CGImage) -> `decodeCGImage(_:options:)`
+
+### Added
+
+- `WebPEncodePixelFormat` and `WebPDecodePixelFormat` enums.
+- Canonical APIs:
+  - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`
+  - `WebPDecoder.decode(_:options:format:)`
+- Internal ownership model with `~Copyable` memory ownership and `Span`-based decode/inspect internals.
+- GitHub Actions CI for macOS, Linux, and iOS package builds.
+
+### Changed
+
+- Updated `libwebp-Xcode` dependency to `1.5.0`.
+- Modernized test resources to `Bundle.module` and deterministic fixture generation.
+
+### Fixed
+
+- Removed runtime `fatalError` paths in core decoding config conversions.
+- Replaced unsafe cast in `CGImage` byte access path.
+- Resolved retroactive conformance warning in encoder config mappings.
+
+### Migration Guide
+
+- Encoding (old): `encode(RGBA:ptr, config:..., originWidth:..., originHeight:..., stride:...)`
+- Encoding (new): `encode(ptr, format: .rgba, config:..., originWidth:..., originHeight:..., stride:...)`
+- Decoding bytes (old): `decode(byRGBA:data, options:...)`
+- Decoding bytes (new): `decode(data, options:..., format: .rgba)`
+- Decoding `CGImage` (old): `decode(data, options:...)`
+- Decoding `CGImage` (new): `decodeCGImage(data, options:...)`
 
 ## v0.5.0
 
 ### Enhanced
 
-* Bumped libwebp version to v1.2.0 or newer depending on libwebp-Xcode via SPM
+- Bumped libwebp version to v1.2.0 or newer depending on libwebp-Xcode via SPM
 
 ### Changed
 
-* Switched the source of libwebp from git submodule to libwebp-Xcode
-* Demo app is updated in SwiftUI 
+- Switched the source of libwebp from git submodule to libwebp-Xcode
+- Demo app is updated in SwiftUI
 
 ## v0.4.0
 
 ### Enhanced
 
-* Bump embeded libwebp version to v1.1.0 (was v1.0.3)
+- Bump embeded libwebp version to v1.1.0 (was v1.0.3)
 
 ## v0.3.0
 
-* Added `WebPDecoder.encode(RGBA cgImage: CGImage, ...)` and so on for ainame/Swift-WebP#40
+- Added `WebPDecoder.encode(RGBA cgImage: CGImage, ...)` and so on for ainame/Swift-WebP#40
 
 ## v0.2.0
 
 ### Enhanced
 
-* Make WebPImageInspector publicly exposed
-* Added `WebPDecoder.decode(toUIImage:, options:)` and `WebPDecoder.decode(toNSImage:, options:)`
-* Bump embeded libwebp version to v1.0.3 (was v1.0.0)
-* Add -fembed-bitcode flag to CFLAGS when compiling libwebp for iOS
+- Make WebPImageInspector publicly exposed
+- Added `WebPDecoder.decode(toUIImage:, options:)` and `WebPDecoder.decode(toNSImage:, options:)`
+- Bump embeded libwebp version to v1.0.3 (was v1.0.0)
+- Add -fembed-bitcode flag to CFLAGS when compiling libwebp for iOS
 
 ## v0.1.0
 
 ### Changed
 
-* Add WebPImageInspector internally
+- Add WebPImageInspector internally
 
 ### Bug fix
 
-* Fixed a memory issue in WebPDecoder+Platform.swift
-
+- Fixed a memory issue in WebPDecoder+Platform.swift
 
 ## v0.0.10
 
 ### Changed
 
-* Support swift-tools-version 5.0 to build with swift package manager
+- Support swift-tools-version 5.0 to build with swift package manager
 
 ## v0.0.9
 
 ### Changed
 
-* Support Xcode 10.2's build and Swift 5
+- Support Xcode 10.2's build and Swift 5
 
 ## v0.0.8
 
@@ -69,11 +106,11 @@ Fixed wrong file paths of WebPDecoder
 
 ### Changed
 
-* Added WebPDecoder
+- Added WebPDecoder
 
 ### Removed
 
-* WebPSimple.decode
+- WebPSimple.decode
 
 ## v0.0.7
 
@@ -85,13 +122,13 @@ Support Xcode10 and Swift4.2 (nothing changed at all)
 
 ### Changed
 
-* Update libwebp v0.60 -> v1.0.0
-* Now WebPEncoder supports iOS platform
+- Update libwebp v0.60 -> v1.0.0
+- Now WebPEncoder supports iOS platform
 
 ### Bug fix
 
-* Handle use_argb flag properly
+- Handle use_argb flag properly
 
 ### Removed
 
-* WebPSimple.encode
+- WebPSimple.encode

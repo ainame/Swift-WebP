@@ -1,82 +1,91 @@
 # Swift-WebP
 
-Swift-WebP provides libwebp APIs in Swift manner for both encoding and decoding. 
+Swift-WebP provides Swift wrappers around `libwebp` for encoding, decoding, and bitstream inspection.
 
-### Support Versions:
+## Support Versions
 
-* libwebp: v1.2.0
-* iOS Deployment Target: 13.0
-* macOS Deployment Target: 11.0
+- Swift tools: 6.2
+- Swift language mode: 6
+- libwebp-Xcode: 1.5.0+
+- iOS deployment target: 17.0+
+- macOS deployment target: 14.0+
 
-#### Features
+## Features
 
-* [x] Support mutiplatform; iOS, macOS, and Linux (swift-docker)
-* [x] Support SPM
-* [x] [Advanced Encoder API](https://developers.google.com/speed/webp/docs/api#advanced_encoding_api) - WebPEncoder, WebPEncoderConfig
-* [x] [Advanced Decoding API](https://developers.google.com/speed/webp/docs/api#advanced_decoding_api) - WebPDecoder, WebPDecoderOptions
-* [x] Image inspection for WebP files  - WebPImageInspector
-
-#### TODO
-
-* [ ] Progressively encoding/decoding option
-* [ ] Animated WebP
-
-
-## Usage
-
-#### Encoding
-
-```swift
-let image = UIImage(named: "demo")
-let encoder = WebPEncoder()
-let queue =  DispatchQueue(label: "me.ainam.webp")
-
-// should encode in background
-queue.async {
-    let data = try! encoder.encode(image, config: .preset(.picture, quality: 95))
-    // using webp binary data...
-}
-```
-
-#### Decoding
-
-```swift
-let data: Data = loadWebPData()
-let encoder = WebPDecoder()
-let queue =  DispatchQueue(label: "me.ainam.webp")
-
-// should decode in background
-queue.async {
-    var options = WebPDecoderOptions()
-    options.scaledWidth = Int(originalWidth / 2)
-    options.scaledHeight = Int(originalHeight / 2)
-    let cgImage = try! decoder.decode(data, options: options)
-    let webpImage = UIImage(cgImage: cgImage)
-
-    DispatchQueue.main.async {
-        self.imageView.image = webpImage
-    }
-}
-```
-
-
-## Example
-
-Please check example project
+- Swift Package Manager support
+- Advanced encoding via `WebPEncoder` + `WebPEncoderConfig`
+- Advanced decoding via `WebPDecoder` + `WebPDecoderOptions`
+- WebP bitstream inspection via `WebPImageInspector`
+- Cross-platform core APIs (Apple platforms + Linux)
 
 ## Installation
 
-Swift-WebP supports Swift Package Manager installation.
+Add Swift-WebP in your `Package.swift`:
 
+```swift
+.package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.6.0")
 ```
-.package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.5.0"),
+
+## Usage
+
+### Encoding
+
+```swift
+import WebP
+
+let encoder = WebPEncoder()
+let data = try encoder.encode(
+    rgbaPointer,
+    format: .rgba,
+    config: .preset(.picture, quality: 95),
+    originWidth: width,
+    originHeight: height,
+    stride: width * 4
+)
 ```
 
+### Decoding to raw pixel bytes
 
-## Author
+```swift
+import WebP
 
-ainame
+let decoder = WebPDecoder()
+var options = WebPDecoderOptions()
+options.useScaling = true
+options.scaledWidth = targetWidth
+options.scaledHeight = targetHeight
+
+let rgbaData = try decoder.decode(webPData, options: options, format: .rgba)
+```
+
+### Decoding to platform images
+
+```swift
+#if canImport(CoreGraphics)
+let cgImage = try decoder.decodeCGImage(webPData, options: options)
+#endif
+
+#if canImport(UIKit)
+let image = try decoder.decodeUIImage(webPData, options: options)
+#endif
+
+#if canImport(AppKit)
+let image = try decoder.decodeNSImage(webPData, options: options)
+#endif
+```
+
+### Inspecting WebP metadata
+
+```swift
+let feature = try WebPImageInspector.inspect(webPData)
+print(feature.width, feature.height, feature.hasAlpha, feature.hasAnimation)
+```
+
+## Ownership Model (Internals)
+
+Public APIs are intentionally `Data`-centric for ergonomics.
+Internally, the package uses Swift ownership features (`~Copyable`, `borrowing`, `consuming`) and `Span` to safely manage C-allocated buffers and reduce copying across hot decode/inspect paths.
 
 ## License
 
-Swift-WebP is available under the MIT license. See the LICENSE file for more info.
+Swift-WebP is available under the MIT license. See [LICENSE](LICENSE).

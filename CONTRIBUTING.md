@@ -1,27 +1,36 @@
 # Contributing
 
-All contributors are welcome. Please use issues and pull requests to contribute to the project. And update [CHANGELOG.md](CHANGELOG.md) when committing.
+Contributions are welcome through issues and pull requests.
 
-## Making a Change
+## Development Requirements
 
-When you commit a change, please add a note to [CHANGELOG.md](CHANGELOG.md).
+- Swift 6.2 toolchain
+- Xcode with Swift 6.2 support (for Apple platform checks)
+
+## Local Validation
+
+Run before opening a PR:
+
+```bash
+swift build
+swift test
+```
+
+## CI
+
+GitHub Actions validates:
+
+- macOS build + test
+- Linux build + test
+- iOS package build (`xcodebuild`)
+
+## Changelog
+
+For user-facing changes, update [CHANGELOG.md](CHANGELOG.md) in the same PR.
 
 ## Release Process
 
-1. Confirm the build is [passing in travis](https://travis-ci.org/awesome_octocat/WebP)
-   1. This automatically checks the Podfile is building
-2. Push a release commit
-   1. Create a new Master section at the top
-   2. Rename the old Master section like:
-          ## [1.0.5](https://github.com/awesome_octocat/WebP/releases/tag/1.0.5)
-          Released on 2016-02-14.
-   3. Update the Podspec version number
-3. Create a GitHub release
-   1. Tag the release (like `1.0.5`)
-   2. Paste notes from [CHANGELOG.md](CHANGELOG.md)
-3. Push the Podspec to CocoaPods
-   1. `pod trunk push`
-4. Create Carthage binaries
-   1. `carthage build --no-skip-current`
-   2. `carthage archive WebP`
-   3. Add to the GitHub release
+1. Ensure CI is green on `major-bump`/release branch.
+2. Finalize release notes in `CHANGELOG.md`.
+3. Create a git tag without `v` prefix (example: `0.6.0`).
+4. Create GitHub release notes from changelog entries.
