@@ -17,6 +17,7 @@ jobs:
         id: swift-version
         run: echo "version=$(cat .swift-version)" >> "$GITHUB_OUTPUT"
       - uses: vapor/swiftly-action@v0.2.0
+        if: runner.os == 'Linux'
         with:
           toolchain: ${{ steps.swift-version.outputs.version }}
       - run: swift test
