@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.5.0"),
+        .package(url: "https://github.com/nicklockwood/SwiftFormat.git", from: "0.58.0"),
     ],
     targets: [
         .target(

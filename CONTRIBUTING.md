@@ -16,6 +16,14 @@ swift build
 swift test
 ```
 
+## Formatting
+
+SwiftFormat is integrated as an SPM command plugin dependency (Nick Lockwood).
+
+```bash
+swift package plugin --allow-writing-to-package-directory swiftformat
+```
+
 ## CI
 
 GitHub Actions validates:
