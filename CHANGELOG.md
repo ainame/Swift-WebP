@@ -11,6 +11,21 @@ All notable changes to this project will be documented in this file.
 - Added `Scripts/benchmark-resource.sh` and `Scripts/validate-resource.sh` to measure and gate resource usage in local runs.
 - Added image-input benchmark mode (`--input`, `--decode-source-each-iteration`) for fairer source-to-source comparisons.
 - Added `Scripts/compare-with-cwebp.sh` for side-by-side runs against Homebrew `cwebp`/`dwebp`.
+- Added decode buffer sizing and caller-owned decode APIs:
+  - `WebPDecoder.requiredOutputByteCount(for:options:format:)`
+  - `WebPDecoder.decode(_:into:options:format:)`
+- Added `WebPError.outputBufferTooSmall(required:actual:)` to report decode output-capacity errors.
+- Added benchmark execution modes (`pipeline`, `source-decode-only`, `encode-only`, `decode-only`) and stage RSS telemetry fields.
+- Added decode buffer coverage tests (`WebPDecoderBufferTests`) for exact-size, oversized, undersized, and scaling scenarios.
+
+### Changed
+
+- Updated `WebPDecoder.decode(_:options:format:)` to decode into an exact-size Swift `Data` buffer via libwebp external-memory mode.
+- Updated resource scripts to run and validate stage-isolated benchmark modes and stage RSS metrics.
+
+### Fixed
+
+- Fixed `WebPEncoder` cleanup paths to always call `WebPPictureFree` via `defer`, including failed rescale paths.
 
 ## 0.6.0
 

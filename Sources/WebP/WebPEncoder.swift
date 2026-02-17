@@ -109,6 +109,9 @@ public struct WebPEncoder {
         if WebPPictureInit(&picture) == 0 {
             throw WebPEncoderError.invalidParameter
         }
+        defer {
+            WebPPictureFree(&picture)
+        }
 
         picture.use_argb = config.lossless == 0 ? 0 : 1
         picture.width = Int32(originWidth)
@@ -116,7 +119,6 @@ public struct WebPEncoder {
 
         let ok = importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
-            WebPPictureFree(&picture)
             throw WebPEncoderError.versionMismatched
         }
 
@@ -138,14 +140,10 @@ public struct WebPEncoder {
             picture.custom_ptr = ptr.baseAddress
 
             if WebPEncode(&config, &picture) == 0 {
-                WebPPictureFree(&picture)
-
                 let error = WebPEncodeStatusCode(rawValue: Int(picture.error_code.rawValue))!
                 throw error
             }
         }
-
-        WebPPictureFree(&picture)
 
         let owner = WebPMemoryOwner(pointer: buffer.mem, count: buffer.size)
         return owner.takeData()

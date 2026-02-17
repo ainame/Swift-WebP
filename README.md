@@ -47,10 +47,13 @@ Scripts/compare-with-cwebp.sh
 ```
 
 You can tune benchmark parameters with env vars such as:
+`MODE=pipeline|source-decode-only|encode-only|decode-only`,
 `WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`,
 `INPUT=/absolute/path/to/image`, `SOURCE_DECODE_PER_ITERATION=on`.
 Validation thresholds can be tuned with:
-`MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`, `MAX_PEAK_RSS_MB`.
+`MAX_SOURCE_DECODE_AVG_MS`, `MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`,
+`MAX_PIPELINE_ENCODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`,
+`MAX_STAGE_PEAK_RSS_MB`, `MAX_PIPELINE_PEAK_RSS_MB`.
 
 ## Usage
 
@@ -82,6 +85,21 @@ options.scaledWidth = targetWidth
 options.scaledHeight = targetHeight
 
 let rgbaData = try decoder.decode(webPData, options: options, format: .rgba)
+```
+
+### Decoding into caller-owned memory
+
+```swift
+import WebP
+
+let decoder = WebPDecoder()
+var options = WebPDecoderOptions()
+let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
+var output = [UInt8](repeating: 0, count: required)
+let written = try output.withUnsafeMutableBufferPointer { buffer in
+    try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
+}
+print("decoded bytes:", written)
 ```
 
 ### Decoding to platform images
