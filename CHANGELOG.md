@@ -54,6 +54,7 @@ All notable changes to this project will be documented in this file.
 - Memory ownership now frees libwebp-allocated buffers via `WebPFree`.
 - Migrated package tests from `XCTest` to Swift Testing (`import Testing`, `@Test`, `#expect`).
 - Raw config bridging now uses non-failable contract-based initializers; invalid libwebp enum values are treated as programmer errors (`preconditionFailure`).
+- Simplified status code mapping in encode/decode paths to non-optional conversion helpers (no force-unwrap/optional fallback at call sites).
 
 ### Fixed
 
