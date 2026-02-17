@@ -33,7 +33,7 @@ class WebPEncoderMacOSTests: XCTestCase {
         options.scaledWidth = Int(nsImage.size.width)
         options.scaledHeight = Int(nsImage.size.height)
         options.useScaling = true
-        let decodedImage = try decoder.decode(data, options: options)
+        let decodedImage = try decoder.decodeCGImage(data, options: options)
         XCTAssertEqual(decodedImage.width, options.scaledWidth)
         XCTAssertEqual(decodedImage.height, options.scaledHeight)
     }

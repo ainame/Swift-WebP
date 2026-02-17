@@ -29,7 +29,7 @@ class WebPEncoderCGImageTests: XCTestCase {
         )!
 
         let encoder = WebPEncoder()
-        let data = try encoder.encode(RGBA: cgImage, config: .preset(.photo, quality: 90))
+        let data = try encoder.encode(cgImage, format: .rgba, config: .preset(.photo, quality: 90))
         XCTAssertTrue(data.count > 0)
 
         let decoder = WebPDecoder()
@@ -37,7 +37,7 @@ class WebPEncoderCGImageTests: XCTestCase {
         options.scaledWidth = Int(cgImage.width)
         options.scaledHeight = Int(cgImage.height)
         options.useScaling = true
-        let decodedImage = try decoder.decode(data, options: options)
+        let decodedImage = try decoder.decodeCGImage(data, options: options)
         XCTAssertEqual(decodedImage.width, options.scaledWidth)
         XCTAssertEqual(decodedImage.height, options.scaledHeight)
     }

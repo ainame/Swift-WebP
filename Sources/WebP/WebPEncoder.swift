@@ -24,69 +24,83 @@ public enum WebPEncodeStatusCode: Int, Error {
     case last                  // list terminator. always last.
 }
 
+public enum WebPEncodePixelFormat {
+    case rgb
+    case rgba
+    case rgbx
+    case bgr
+    case bgra
+    case bgrx
+}
+
 public struct WebPEncoder {
     typealias WebPPictureImporter = (UnsafeMutablePointer<WebPPicture>, UnsafeMutablePointer<UInt8>, Int32) -> Int32
 
     public init() {
     }
 
-    public func encode(RGB: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportRGB(picturePtr, data, stride)
-        }
-        return try encode(RGB, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
+    public func encode(
+        _ dataPtr: UnsafeMutablePointer<UInt8>,
+        format: WebPEncodePixelFormat,
+        config: WebPEncoderConfig,
+        originWidth: Int,
+        originHeight: Int,
+        stride: Int,
+        resizeWidth: Int = 0,
+        resizeHeight: Int = 0
+    ) throws -> Data {
+        let importer = importer(for: format)
+        return try encode(
+            dataPtr,
+            importer: importer,
+            config: config,
+            originWidth: originWidth,
+            originHeight: originHeight,
+            stride: stride,
+            resizeWidth: resizeWidth,
+            resizeHeight: resizeHeight
+        )
     }
 
-    public func encode(RGBA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportRGBA(picturePtr, data, stride)
+    private func importer(for format: WebPEncodePixelFormat) -> WebPPictureImporter {
+        switch format {
+        case .rgb:
+            return { picturePtr, data, stride in
+                WebPPictureImportRGB(picturePtr, data, stride)
+            }
+        case .rgba:
+            return { picturePtr, data, stride in
+                WebPPictureImportRGBA(picturePtr, data, stride)
+            }
+        case .rgbx:
+            return { picturePtr, data, stride in
+                WebPPictureImportRGBX(picturePtr, data, stride)
+            }
+        case .bgr:
+            return { picturePtr, data, stride in
+                WebPPictureImportBGR(picturePtr, data, stride)
+            }
+        case .bgra:
+            return { picturePtr, data, stride in
+                WebPPictureImportBGRA(picturePtr, data, stride)
+            }
+        case .bgrx:
+            return { picturePtr, data, stride in
+                WebPPictureImportBGRX(picturePtr, data, stride)
+            }
         }
-        return try encode(RGBA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
     }
 
-    public func encode(RGBX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportRGBX(picturePtr, data, stride)
-        }
-        return try encode(RGBX, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
-    }
-
-    public func encode(BGR: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportBGR(picturePtr, data, stride)
-        }
-        return try encode(BGR, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
-    }
-
-    public func encode(BGRA: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportBGRA(picturePtr, data, stride)
-        }
-        return try encode(BGRA, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
-    }
-
-    public func encode(BGRX: UnsafeMutablePointer<UInt8>, config: WebPEncoderConfig,
-                       originWidth: Int, originHeight: Int, stride: Int,
-                       resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
-        let importer: WebPPictureImporter = { picturePtr, data, stride in
-            return WebPPictureImportBGRX(picturePtr, data, stride)
-        }
-        return try encode(BGRX, importer: importer, config: config, originWidth: originWidth, originHeight: originHeight, stride: stride)
-    }
-
-    private func encode(_ dataPtr: UnsafeMutablePointer<UInt8>, importer: WebPPictureImporter,
-                        config: WebPEncoderConfig, originWidth: Int, originHeight: Int, stride: Int,
-                        resizeWidth: Int = 0, resizeHeight: Int = 0) throws -> Data {
+    private func encode(
+        _ dataPtr: UnsafeMutablePointer<UInt8>,
+        importer: WebPPictureImporter,
+        config: WebPEncoderConfig,
+        originWidth: Int,
+        originHeight: Int,
+        stride: Int,
+        resizeWidth: Int = 0,
+        resizeHeight: Int = 0
+    ) throws -> Data {
         var config = config.rawValue
         if WebPValidateConfig(&config) == 0 {
             throw WebPEncoderError.invalidParameter

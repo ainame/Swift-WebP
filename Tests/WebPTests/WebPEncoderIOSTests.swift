@@ -27,7 +27,7 @@ class WebPEncoderIOSTests: XCTestCase {
         options.useScaling = true
         options.scaledWidth = Int(uiimage.size.width)
         options.scaledHeight = Int(uiimage.size.height)
-        let decodedImage = try decoder.decode(data, options: options)
+        let decodedImage = try decoder.decodeCGImage(data, options: options)
         XCTAssertEqual(decodedImage.width, options.scaledWidth)
         XCTAssertEqual(decodedImage.height, options.scaledHeight)
     }

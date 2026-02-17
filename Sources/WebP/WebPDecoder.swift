@@ -15,117 +15,64 @@ public enum WebPDecodingError: UInt32, Error {
     case unknownError = 9999 // This is an own error to deal with internal problems
 }
 
+public enum WebPDecodePixelFormat {
+    case rgb
+    case rgba
+    case bgr
+    case bgra
+    case argb
+    case rgba4444
+    case rgb565
+    case rgbA
+    case bgrA
+    case Argb
+    case rgbA4444
+    case yuv
+    case yuva
+
+    var colorspace: ColorspaceMode {
+        switch self {
+        case .rgb:
+            return .RGB
+        case .rgba:
+            return .RGBA
+        case .bgr:
+            return .BGR
+        case .bgra:
+            return .BGRA
+        case .argb:
+            return .ARGB
+        case .rgba4444:
+            return .RGBA4444
+        case .rgb565:
+            return .RGB565
+        case .rgbA:
+            return .rgbA
+        case .bgrA:
+            return .bgrA
+        case .Argb:
+            return .Argb
+        case .rgbA4444:
+            return .rgbA4444
+        case .yuv:
+            return .YUV
+        case .yuva:
+            return .YUVA
+        }
+    }
+}
+
 public struct WebPDecoder {
     public init() {
     }
 
-    public func decode(byRGB webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .RGB)
+    public func decode(_ webPData: Data, options: WebPDecoderOptions, format: WebPDecodePixelFormat = .rgba) throws -> Data {
+        var config = makeConfig(options, format.colorspace)
         try decode(webPData, config: &config)
 
         return Data(bytesNoCopy: config.output.u.RGBA.rgba,
                     count: config.output.u.RGBA.size,
                     deallocator: .free)
-    }
-
-    public func decode(byRGBA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .RGBA)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byBGR webPData: Data, options: WebPDecoderOptions,
-                       width: Int, height: Int) throws -> Data {
-        var config = makeConfig(options, .BGR)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byBGRA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .BGRA)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byARGB webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .ARGB)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byRGBA4444 webPData: Data, options: WebPDecoderOptions) throws -> Data {
-
-        var config = makeConfig(options, .RGBA4444)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byRGB565 webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .RGB565)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byrgbA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .rgbA)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(bybgrA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .bgrA)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byArgb webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .Argb)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byrgbA4444 webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        var config = makeConfig(options, .rgbA4444)
-        try decode(webPData, config: &config)
-
-        return Data(bytesNoCopy: config.output.u.RGBA.rgba,
-                    count: config.output.u.RGBA.size,
-                    deallocator: .free)
-    }
-
-    public func decode(byYUV webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        fatalError("didn't implement this yet")
-    }
-
-    public func decode(byYUVA webPData: Data, options: WebPDecoderOptions) throws -> Data {
-        fatalError("didn't implement this yet")
     }
 
     private func decode(_ webPData: Data, config: inout WebPDecoderConfig) throws {

@@ -14,7 +14,7 @@ extension WebPEncoder {
         }
 
         let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
-        let webPData = try encode(RGB: bitmapData, config: config,
+        let webPData = try encode(bitmapData, format: .rgb, config: config,
                                   originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
                                   resizeWidth: width, resizeHeight: height)
         return webPData
@@ -30,7 +30,7 @@ extension WebPEncoder {
     public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         let cgImage = try convertUIImageToCGImageWithRGBA(image)
         let stride = cgImage.bytesPerRow
-        let webPData = try encode(RGBA: cgImage.getBaseAddress(), config: config,
+        let webPData = try encode(cgImage.getBaseAddress(), format: .rgba, config: config,
                                   originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
                                   resizeWidth: width, resizeHeight: height)
         return webPData

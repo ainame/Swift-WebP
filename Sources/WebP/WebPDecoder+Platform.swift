@@ -5,12 +5,12 @@ import libwebp
 import CoreGraphics
 
 extension WebPDecoder {
-    public func decode(_ webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
+    public func decodeCGImage(_ webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
         let feature = try WebPImageInspector.inspect(webPData)
         let height: Int = options.useScaling ? options.scaledHeight : feature.height
         let width: Int = options.useScaling ? options.scaledWidth : feature.width
 
-        let decodedData: CFData = try decode(byRGBA: webPData, options: options) as CFData
+        let decodedData: CFData = try decode(webPData, options: options, format: .rgba) as CFData
         guard let provider = CGDataProvider(data: decodedData) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize CGDataProvider")
         }
@@ -43,8 +43,8 @@ extension WebPDecoder {
 import UIKit
 
 extension WebPDecoder {
-    public func decode(toUImage webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
-        let cgImage: CGImage = try decode(webPData, options: options)
+    public func decodeUIImage(_ webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
+        let cgImage: CGImage = try decodeCGImage(webPData, options: options)
         return UIImage(cgImage: cgImage)
     }
 }
@@ -54,8 +54,8 @@ extension WebPDecoder {
 import AppKit
 
 extension WebPDecoder {
-    public func decode(toNSImage webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
-        let cgImage: CGImage = try decode(webPData, options: options)
+    public func decodeNSImage(_ webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
+        let cgImage: CGImage = try decodeCGImage(webPData, options: options)
         return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
     }
 }
