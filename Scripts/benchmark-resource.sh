@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+MODE="${MODE:-pipeline}"
 WIDTH="${WIDTH:-1920}"
 HEIGHT="${HEIGHT:-1080}"
 ITERATIONS="${ITERATIONS:-30}"
@@ -16,6 +17,7 @@ SOURCE_DECODE_PER_ITERATION="${SOURCE_DECODE_PER_ITERATION:-off}"
 cd "${REPO_ROOT}"
 
 args=(
+  --mode "${MODE}"
   --width "${WIDTH}"
   --height "${HEIGHT}"
   --iterations "${ITERATIONS}"

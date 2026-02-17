@@ -3,6 +3,7 @@ import WebP
 
 #if canImport(Darwin)
 import Darwin
+import MachO
 #elseif canImport(Glibc)
 import Glibc
 #endif
@@ -13,6 +14,14 @@ import ImageIO
 #endif
 
 struct Config {
+    enum Mode: String {
+        case pipeline
+        case sourceDecodeOnly = "source-decode-only"
+        case encodeOnly = "encode-only"
+        case decodeOnly = "decode-only"
+    }
+
+    var mode: Mode = .pipeline
     var width = 1920
     var height = 1080
     var iterations = 30
@@ -55,6 +64,13 @@ func parseArgs() throws -> Config {
 
     while index < args.count {
         switch args[index] {
+        case "--mode":
+            let rawMode = try readValue("--mode")
+            guard let mode = Config.Mode(rawValue: rawMode) else {
+                throw BenchError
+                    .invalidArgument("--mode must be one of: pipeline, source-decode-only, encode-only, decode-only")
+            }
+            config.mode = mode
         case "--width":
             config.width = try Int(readValue("--width")).unwrap(or: "--width must be Int")
         case "--height":
@@ -93,6 +109,9 @@ func parseArgs() throws -> Config {
     if config.decodeSourceEachIteration, config.inputPath == nil {
         throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
     }
+    if config.mode == .sourceDecodeOnly, config.inputPath == nil {
+        throw BenchError.invalidArgument("--mode source-decode-only requires --input")
+    }
     return config
 }
 
@@ -100,7 +119,8 @@ func printHelp() {
     print(
         """
         WebPBench usage:
-          WebPBench [--width N] [--height N] [--iterations N] [--warmup N] [--quality Q] [--no-threads]
+          WebPBench [--mode pipeline|source-decode-only|encode-only|decode-only]
+                    [--width N] [--height N] [--iterations N] [--warmup N] [--quality Q] [--no-threads]
                     [--input /path/to/image] [--decode-source-each-iteration]
         """
     )
@@ -196,6 +216,34 @@ func maxRSSMB() -> Double {
     #endif
 }
 
+func currentRSSMB() -> Double {
+    #if os(macOS)
+    var info = mach_task_basic_info()
+    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+    let kerr = withUnsafeMutablePointer(to: &info) { ptr in
+        ptr.withMemoryRebound(to: integer_t.self, capacity: Int(count)) { rebound in
+            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), rebound, &count)
+        }
+    }
+    guard kerr == KERN_SUCCESS else { return -1 }
+    return Double(info.resident_size) / (1024 * 1024)
+    #elseif canImport(Glibc)
+    guard let contents = try? String(contentsOfFile: "/proc/self/statm", encoding: .utf8) else {
+        return -1
+    }
+    let fields = contents.split(separator: " ")
+    guard fields.count > 1, let residentPages = Int(fields[1]) else {
+        return -1
+    }
+    let pageSize = sysconf(Int32(_SC_PAGESIZE))
+    guard pageSize > 0 else { return -1 }
+    let bytes = Double(residentPages) * Double(pageSize)
+    return bytes / (1024 * 1024)
+    #else
+    return -1
+    #endif
+}
+
 func run() throws {
     let config = try parseArgs()
     let encoder = WebPEncoder()
@@ -217,6 +265,19 @@ func run() throws {
 
     let totalRuns = config.warmup + config.iterations
     var encodedLast = Data()
+    let encodedForDecodeOnly: Data = try seedFrame.rgba.withUnsafeBufferPointer { pointer in
+        guard let base = pointer.baseAddress else {
+            throw BenchError.validationFailed("Unable to get source buffer pointer")
+        }
+        return try encoder.encode(
+            UnsafeMutablePointer(mutating: base),
+            format: .rgba,
+            config: .preset(.picture, quality: config.quality),
+            originWidth: seedFrame.width,
+            originHeight: seedFrame.height,
+            stride: seedFrame.stride
+        )
+    }
 
     var decodeOptions = WebPDecoderOptions()
     decodeOptions.useThreads = config.threads
@@ -227,60 +288,145 @@ func run() throws {
     var sourceDecodeMS = [Double]()
     var encodeMS = [Double]()
     var decodeMS = [Double]()
+    var rssAfterSourceDecode = [Double]()
+    var rssAfterEncode = [Double]()
+    var rssAfterDecode = [Double]()
+    var stagePeakRSS = -1.0
+
     sourceDecodeMS.reserveCapacity(config.iterations)
     encodeMS.reserveCapacity(config.iterations)
     decodeMS.reserveCapacity(config.iterations)
+    rssAfterSourceDecode.reserveCapacity(config.iterations)
+    rssAfterEncode.reserveCapacity(config.iterations)
+    rssAfterDecode.reserveCapacity(config.iterations)
+
+    func captureStageRSS(_ list: inout [Double]) {
+        let rss = currentRSSMB()
+        if rss >= 0 {
+            list.append(rss)
+            stagePeakRSS = max(stagePeakRSS, rss)
+        }
+    }
 
     for runIndex in 0 ..< totalRuns {
-        let frame: InputFrame
-        if config.decodeSourceEachIteration {
+        switch config.mode {
+        case .sourceDecodeOnly:
             guard let inputPath = config.inputPath else {
-                throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
+                throw BenchError.invalidArgument("--mode source-decode-only requires --input")
             }
             let sourceStart = now()
-            frame = try loadImageRGBA(path: inputPath)
+            let frame = try loadImageRGBA(path: inputPath)
             let sourceEnd = now()
             if runIndex >= config.warmup {
                 sourceDecodeMS.append(elapsedMS(sourceStart, sourceEnd))
+                captureStageRSS(&rssAfterSourceDecode)
             }
-        } else {
-            frame = seedFrame
-        }
+            guard frame.width > 0, frame.height > 0 else {
+                throw BenchError.validationFailed("Source decode produced invalid dimensions")
+            }
+            encodedLast = encodedForDecodeOnly
+        case .encodeOnly:
+            let frame: InputFrame
+            if config.decodeSourceEachIteration {
+                guard let inputPath = config.inputPath else {
+                    throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
+                }
+                frame = try loadImageRGBA(path: inputPath)
+            } else {
+                frame = seedFrame
+            }
 
-        let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
-            guard let base = pointer.baseAddress else {
-                throw BenchError.validationFailed("Unable to get source buffer pointer")
+            let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
+                guard let base = pointer.baseAddress else {
+                    throw BenchError.validationFailed("Unable to get source buffer pointer")
+                }
+                let mutable = UnsafeMutablePointer(mutating: base)
+                let start = now()
+                let data = try encoder.encode(
+                    mutable,
+                    format: .rgba,
+                    config: .preset(.picture, quality: config.quality),
+                    originWidth: frame.width,
+                    originHeight: frame.height,
+                    stride: frame.stride
+                )
+                let end = now()
+                if runIndex >= config.warmup {
+                    encodeMS.append(elapsedMS(start, end))
+                    captureStageRSS(&rssAfterEncode)
+                }
+                return data
             }
-            let mutable = UnsafeMutablePointer(mutating: base)
-            let start = now()
-            let data = try encoder.encode(
-                mutable,
-                format: .rgba,
-                config: .preset(.picture, quality: config.quality),
-                originWidth: frame.width,
-                originHeight: frame.height,
-                stride: frame.stride
-            )
-            let end = now()
+            encodedLast = encoded
+        case .decodeOnly:
+            let decodeStart = now()
+            let decoded = try decoder.decode(encodedForDecodeOnly, options: decodeOptions, format: .rgba)
+            let decodeEnd = now()
             if runIndex >= config.warmup {
-                encodeMS.append(elapsedMS(start, end))
+                decodeMS.append(elapsedMS(decodeStart, decodeEnd))
+                captureStageRSS(&rssAfterDecode)
             }
-            return data
-        }
+            let expectedBytes = seedFrame.width * seedFrame.height * 4
+            guard decoded.count == expectedBytes else {
+                throw BenchError.validationFailed(
+                    "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
+                )
+            }
+            encodedLast = encodedForDecodeOnly
+        case .pipeline:
+            let frame: InputFrame
+            if config.decodeSourceEachIteration {
+                guard let inputPath = config.inputPath else {
+                    throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
+                }
+                let sourceStart = now()
+                frame = try loadImageRGBA(path: inputPath)
+                let sourceEnd = now()
+                if runIndex >= config.warmup {
+                    sourceDecodeMS.append(elapsedMS(sourceStart, sourceEnd))
+                    captureStageRSS(&rssAfterSourceDecode)
+                }
+            } else {
+                frame = seedFrame
+            }
 
-        let decodeStart = now()
-        let decoded = try decoder.decode(encoded, options: decodeOptions, format: .rgba)
-        let decodeEnd = now()
-        if runIndex >= config.warmup {
-            decodeMS.append(elapsedMS(decodeStart, decodeEnd))
+            let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
+                guard let base = pointer.baseAddress else {
+                    throw BenchError.validationFailed("Unable to get source buffer pointer")
+                }
+                let mutable = UnsafeMutablePointer(mutating: base)
+                let start = now()
+                let data = try encoder.encode(
+                    mutable,
+                    format: .rgba,
+                    config: .preset(.picture, quality: config.quality),
+                    originWidth: frame.width,
+                    originHeight: frame.height,
+                    stride: frame.stride
+                )
+                let end = now()
+                if runIndex >= config.warmup {
+                    encodeMS.append(elapsedMS(start, end))
+                    captureStageRSS(&rssAfterEncode)
+                }
+                return data
+            }
+
+            let decodeStart = now()
+            let decoded = try decoder.decode(encoded, options: decodeOptions, format: .rgba)
+            let decodeEnd = now()
+            if runIndex >= config.warmup {
+                decodeMS.append(elapsedMS(decodeStart, decodeEnd))
+                captureStageRSS(&rssAfterDecode)
+            }
+            let expectedBytes = frame.width * frame.height * 4
+            guard decoded.count == expectedBytes else {
+                throw BenchError.validationFailed(
+                    "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
+                )
+            }
+            encodedLast = encoded
         }
-        let expectedBytes = frame.width * frame.height * 4
-        guard decoded.count == expectedBytes else {
-            throw BenchError.validationFailed(
-                "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
-            )
-        }
-        encodedLast = encoded
     }
 
     let features = try WebPImageInspector.inspect(encodedLast)
@@ -294,6 +440,7 @@ func run() throws {
     let encodeAverage = encodeMS.reduce(0, +) / Double(max(encodeMS.count, 1))
     let decodeAverage = decodeMS.reduce(0, +) / Double(max(decodeMS.count, 1))
 
+    print("mode=\(config.mode.rawValue)")
     print("source_mode=\(config.inputPath == nil ? "synthetic" : "image")")
     print("source_path=\(config.inputPath ?? "")")
     print("source_decode_each_iteration=\(config.decodeSourceEachIteration)")
@@ -307,15 +454,36 @@ func run() throws {
     if !sourceDecodeMS.isEmpty {
         print("source_decode_avg_ms=\(String(format: "%.3f", sourceDecodeAverage))")
         print("source_decode_p95_ms=\(String(format: "%.3f", percentile(sourceDecodeMS, 0.95)))")
-        print("pipeline_encode_avg_ms=\(String(format: "%.3f", sourceDecodeAverage + encodeAverage))")
-        print(
-            "pipeline_encode_p95_ms=\(String(format: "%.3f", percentile(sourceDecodeMS, 0.95) + percentile(encodeMS, 0.95)))"
-        )
+        if config.mode == .pipeline {
+            print("pipeline_encode_avg_ms=\(String(format: "%.3f", sourceDecodeAverage + encodeAverage))")
+            print(
+                "pipeline_encode_p95_ms=\(String(format: "%.3f", percentile(sourceDecodeMS, 0.95) + percentile(encodeMS, 0.95)))"
+            )
+        }
     }
-    print("encode_avg_ms=\(String(format: "%.3f", encodeAverage))")
-    print("encode_p95_ms=\(String(format: "%.3f", percentile(encodeMS, 0.95)))")
-    print("decode_avg_ms=\(String(format: "%.3f", decodeAverage))")
-    print("decode_p95_ms=\(String(format: "%.3f", percentile(decodeMS, 0.95)))")
+    if !encodeMS.isEmpty {
+        print("encode_avg_ms=\(String(format: "%.3f", encodeAverage))")
+        print("encode_p95_ms=\(String(format: "%.3f", percentile(encodeMS, 0.95)))")
+    }
+    if !decodeMS.isEmpty {
+        print("decode_avg_ms=\(String(format: "%.3f", decodeAverage))")
+        print("decode_p95_ms=\(String(format: "%.3f", percentile(decodeMS, 0.95)))")
+    }
+    if !rssAfterSourceDecode.isEmpty {
+        let avg = rssAfterSourceDecode.reduce(0, +) / Double(rssAfterSourceDecode.count)
+        print("rss_after_source_decode_mb=\(String(format: "%.3f", avg))")
+    }
+    if !rssAfterEncode.isEmpty {
+        let avg = rssAfterEncode.reduce(0, +) / Double(rssAfterEncode.count)
+        print("rss_after_encode_mb=\(String(format: "%.3f", avg))")
+    }
+    if !rssAfterDecode.isEmpty {
+        let avg = rssAfterDecode.reduce(0, +) / Double(rssAfterDecode.count)
+        print("rss_after_decode_mb=\(String(format: "%.3f", avg))")
+    }
+    if stagePeakRSS >= 0 {
+        print("stage_peak_rss_mb=\(String(format: "%.3f", stagePeakRSS))")
+    }
     print("peak_rss_mb=\(String(format: "%.3f", maxRSSMB()))")
     print("valid=true")
 }

@@ -35,13 +35,19 @@ fi
 
 cd "${REPO_ROOT}"
 
-BENCH_OUTPUT="$(
-  WIDTH=1 HEIGHT=1 ITERATIONS="${ITERATIONS}" WARMUP="${WARMUP}" QUALITY="${QUALITY}" \
-  THREADS_FLAG="${THREADS_BENCH}" INPUT="${INPUT}" SOURCE_DECODE_PER_ITERATION=on \
+run_swift_mode() {
+  local mode="$1"
+  local source_decode_each_iteration="$2"
+  echo "swift_mode=${mode}"
+  MODE="${mode}" WIDTH=1 HEIGHT=1 ITERATIONS="${ITERATIONS}" WARMUP="${WARMUP}" QUALITY="${QUALITY}" \
+  THREADS_FLAG="${THREADS_BENCH}" INPUT="${INPUT}" SOURCE_DECODE_PER_ITERATION="${source_decode_each_iteration}" \
   Scripts/benchmark-resource.sh
-)"
+}
 
-printf '%s\n' "${BENCH_OUTPUT}"
+run_swift_mode "source-decode-only" "on"
+run_swift_mode "encode-only" "off"
+run_swift_mode "decode-only" "off"
+run_swift_mode "pipeline" "on"
 
 CWEBP_OUTPUT="$(
   INPUT="${INPUT}" QUALITY="${QUALITY}" ITERATIONS="${ITERATIONS}" WARMUP="${WARMUP}" CWEBP_MT="${CWEBP_MT}" DWEBP_MT="${DWEBP_MT}" \
