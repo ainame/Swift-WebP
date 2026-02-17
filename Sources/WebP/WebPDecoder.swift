@@ -13,6 +13,10 @@ public enum WebPDecodingError: UInt32, Error {
     case userAbort
     case notEnoughData
     case unknownError = 9999 // This is an own error to deal with internal problems
+
+    init(vp8StatusCodeRawValue: UInt32) {
+        self = WebPDecodingError(rawValue: vp8StatusCodeRawValue) ?? .unknownError
+    }
 }
 
 public enum WebPDecodePixelFormat {
@@ -149,7 +153,7 @@ public struct WebPDecoder {
 
             let status = WebPDecode(bindedBasePtr, webPData.count, &rawConfig)
             if status != VP8_STATUS_OK {
-                throw WebPDecodingError(rawValue: status.rawValue) ?? .unknownError
+                throw WebPDecodingError(vp8StatusCodeRawValue: status.rawValue)
             }
         }
 

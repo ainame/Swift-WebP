@@ -22,6 +22,13 @@ public enum WebPEncodeStatusCode: Int, Error {
     case fileTooBig // file is bigger than 4G
     case userAbort // abort request by user
     case last // list terminator. always last.
+
+    init(libwebpRawValue: Int) {
+        guard let status = WebPEncodeStatusCode(rawValue: libwebpRawValue) else {
+            preconditionFailure("Unexpected WebP encode status code: \(libwebpRawValue)")
+        }
+        self = status
+    }
 }
 
 public enum WebPEncodePixelFormat {
@@ -140,8 +147,7 @@ public struct WebPEncoder {
             picture.custom_ptr = ptr.baseAddress
 
             if WebPEncode(&config, &picture) == 0 {
-                let error = WebPEncodeStatusCode(rawValue: Int(picture.error_code.rawValue))!
-                throw error
+                throw WebPEncodeStatusCode(libwebpRawValue: Int(picture.error_code.rawValue))
             }
         }
 
