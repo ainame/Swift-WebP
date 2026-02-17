@@ -13,6 +13,13 @@ All notable changes to this project will be documented in this file.
   - `WebPDecBuffer.ExternalMemoryMode.externalMemorySlow`
 - Removed `WebPDecBuffer.isExternalMemory`.
 - Made `WebPDecBuffer.privateMemory` internal (no longer public API surface).
+- Raised Swift tools to `6.2` and Swift language mode to `v6`.
+- Raised platform baselines to iOS 17+ and macOS 14+.
+- Removed old per-format encode/decode method families in favor of explicit format-based entrypoints.
+- Renamed platform decoding helpers:
+  - `decode(toUImage:options:)` -> `decodeUIImage(from:options:)`
+  - `decode(toNSImage:options:)` -> `decodeNSImage(from:options:)`
+  - `decode(_:options:)` (CGImage) -> `decodeCGImage(from:options:)`
 
 ### Added
 
@@ -26,30 +33,6 @@ All notable changes to this project will be documented in this file.
 - Added `WebPError.outputBufferTooSmall(required:actual:)` to report decode output-capacity errors.
 - Added benchmark execution modes (`pipeline`, `source-decode-only`, `encode-only`, `decode-only`) and stage RSS telemetry fields.
 - Added decode buffer coverage tests (`WebPDecoderBufferTests`) for exact-size, oversized, undersized, and scaling scenarios.
-
-### Changed
-
-- Updated `WebPDecoder.decode(_:options:format:)` to decode into an exact-size Swift `Data` buffer via libwebp external-memory mode.
-- Updated resource scripts to run and validate stage-isolated benchmark modes and stage RSS metrics.
-
-### Fixed
-
-- Fixed `WebPEncoder` cleanup paths to always call `WebPPictureFree` via `defer`, including failed rescale paths.
-
-## 0.6.0
-
-### Breaking
-
-- Raised Swift tools to `6.2` and Swift language mode to `v6`.
-- Raised platform baselines to iOS 17+ and macOS 14+.
-- Removed old per-format encode/decode method families in favor of explicit format-based entrypoints.
-- Renamed platform decoding helpers:
-  - `decode(toUImage:options:)` -> `decodeUIImage(from:options:)`
-  - `decode(toNSImage:options:)` -> `decodeNSImage(from:options:)`
-  - `decode(_:options:)` (CGImage) -> `decodeCGImage(from:options:)`
-
-### Added
-
 - `WebPEncodePixelFormat` and `WebPDecodePixelFormat` enums.
 - Canonical APIs:
   - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`
@@ -64,6 +47,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Updated `WebPDecoder.decode(_:options:format:)` to decode into an exact-size Swift `Data` buffer via libwebp external-memory mode.
+- Updated resource scripts to run and validate stage-isolated benchmark modes and stage RSS metrics.
 - Updated `libwebp-Xcode` dependency to `1.5.0`.
 - Modernized test resources to `Bundle.module` and deterministic fixture generation.
 - Memory ownership now frees libwebp-allocated buffers via `WebPFree`.
@@ -71,6 +56,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed `WebPEncoder` cleanup paths to always call `WebPPictureFree` via `defer`, including failed rescale paths.
 - Removed runtime `fatalError` paths in core decoding config conversions.
 - Replaced unsafe cast in `CGImage` byte access path.
 - Resolved retroactive conformance warning in encoder config mappings.
