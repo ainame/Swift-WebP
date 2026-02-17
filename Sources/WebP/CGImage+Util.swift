@@ -9,9 +9,10 @@ extension CGImage {
             let data = dataProvider.data else {
             throw WebPError.unexpectedPointerError
         }
-        // This downcast always succeeds
-        let mutableData = data as! CFMutableData
-        return CFDataGetMutableBytePtr(mutableData)
+        guard let dataPtr = CFDataGetBytePtr(data) else {
+            throw WebPError.unexpectedPointerError
+        }
+        return UnsafeMutablePointer(mutating: dataPtr)
     }
 }
 #endif

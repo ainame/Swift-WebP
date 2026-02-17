@@ -1,28 +1,9 @@
 import Foundation
 import libwebp
 
-extension libwebp.WebPImageHint: ExpressibleByIntegerLiteral {
-    /// Create an instance initialized to `value`.
-    public init(integerLiteral value: Int) {
-        switch UInt32(value) {
-        case libwebp.WEBP_HINT_DEFAULT.rawValue:
-            self = libwebp.WEBP_HINT_DEFAULT
-        case libwebp.WEBP_HINT_PICTURE.rawValue:
-            self = libwebp.WEBP_HINT_PICTURE
-        case libwebp.WEBP_HINT_PHOTO.rawValue:
-            self = libwebp.WEBP_HINT_PHOTO
-        case libwebp.WEBP_HINT_GRAPH.rawValue:
-            self = libwebp.WEBP_HINT_GRAPH
-        default:
-            fatalError()
-        }
-    }
-}
-
-
 // mapping from libwebp.WebPConfig
 public struct WebPEncoderConfig: InternalRawRepresentable {
-    public enum WebPImageHint: libwebp.WebPImageHint {
+    public enum WebPImageHint: UInt32 {
         case `default` = 0
         case picture = 1
         case photo = 2
@@ -141,7 +122,10 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         lossless = Int(rawValue.lossless)
         quality = rawValue.quality
         method = Int(rawValue.method)
-        imageHint = WebPImageHint(rawValue: rawValue.image_hint)!
+        guard let imageHint = WebPImageHint(rawValue: rawValue.image_hint.rawValue) else {
+            return nil
+        }
+        self.imageHint = imageHint
         targetSize = Int(rawValue.target_size)
         targetPSNR = Float(rawValue.target_PSNR)
         segments = Int(rawValue.segments)
@@ -180,7 +164,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
             lossless: Int32(lossless),
             quality: Float(quality),
             method: Int32(method),
-            image_hint: imageHint.rawValue,
+            image_hint: libwebp.WebPImageHint(rawValue: imageHint.rawValue),
             target_size: Int32(targetSize),
             target_PSNR: Float(targetPSNR),
             segments: Int32(segments),

@@ -67,15 +67,22 @@ public struct WebPDecoder {
     }
 
     public func decode(_ webPData: Data, options: WebPDecoderOptions, format: WebPDecodePixelFormat = .rgba) throws -> Data {
-        var config = makeConfig(options, format.colorspace)
+        guard format.colorspace.isRGBMode else {
+            throw WebPError.unsupportedDecodeFormat
+        }
+        var config = try makeConfig(options, format.colorspace)
         try webPData.withUnsafeBytes { rawPtr in
             let span = Span<UInt8>(_unsafeBytes: rawPtr)
             try decode(span, config: &config)
         }
 
+        guard let rgbaBuffer = config.output.u.rgba else {
+            throw WebPError.unsupportedDecodeFormat
+        }
+
         let owner = WebPMemoryOwner(
-            pointer: config.output.u.RGBA.rgba,
-            count: config.output.u.RGBA.size
+            pointer: rgbaBuffer.rgba,
+            count: rgbaBuffer.size
         )
         return owner.takeData()
     }
@@ -90,7 +97,7 @@ public struct WebPDecoder {
 
             let status = WebPDecode(bindedBasePtr, webPData.count, &rawConfig)
             if status != VP8_STATUS_OK {
-                throw WebPDecodingError(rawValue: status.rawValue)!
+                throw WebPDecodingError(rawValue: status.rawValue) ?? .unknownError
             }
         }
 
@@ -103,8 +110,8 @@ public struct WebPDecoder {
     }
 
     private func makeConfig(_ options: WebPDecoderOptions,
-                            _ colorspace: ColorspaceMode) -> WebPDecoderConfig {
-        var config = WebPDecoderConfig()
+                            _ colorspace: ColorspaceMode) throws -> WebPDecoderConfig {
+        var config = try WebPDecoderConfig()
         config.options = options
         config.output.colorspace = colorspace
         return config

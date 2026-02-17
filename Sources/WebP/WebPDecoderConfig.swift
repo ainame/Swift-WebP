@@ -6,22 +6,37 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
     public var output: WebPDecBuffer          // Output buffer (can point to external mem)
     public var options: WebPDecoderOptions    // Decoding options
 
-    public init() {
+    public init() throws {
         var originConfig = libwebp.WebPDecoderConfig()
-        if (libwebp.WebPInitDecoderConfig(&originConfig) == 0) {
-            fatalError("can't init decoder config")
+        if libwebp.WebPInitDecoderConfig(&originConfig) == 0 {
+            throw WebPError.decoderConfigInitializationFailed
         }
-        self.init(rawValue: originConfig)!
+        guard let config = WebPDecoderConfig(rawValue: originConfig) else {
+            throw WebPError.decoderConfigInitializationFailed
+        }
+        self = config
     }
 
     internal init?(rawValue: libwebp.WebPDecoderConfig) {
         self.input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
-        self.output = WebP.WebPDecBuffer(rawValue: rawValue.output)!
-        self.options = WebP.WebPDecoderOptions(rawValue: rawValue.options)!
+        guard let output = WebP.WebPDecBuffer(rawValue: rawValue.output),
+              let options = WebP.WebPDecoderOptions(rawValue: rawValue.options) else {
+            return nil
+        }
+        self.output = output
+        self.options = options
     }
 
     internal var rawValue: libwebp.WebPDecoderConfig {
-        return libwebp.WebPDecoderConfig(input: (input?.rawValue)!, output: output.rawValue, options: options.rawValue)
+        let inputValue = input?.rawValue ?? libwebp.WebPBitstreamFeatures(
+            width: 0,
+            height: 0,
+            has_alpha: 0,
+            has_animation: 0,
+            format: 0,
+            pad: (0, 0, 0, 0, 0)
+        )
+        return libwebp.WebPDecoderConfig(input: inputValue, output: output.rawValue, options: options.rawValue)
     }
 }
 
@@ -63,7 +78,10 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
         height = Int(rawValue.height)
         hasAlpha = rawValue.has_alpha != 0
         hasAnimation = rawValue.has_animation != 0
-        format = Format(rawValue: Int(rawValue.format))!
+        guard let format = Format(rawValue: Int(rawValue.format)) else {
+            return nil
+        }
+        self.format = format
         pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3), Int(rawValue.pad.4))
     }
 }
@@ -123,18 +141,18 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         case RGBA(WebPRGBABuffer)
         case YUVA(WebPYUVABuffer)
 
-        var RGBA: WebPRGBABuffer {
+        var rgba: WebPRGBABuffer? {
             if case .RGBA(let buffer) = self  {
                 return buffer
             }
-            fatalError("please use yuva")
+            return nil
         }
 
-        var YUVA: WebPYUVABuffer {
+        var yuva: WebPYUVABuffer? {
             if case .YUVA(let buffer) = self {
                 return buffer
             }
-            fatalError("please use rgba")
+            return nil
         }
     }
 
@@ -181,7 +199,10 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     }
 
     internal init?(rawValue: libwebp.WebPDecBuffer) {
-        colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue))!
+        guard let colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue)) else {
+            return nil
+        }
+        self.colorspace = colorspace
         width = Int(rawValue.width)
         height = Int(rawValue.height)
         isExternalMemory = rawValue.is_external_memory != 0
@@ -266,6 +287,20 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
     }
 
     public init() {
-        self = WebPDecoderConfig().options
+        self.bypassFiltering = 0
+        self.noFancyUpsampling = 0
+        self.useCropping = false
+        self.cropLeft = 0
+        self.cropTop = 0
+        self.cropWidth = 0
+        self.cropHeight = 0
+        self.useScaling = false
+        self.scaledWidth = 0
+        self.scaledHeight = 0
+        self.useThreads = false
+        self.ditheringStrength = 0
+        self.flip = 0
+        self.alphaDitheringStrength = 0
+        self.pad = (0, 0, 0, 0, 0)
     }
 }
