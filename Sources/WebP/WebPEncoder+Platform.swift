@@ -6,16 +6,13 @@ import CoreGraphics
 
 extension WebPEncoder {
     public func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
-        guard let data = image.tiffRepresentation else {
-            throw WebPError.unexpectedError(withMessage: "Given image doesn't support TIFF representation.")
-        }
-        guard let bitmapData = NSBitmapImageRep(data: data)?.bitmapData else {
-            throw WebPError.unexpectedError(withMessage: "NSBitmapImageRep couldn't interpret given image.")
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't convert NSImage to CGImage.")
         }
 
-        let stride = Int(image.size.width) * MemoryLayout<UInt8>.size * 3 // RGB = 3byte
-        let webPData = try encode(bitmapData, format: .rgb, config: config,
-                                  originWidth: Int(image.size.width), originHeight: Int(image.size.height), stride: stride,
+        let stride = cgImage.bytesPerRow
+        let webPData = try encode(cgImage.getBaseAddress(), format: .rgba, config: config,
+                                  originWidth: cgImage.width, originHeight: cgImage.height, stride: stride,
                                   resizeWidth: width, resizeHeight: height)
         return webPData
     }
