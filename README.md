@@ -38,6 +38,18 @@ swift test
 
 `make format` runs the SwiftFormat SPM plugin.
 
+Resource benchmark + validation:
+
+```bash
+Scripts/benchmark-resource.sh
+Scripts/validate-resource.sh
+```
+
+You can tune benchmark parameters with env vars such as:
+`WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`.
+Validation thresholds can be tuned with:
+`MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`, `MAX_PEAK_RSS_MB`.
+
 ## Usage
 
 ### Encoding

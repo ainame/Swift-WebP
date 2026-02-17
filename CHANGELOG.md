@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+- Added `WebPBench` executable target for repeatable encode/decode CPU and memory benchmarking with built-in validity checks.
+- Added `Scripts/benchmark-resource.sh` and `Scripts/validate-resource.sh` to measure and gate resource usage in local runs.
+
 ## 0.6.0
 
 ### Breaking
