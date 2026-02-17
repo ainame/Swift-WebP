@@ -53,7 +53,6 @@ struct WebPBridgingTests {
             private_memory: nil
         )
         let buffer = WebP.WebPDecBuffer(rawValue: rawBuffer)
-        #expect(buffer != nil)
-        #expect(buffer?.externalMemoryMode == .externalMemorySlow)
+        #expect(buffer.externalMemoryMode == .externalMemorySlow)
     }
 }

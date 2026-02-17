@@ -24,10 +24,6 @@ public enum WebPImageInspector {
             throw WebPError.unexpectedError(withMessage: "Error VP8StatusCode=\(status.rawValue)")
         }
 
-        guard let feature = WebPBitstreamFeatures(rawValue: cFeature.pointee) else {
-            throw WebPError.unexpectedPointerError
-        }
-
-        return feature
+        return WebPBitstreamFeatures(rawValue: cFeature.pointee)
     }
 }

@@ -116,7 +116,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
 
     public static func preset(_ preset: Preset, quality: Float) -> WebPEncoderConfig {
         let webPConfig = preset.webPConfig(quality: quality)
-        return WebPEncoderConfig(rawValue: webPConfig)!
+        return WebPEncoderConfig(rawValue: webPConfig)
     }
 
     /// Apply the libwebp lossless preset levels [0...9].
@@ -129,10 +129,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         guard WebPConfigLosslessPreset(&config, Int32(level)) != 0 else {
             throw WebPError.invalidWebPConfig
         }
-        guard let swiftConfig = WebPEncoderConfig(rawValue: config) else {
-            throw WebPError.invalidWebPConfig
-        }
-        return swiftConfig
+        return WebPEncoderConfig(rawValue: config)
     }
 
     /// Validate config fields against libwebp's supported ranges.
@@ -141,12 +138,12 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         return WebPValidateConfig(&config) != 0
     }
 
-    init?(rawValue: libwebp.WebPConfig) {
+    init(rawValue: libwebp.WebPConfig) {
         lossless = Int(rawValue.lossless)
         quality = rawValue.quality
         method = Int(rawValue.method)
         guard let imageHint = WebPImageHint(rawValue: rawValue.image_hint.rawValue) else {
-            return nil
+            preconditionFailure("Unexpected WebP image hint value: \(rawValue.image_hint.rawValue)")
         }
         self.imageHint = imageHint
         targetSize = Int(rawValue.target_size)

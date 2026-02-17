@@ -11,21 +11,13 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
         if libwebp.WebPInitDecoderConfig(&originConfig) == 0 {
             throw WebPError.decoderConfigInitializationFailed
         }
-        guard let config = WebPDecoderConfig(rawValue: originConfig) else {
-            throw WebPError.decoderConfigInitializationFailed
-        }
-        self = config
+        self = WebPDecoderConfig(rawValue: originConfig)
     }
 
-    init?(rawValue: libwebp.WebPDecoderConfig) {
+    init(rawValue: libwebp.WebPDecoderConfig) {
         input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
-        guard let output = WebP.WebPDecBuffer(rawValue: rawValue.output),
-              let options = WebP.WebPDecoderOptions(rawValue: rawValue.options)
-        else {
-            return nil
-        }
-        self.output = output
-        self.options = options
+        output = WebP.WebPDecBuffer(rawValue: rawValue.output)
+        options = WebP.WebPDecoderOptions(rawValue: rawValue.options)
     }
 
     var rawValue: libwebp.WebPDecoderConfig {
@@ -74,13 +66,13 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable {
         )
     }
 
-    init?(rawValue: libwebp.WebPBitstreamFeatures) {
+    init(rawValue: libwebp.WebPBitstreamFeatures) {
         width = Int(rawValue.width)
         height = Int(rawValue.height)
         hasAlpha = rawValue.has_alpha != 0
         hasAnimation = rawValue.has_animation != 0
         guard let format = Format(rawValue: Int(rawValue.format)) else {
-            return nil
+            preconditionFailure("Unexpected WebP bitstream format value: \(rawValue.format)")
         }
         self.format = format
         pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3), Int(rawValue.pad.4))
@@ -223,9 +215,9 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         )
     }
 
-    init?(rawValue: libwebp.WebPDecBuffer) {
+    init(rawValue: libwebp.WebPDecBuffer) {
         guard let colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue)) else {
-            return nil
+            preconditionFailure("Unexpected WebP colorspace value: \(rawValue.colorspace.rawValue)")
         }
         self.colorspace = colorspace
         width = Int(rawValue.width)
@@ -293,7 +285,7 @@ public struct WebPDecoderOptions: InternalRawRepresentable {
         )
     }
 
-    init?(rawValue: libwebp.WebPDecoderOptions) {
+    init(rawValue: libwebp.WebPDecoderOptions) {
         bypassFiltering = Int(rawValue.bypass_filtering)
         noFancyUpsampling = Int(rawValue.no_fancy_upsampling)
         useCropping = rawValue.use_cropping != 0
