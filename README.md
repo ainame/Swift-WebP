@@ -26,6 +26,18 @@ Add Swift-WebP in your `Package.swift`:
 .package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.6.0")
 ```
 
+## Development
+
+Common local commands:
+
+```bash
+make format
+swift build
+swift test
+```
+
+`make format` runs the SwiftFormat SPM plugin.
+
 ## Usage
 
 ### Encoding

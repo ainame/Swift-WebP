@@ -3,59 +3,31 @@
 ## Purpose
 
 This repository is a Swift wrapper around `libwebp` for encoding, decoding, and inspecting WebP data.
-Use this file as the execution guide for modernization and issue-fixing work.
+Use this file as the execution guide for ongoing implementation and maintenance work.
 
-## What The Project Offers Today (as-is)
+## Current Baseline (2026-02-17)
 
-- Swift Package named `WebP` (`swift-tools-version: 5.10`).
-- Platforms: iOS 13+, macOS 11+.
-- Dependency: [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) (from `1.2.0`).
-- Core APIs:
-  - `WebPEncoder` for advanced encode paths (RGB/RGBA/etc + platform helpers).
-  - `WebPDecoder` for advanced decode paths (multiple colorspaces + `CGImage`/`UIImage`/`NSImage` helpers).
-  - `WebPImageInspector` for bitstream feature inspection.
+- Swift tools: 6.2 (`swiftLanguageModes: [.v6]`)
+- Deployment targets: iOS 17+, macOS 14+
+- Dependency:
+  - [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) 1.5.0+
+  - [`SwiftFormat`](https://github.com/nicklockwood/SwiftFormat.git) via SPM plugin
+- CI:
+  - macOS build + test
+  - Linux build + test
+  - iOS package build
+- Current branch policy from user: perform modernization work on `major-bump`.
 
-## Current Baseline (checked on 2026-02-17)
+## Library Surface (Current)
 
-- `swift build`: passes.
-- `swift test`: fails.
-  - Tests still reference legacy path `iOS Example/Resources/...`.
-  - Package resources are now under `Tests/WebPTests/Resources`, so path logic is stale.
-- Build warning: unhandled file `Sources/WebP/Info.plist`.
-- Build warning: retroactive conformance extension in `WebPEncoderConfig.swift`:
-  - `extension libwebp.WebPImageHint: ExpressibleByIntegerLiteral`.
-
-## Modernization Priorities
-
-1. Fix test infrastructure first.
-   - Replace file-path-based fixtures with `Bundle.module` consistently.
-   - Add missing `.webp` fixture to test resources or generate it during tests.
-   - Ensure `swift test` is green on macOS runner.
-2. Remove legacy/unsafe API patterns.
-   - Replace `fatalError` in library code with thrown errors.
-   - Remove force unwraps (`!`) in runtime paths where failure is possible.
-   - Remove unsafe cast in `CGImage+Util.swift` (`as! CFMutableData`).
-3. Resolve Swift 5.10+ compatibility warnings.
-   - Address retroactive conformance warning (or avoid the conformance entirely).
-   - Exclude or remove stale `Info.plist` in `Sources/WebP`.
-4. Update and validate `libwebp-Xcode`.
-   - Bump to the latest stable release supported by current Xcode/SPM toolchains.
-   - Verify C API compatibility for `WebPConfig`, `WebPDecoderConfig`, and related structs.
-   - Re-run `swift build` and `swift test` after bumping to catch ABI/API drift early.
-5. Improve API ergonomics without breaking semver unexpectedly.
-   - Keep old symbols with deprecation if renaming (for example typo-like names such as `decode(toUImage:)`).
-   - Consider adding safer typed wrappers for pixel buffers and decode/encode options.
-6. Raise quality gates.
-   - Add/refresh GitHub Actions for build+test matrix (macOS, iOS where applicable).
-   - Never use `swift-actions/setup-swift@v2`.
-   - Enforce formatting/linting if introduced.
-
-## Known Technical Debt Areas
-
-- 2018-era naming and style mixed with modern package settings.
-- Option/config structs rely on low-level C mappings with force unwraps.
-- Some README/CONTRIBUTING references are stale (Travis, old examples).
-- Tests have drifted from repository layout.
+- Explicit format-driven APIs:
+  - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`
+  - `WebPDecoder.decode(_:options:format:)`
+- Platform decode helpers:
+  - `decodeCGImage(from:options:)`
+  - `decodeUIImage(from:options:)`
+  - `decodeNSImage(from:options:)`
+- Internal ownership model uses `~Copyable`, `borrowing`/`consuming`, and `Span`.
 
 ## Working Rules For Agents
 
@@ -63,13 +35,16 @@ Use this file as the execution guide for modernization and issue-fixing work.
 - Run verification commands when needed:
   - `swift build`
   - `swift test`
+- Run formatting before final verification when Swift files change:
+  - `make format`
 - Update `CHANGELOG.md` for notable user-facing changes.
 - Release tags must not use a `v` prefix (use `0.x.y`, not `v0.x.y`).
-- Keep changes source-compatible where practical; deprecate before removing public APIs.
+- Never use `swift-actions/setup-swift@v2` in GitHub Actions.
 
-## Recommended Execution Order
+## Recommended Change Flow
 
-1. Make tests green.
-2. Eliminate warnings and unsafe crash paths.
-3. Modernize API surface with deprecations/migrations.
-4. Refresh docs and CI to match current behavior.
+1. Implement minimal focused change.
+2. Run `make format`.
+3. Run `swift build` and `swift test`.
+4. Update docs/changelog for any API or behavior change.
+5. Commit with clear message.
