@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "WebP", targets: ["WebP"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.2.0"),
+        .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.5.0"),
     ],
     targets: [
         .target(
