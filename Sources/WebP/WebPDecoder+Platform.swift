@@ -5,7 +5,7 @@ import libwebp
 import CoreGraphics
 
 extension WebPDecoder {
-    public func decodeCGImage(_ webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
+    public func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
         let feature = try WebPImageInspector.inspect(webPData)
         let height: Int = options.useScaling ? options.scaledHeight : feature.height
         let width: Int = options.useScaling ? options.scaledWidth : feature.width
@@ -43,8 +43,8 @@ extension WebPDecoder {
 import UIKit
 
 extension WebPDecoder {
-    public func decodeUIImage(_ webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
-        let cgImage: CGImage = try decodeCGImage(webPData, options: options)
+    public func decodeUIImage(from webPData: Data, options: WebPDecoderOptions) throws -> UIImage {
+        let cgImage: CGImage = try decodeCGImage(from: webPData, options: options)
         return UIImage(cgImage: cgImage)
     }
 }
@@ -54,8 +54,8 @@ extension WebPDecoder {
 import AppKit
 
 extension WebPDecoder {
-    public func decodeNSImage(_ webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
-        let cgImage: CGImage = try decodeCGImage(webPData, options: options)
+    public func decodeNSImage(from webPData: Data, options: WebPDecoderOptions) throws -> NSImage {
+        let cgImage: CGImage = try decodeCGImage(from: webPData, options: options)
         return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
     }
 }

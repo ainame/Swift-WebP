@@ -62,15 +62,15 @@ let rgbaData = try decoder.decode(webPData, options: options, format: .rgba)
 
 ```swift
 #if canImport(CoreGraphics)
-let cgImage = try decoder.decodeCGImage(webPData, options: options)
+let cgImage = try decoder.decodeCGImage(from: webPData, options: options)
 #endif
 
 #if canImport(UIKit)
-let image = try decoder.decodeUIImage(webPData, options: options)
+let image = try decoder.decodeUIImage(from: webPData, options: options)
 #endif
 
 #if canImport(AppKit)
-let image = try decoder.decodeNSImage(webPData, options: options)
+let image = try decoder.decodeNSImage(from: webPData, options: options)
 #endif
 ```
 

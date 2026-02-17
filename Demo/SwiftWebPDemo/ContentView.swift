@@ -60,7 +60,7 @@ struct ContentView: View {
                 var options = WebPDecoderOptions()
                 options.scaledWidth = Int(image.size.width)
                 options.scaledHeight = Int(image.size.height)
-                let webpImage = try decoder.decodeUIImage(data, options: options)
+                let webpImage = try decoder.decodeUIImage(from: data, options: options)
                 
                 DispatchQueue.main.async {
                     self.converted = webpImage

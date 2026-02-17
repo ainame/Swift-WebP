@@ -11,9 +11,9 @@ All notable changes to this project will be documented in this file.
 - Raised platform baselines to iOS 17+ and macOS 14+.
 - Removed old per-format encode/decode method families in favor of explicit format-based entrypoints.
 - Renamed platform decoding helpers:
-  - `decode(toUImage:options:)` -> `decodeUIImage(_:options:)`
-  - `decode(toNSImage:options:)` -> `decodeNSImage(_:options:)`
-  - `decode(_:options:)` (CGImage) -> `decodeCGImage(_:options:)`
+  - `decode(toUImage:options:)` -> `decodeUIImage(from:options:)`
+  - `decode(toNSImage:options:)` -> `decodeNSImage(from:options:)`
+  - `decode(_:options:)` (CGImage) -> `decodeCGImage(from:options:)`
 
 ### Added
 
@@ -42,7 +42,7 @@ All notable changes to this project will be documented in this file.
 - Decoding bytes (old): `decode(byRGBA:data, options:...)`
 - Decoding bytes (new): `decode(data, options:..., format: .rgba)`
 - Decoding `CGImage` (old): `decode(data, options:...)`
-- Decoding `CGImage` (new): `decodeCGImage(data, options:...)`
+- Decoding `CGImage` (new): `decodeCGImage(from: data, options:...)`
 
 ## v0.5.0
 
