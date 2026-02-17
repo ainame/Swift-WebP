@@ -43,10 +43,12 @@ Resource benchmark + validation:
 ```bash
 Scripts/benchmark-resource.sh
 Scripts/validate-resource.sh
+Scripts/compare-with-cwebp.sh
 ```
 
 You can tune benchmark parameters with env vars such as:
-`WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`.
+`WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`,
+`INPUT=/absolute/path/to/image`, `SOURCE_DECODE_PER_ITERATION=on`.
 Validation thresholds can be tuned with:
 `MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`, `MAX_PEAK_RSS_MB`.
 

@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 
 - Added `WebPBench` executable target for repeatable encode/decode CPU and memory benchmarking with built-in validity checks.
 - Added `Scripts/benchmark-resource.sh` and `Scripts/validate-resource.sh` to measure and gate resource usage in local runs.
+- Added image-input benchmark mode (`--input`, `--decode-source-each-iteration`) for fairer source-to-source comparisons.
+- Added `Scripts/compare-with-cwebp.sh` for side-by-side runs against Homebrew `cwebp`/`dwebp`.
 
 ## 0.6.0
 

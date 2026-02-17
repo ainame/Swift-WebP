@@ -10,22 +10,29 @@ ITERATIONS="${ITERATIONS:-30}"
 WARMUP="${WARMUP:-3}"
 QUALITY="${QUALITY:-10}"
 THREADS_FLAG="${THREADS_FLAG:-}"
+INPUT="${INPUT:-}"
+SOURCE_DECODE_PER_ITERATION="${SOURCE_DECODE_PER_ITERATION:-off}"
 
 cd "${REPO_ROOT}"
 
+args=(
+  --width "${WIDTH}"
+  --height "${HEIGHT}"
+  --iterations "${ITERATIONS}"
+  --warmup "${WARMUP}"
+  --quality "${QUALITY}"
+)
+
 if [[ "${THREADS_FLAG}" == "off" ]]; then
-  swift run -c release WebPBench \
-    --width "${WIDTH}" \
-    --height "${HEIGHT}" \
-    --iterations "${ITERATIONS}" \
-    --warmup "${WARMUP}" \
-    --quality "${QUALITY}" \
-    --no-threads
-else
-  swift run -c release WebPBench \
-    --width "${WIDTH}" \
-    --height "${HEIGHT}" \
-    --iterations "${ITERATIONS}" \
-    --warmup "${WARMUP}" \
-    --quality "${QUALITY}"
+  args+=(--no-threads)
 fi
+
+if [[ -n "${INPUT}" ]]; then
+  args+=(--input "${INPUT}")
+fi
+
+if [[ "${SOURCE_DECODE_PER_ITERATION}" == "on" ]]; then
+  args+=(--decode-source-each-iteration)
+fi
+
+swift run -c release WebPBench "${args[@]}"

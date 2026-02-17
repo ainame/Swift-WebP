@@ -7,6 +7,11 @@ import Darwin
 import Glibc
 #endif
 
+#if canImport(CoreGraphics) && canImport(ImageIO)
+import CoreGraphics
+import ImageIO
+#endif
+
 struct Config {
     var width = 1920
     var height = 1080
@@ -14,11 +19,24 @@ struct Config {
     var warmup = 3
     var quality: Float = 75
     var threads = true
+    var inputPath: String?
+    var decodeSourceEachIteration = false
+}
+
+struct InputFrame {
+    var rgba: [UInt8]
+    var width: Int
+    var height: Int
+
+    var stride: Int {
+        width * 4
+    }
 }
 
 enum BenchError: Error {
     case invalidArgument(String)
     case validationFailed(String)
+    case unsupported(String)
 }
 
 func parseArgs() throws -> Config {
@@ -47,6 +65,11 @@ func parseArgs() throws -> Config {
             config.warmup = try Int(readValue("--warmup")).unwrap(or: "--warmup must be Int")
         case "--quality":
             config.quality = try Float(readValue("--quality")).unwrap(or: "--quality must be Float")
+        case "--input":
+            config.inputPath = try readValue("--input")
+        case "--decode-source-each-iteration":
+            config.decodeSourceEachIteration = true
+            index += 1
         case "--no-threads":
             config.threads = false
             index += 1
@@ -67,6 +90,9 @@ func parseArgs() throws -> Config {
     guard (0 ... 100).contains(config.quality) else {
         throw BenchError.invalidArgument("quality must be in 0...100")
     }
+    if config.decodeSourceEachIteration, config.inputPath == nil {
+        throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
+    }
     return config
 }
 
@@ -75,6 +101,7 @@ func printHelp() {
         """
         WebPBench usage:
           WebPBench [--width N] [--height N] [--iterations N] [--warmup N] [--quality Q] [--no-threads]
+                    [--input /path/to/image] [--decode-source-each-iteration]
         """
     )
 }
@@ -92,6 +119,57 @@ func makeRGBA(width: Int, height: Int) -> [UInt8] {
     }
     return buffer
 }
+
+#if canImport(CoreGraphics) && canImport(ImageIO)
+func loadImageRGBA(path: String) throws -> InputFrame {
+    let url = URL(fileURLWithPath: path)
+    guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else {
+        throw BenchError.validationFailed("Failed to open input image: \(path)")
+    }
+    guard let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
+        throw BenchError.validationFailed("Failed to decode input image: \(path)")
+    }
+
+    let width = image.width
+    let height = image.height
+    let stride = width * 4
+    var rgba = [UInt8](repeating: 0, count: stride * height)
+
+    let rendered = rgba.withUnsafeMutableBytes { rawPtr -> Bool in
+        guard let base = rawPtr.baseAddress else {
+            return false
+        }
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ??
+            CGColorSpace(name: CGColorSpace.genericRGBLinear)
+        else {
+            return false
+        }
+        guard let context = CGContext(
+            data: base,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: stride,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else {
+            return false
+        }
+        context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+        return true
+    }
+
+    guard rendered else {
+        throw BenchError.validationFailed("Failed to render input image into RGBA buffer: \(path)")
+    }
+
+    return InputFrame(rgba: rgba, width: width, height: height)
+}
+#else
+func loadImageRGBA(path _: String) throws -> InputFrame {
+    throw BenchError.unsupported("--input is only supported on platforms with CoreGraphics + ImageIO")
+}
+#endif
 
 func now() -> Double {
     Date().timeIntervalSince1970
@@ -112,10 +190,8 @@ func maxRSSMB() -> Double {
     var usage = rusage()
     guard getrusage(RUSAGE_SELF, &usage) == 0 else { return -1 }
     #if os(macOS)
-    // macOS reports bytes.
     return Double(usage.ru_maxrss) / (1024 * 1024)
     #else
-    // Linux reports kilobytes.
     return Double(usage.ru_maxrss) / 1024
     #endif
 }
@@ -124,24 +200,54 @@ func run() throws {
     let config = try parseArgs()
     let encoder = WebPEncoder()
     let decoder = WebPDecoder()
-    let source = makeRGBA(width: config.width, height: config.height)
-    let stride = config.width * 4
+
+    let staticFrame: InputFrame? = if let inputPath = config.inputPath {
+        try loadImageRGBA(path: inputPath)
+    } else {
+        InputFrame(
+            rgba: makeRGBA(width: config.width, height: config.height),
+            width: config.width,
+            height: config.height
+        )
+    }
+
+    guard let seedFrame = staticFrame else {
+        throw BenchError.validationFailed("Failed to initialize input frame")
+    }
+
     let totalRuns = config.warmup + config.iterations
     var encodedLast = Data()
 
     var decodeOptions = WebPDecoderOptions()
     decodeOptions.useThreads = config.threads
     decodeOptions.useScaling = true
-    decodeOptions.scaledWidth = config.width
-    decodeOptions.scaledHeight = config.height
+    decodeOptions.scaledWidth = seedFrame.width
+    decodeOptions.scaledHeight = seedFrame.height
 
+    var sourceDecodeMS = [Double]()
     var encodeMS = [Double]()
     var decodeMS = [Double]()
+    sourceDecodeMS.reserveCapacity(config.iterations)
     encodeMS.reserveCapacity(config.iterations)
     decodeMS.reserveCapacity(config.iterations)
 
     for runIndex in 0 ..< totalRuns {
-        let encoded: Data = try source.withUnsafeBufferPointer { pointer in
+        let frame: InputFrame
+        if config.decodeSourceEachIteration {
+            guard let inputPath = config.inputPath else {
+                throw BenchError.invalidArgument("--decode-source-each-iteration requires --input")
+            }
+            let sourceStart = now()
+            frame = try loadImageRGBA(path: inputPath)
+            let sourceEnd = now()
+            if runIndex >= config.warmup {
+                sourceDecodeMS.append(elapsedMS(sourceStart, sourceEnd))
+            }
+        } else {
+            frame = seedFrame
+        }
+
+        let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
             guard let base = pointer.baseAddress else {
                 throw BenchError.validationFailed("Unable to get source buffer pointer")
             }
@@ -151,9 +257,9 @@ func run() throws {
                 mutable,
                 format: .rgba,
                 config: .preset(.picture, quality: config.quality),
-                originWidth: config.width,
-                originHeight: config.height,
-                stride: stride
+                originWidth: frame.width,
+                originHeight: frame.height,
+                stride: frame.stride
             )
             let end = now()
             if runIndex >= config.warmup {
@@ -168,7 +274,7 @@ func run() throws {
         if runIndex >= config.warmup {
             decodeMS.append(elapsedMS(decodeStart, decodeEnd))
         }
-        let expectedBytes = config.width * config.height * 4
+        let expectedBytes = frame.width * frame.height * 4
         guard decoded.count == expectedBytes else {
             throw BenchError.validationFailed(
                 "Decoded size mismatch. expected=\(expectedBytes), actual=\(decoded.count)"
@@ -178,22 +284,34 @@ func run() throws {
     }
 
     let features = try WebPImageInspector.inspect(encodedLast)
-    guard features.width == config.width, features.height == config.height else {
+    guard features.width == seedFrame.width, features.height == seedFrame.height else {
         throw BenchError.validationFailed(
-            "Bitstream dimensions mismatch. expected=\(config.width)x\(config.height), actual=\(features.width)x\(features.height)"
+            "Bitstream dimensions mismatch. expected=\(seedFrame.width)x\(seedFrame.height), actual=\(features.width)x\(features.height)"
         )
     }
 
+    let sourceDecodeAverage = sourceDecodeMS.reduce(0, +) / Double(max(sourceDecodeMS.count, 1))
     let encodeAverage = encodeMS.reduce(0, +) / Double(max(encodeMS.count, 1))
     let decodeAverage = decodeMS.reduce(0, +) / Double(max(decodeMS.count, 1))
 
-    print("width=\(config.width)")
-    print("height=\(config.height)")
+    print("source_mode=\(config.inputPath == nil ? "synthetic" : "image")")
+    print("source_path=\(config.inputPath ?? "")")
+    print("source_decode_each_iteration=\(config.decodeSourceEachIteration)")
+    print("width=\(seedFrame.width)")
+    print("height=\(seedFrame.height)")
     print("iterations=\(config.iterations)")
     print("warmup=\(config.warmup)")
     print("quality=\(config.quality)")
     print("threads=\(config.threads)")
     print("webp_bytes=\(encodedLast.count)")
+    if !sourceDecodeMS.isEmpty {
+        print("source_decode_avg_ms=\(String(format: "%.3f", sourceDecodeAverage))")
+        print("source_decode_p95_ms=\(String(format: "%.3f", percentile(sourceDecodeMS, 0.95)))")
+        print("pipeline_encode_avg_ms=\(String(format: "%.3f", sourceDecodeAverage + encodeAverage))")
+        print(
+            "pipeline_encode_p95_ms=\(String(format: "%.3f", percentile(sourceDecodeMS, 0.95) + percentile(encodeMS, 0.95)))"
+        )
+    }
     print("encode_avg_ms=\(String(format: "%.3f", encodeAverage))")
     print("encode_p95_ms=\(String(format: "%.3f", percentile(encodeMS, 0.95)))")
     print("decode_avg_ms=\(String(format: "%.3f", decodeAverage))")
