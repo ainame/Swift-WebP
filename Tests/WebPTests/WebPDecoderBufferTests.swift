@@ -113,17 +113,14 @@ struct WebPDecoderBufferTests {
         let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
 
-        expectWebPError(
-            {
-                _ = try decoder.decode(webPData, options: .init(), format: .yuv)
-            },
-            matches: { error in
-                if case .unsupportedDecodeFormat = error {
-                    return true
-                }
-                return false
+        expectWebPError {
+            _ = try decoder.decode(webPData, options: .init(), format: .yuv)
+        } matches: { error in
+            if case .unsupportedDecodeFormat = error {
+                return true
             }
-        )
+            return false
+        }
     }
 
     @Test
@@ -132,19 +129,16 @@ struct WebPDecoderBufferTests {
         let decoder = WebPDecoder()
         var output = [UInt8](repeating: 0, count: 1)
 
-        expectWebPError(
-            {
-                _ = try output.withUnsafeMutableBufferPointer { buffer in
-                    try decoder.decode(webPData, into: buffer, options: .init(), format: .yuv)
-                }
-            },
-            matches: { error in
-                if case .unsupportedDecodeFormat = error {
-                    return true
-                }
-                return false
+        expectWebPError {
+            _ = try output.withUnsafeMutableBufferPointer { buffer in
+                try decoder.decode(webPData, into: buffer, options: .init(), format: .yuv)
             }
-        )
+        } matches: { error in
+            if case .unsupportedDecodeFormat = error {
+                return true
+            }
+            return false
+        }
     }
 
     @Test
