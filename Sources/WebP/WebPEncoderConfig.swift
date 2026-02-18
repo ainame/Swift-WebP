@@ -1,60 +1,42 @@
 import Foundation
 import libwebp
 
-extension libwebp.WebPImageHint: ExpressibleByIntegerLiteral {
-    /// Create an instance initialized to `value`.
-    public init(integerLiteral value: Int) {
-        switch UInt32(value) {
-        case libwebp.WEBP_HINT_DEFAULT.rawValue:
-            self = libwebp.WEBP_HINT_DEFAULT
-        case libwebp.WEBP_HINT_PICTURE.rawValue:
-            self = libwebp.WEBP_HINT_PICTURE
-        case libwebp.WEBP_HINT_PHOTO.rawValue:
-            self = libwebp.WEBP_HINT_PHOTO
-        case libwebp.WEBP_HINT_GRAPH.rawValue:
-            self = libwebp.WEBP_HINT_GRAPH
-        default:
-            fatalError()
-        }
-    }
-}
-
-
-// mapping from libwebp.WebPConfig
-public struct WebPEncoderConfig: InternalRawRepresentable {
-    public enum WebPImageHint: libwebp.WebPImageHint {
+/// mapping from libwebp.WebPConfig
+public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
+    public enum WebPImageHint: UInt32, Sendable {
         case `default` = 0
         case picture = 1
         case photo = 2
         case graph = 3
+        case last = 4
     }
 
-    // Lossless encoding (0=lossy(default), 1=lossless).
+    /// Lossless encoding (0=lossy(default), 1=lossless).
     public var lossless: Int = 0
 
-    // between 0 (smallest file) and 100 (biggest)
+    /// between 0 (smallest file) and 100 (biggest)
     public var quality: Float
 
-    // quality/speed trade-off (0=fast, 6=slower-better)
+    /// quality/speed trade-off (0=fast, 6=slower-better)
     public var method: Int
 
-    // Hint for image type (lossless only for now).
+    /// Hint for image type (lossless only for now).
     public var imageHint: WebPImageHint = .default
 
     // Parameters related to lossy compression only:
 
-    // if non-zero, set the desired target size in bytes.
-    // Takes precedence over the 'compression' parameter.
+    /// if non-zero, set the desired target size in bytes.
+    /// Takes precedence over the 'compression' parameter.
     public var targetSize: Int = 0
 
-    // if non-zero, specifies the minimal distortion to
-    // try to achieve. Takes precedence over target_size.
+    /// if non-zero, specifies the minimal distortion to
+    /// try to achieve. Takes precedence over target_size.
     public var targetPSNR: Float = 0
 
-    // maximum number of segments to use, in [1..4]
+    /// maximum number of segments to use, in [1..4]
     public var segments: Int
 
-    // Spatial Noise Shaping. 0=off, 100=maximum.
+    /// Spatial Noise Shaping. 0=off, 100=maximum.
     public var snsStrength: Int
 
     // range: [0 = off .. 100 = strongest]
@@ -63,38 +45,38 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
     // range: [0 = off .. 7 = least sharp]
     public var filterSharpness: Int
 
-    // filtering type: 0 = simple, 1 = strong (only used
-    // if filter_strength > 0 or autofilter > 0)
+    /// filtering type: 0 = simple, 1 = strong (only used
+    /// if filter_strength > 0 or autofilter > 0)
     public var filterType: Int
 
-    // Auto adjust filter's strength [0 = off, 1 = on]
+    /// Auto adjust filter's strength [0 = off, 1 = on]
     public var autofilter: Int
 
-    // Algorithm for encoding the alpha plane (0 = none,
-    // 1 = compressed with WebP lossless). Default is 1.
+    /// Algorithm for encoding the alpha plane (0 = none,
+    /// 1 = compressed with WebP lossless). Default is 1.
     public var alphaCompression: Int = 1
 
     // Predictive filtering method for alpha plane.
     // 0: none, 1: fast, 2: best. Default if 1.
     public var alphaFiltering: Int
 
-    // Between 0 (smallest size) and 100 (lossless).
-    // Default is 100.
+    /// Between 0 (smallest size) and 100 (lossless).
+    /// Default is 100.
     public var alphaQuality: Int = 100
 
-    // number of entropy-analysis passes (in [1..10]).
+    /// number of entropy-analysis passes (in [1..10]).
     public var pass: Int
 
-    // if true, export the compressed picture back.
-    // In-loop filtering is not applied.
+    /// if true, export the compressed picture back.
+    /// In-loop filtering is not applied.
     public var showCompressed: Bool
 
-    // preprocessing filter:
-    // 0=none, 1=segment-smooth, 2=pseudo-random dithering
+    /// preprocessing filter:
+    /// 0=none, 1=segment-smooth, 2=pseudo-random dithering
     public var preprocessing: Int
 
-    // log2(number of token partitions) in [0..3]. Default
-    // is set to 0 for easier progressive decoding.
+    /// log2(number of token partitions) in [0..3]. Default
+    /// is set to 0 for easier progressive decoding.
     public var partitions: Int = 0
 
     // quality degradation allowed to fit the 512k limit
@@ -102,46 +84,68 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
     // 100: maximum possible degradation).
     public var partitionLimit: Int
 
-    // If true, compression parameters will be remapped
-    // to better match the expected output size from
-    // JPEG compression. Generally, the output size will
-    // be similar but the degradation will be lower.
+    /// If true, compression parameters will be remapped
+    /// to better match the expected output size from
+    /// JPEG compression. Generally, the output size will
+    /// be similar but the degradation will be lower.
     public var emulateJpegSize: Bool
 
-    // If non-zero, try and use multi-threaded encoding.
+    /// If non-zero, try and use multi-threaded encoding.
     public var threadLevel: Int
 
-    // If set, reduce memory usage (but increase CPU use).
+    /// If set, reduce memory usage (but increase CPU use).
     public var lowMemory: Bool
 
-    // Near lossless encoding [0 = max loss .. 100 = off
-    // Int(default)].
+    /// Near lossless encoding [0 = max loss .. 100 = off
+    /// Int(default)].
     public var nearLossless: Int = 100
 
-    // if non-zero, preserve the exact RGB values under
-    // transparent area. Otherwise, discard this invisible
-    // RGB information for better compression. The default
-    // value is 0.
+    /// if non-zero, preserve the exact RGB values under
+    /// transparent area. Otherwise, discard this invisible
+    /// RGB information for better compression. The default
+    /// value is 0.
     public var exact: Int
 
     public var qmin: Int = 0
     public var qmax: Int = 100
 
-    // reserved for future lossless feature
+    /// reserved for future lossless feature
     var useDeltaPalette: Bool
-    // if needed, use sharp (and slow) RGB->YUV conversion
+    /// if needed, use sharp (and slow) RGB->YUV conversion
     var useSharpYUV: Bool
 
-    static public func preset(_ preset: Preset, quality: Float) -> WebPEncoderConfig {
+    public static func preset(_ preset: Preset, quality: Float) -> WebPEncoderConfig {
         let webPConfig = preset.webPConfig(quality: quality)
-        return WebPEncoderConfig(rawValue: webPConfig)!
+        return WebPEncoderConfig(rawValue: webPConfig)
     }
 
-    internal init?(rawValue: libwebp.WebPConfig) {
+    /// Apply the libwebp lossless preset levels [0...9].
+    /// Higher levels spend more time searching for better compression.
+    public static func losslessPreset(level: Int) throws -> WebPEncoderConfig {
+        var config = libwebp.WebPConfig()
+        guard WebPConfigInit(&config) != 0 else {
+            throw WebPError.invalidWebPConfig
+        }
+        guard WebPConfigLosslessPreset(&config, Int32(level)) != 0 else {
+            throw WebPError.invalidWebPConfig
+        }
+        return WebPEncoderConfig(rawValue: config)
+    }
+
+    /// Validate config fields against libwebp's supported ranges.
+    public func validate() -> Bool {
+        var config = rawValue
+        return WebPValidateConfig(&config) != 0
+    }
+
+    init(rawValue: libwebp.WebPConfig) {
         lossless = Int(rawValue.lossless)
         quality = rawValue.quality
         method = Int(rawValue.method)
-        imageHint = WebPImageHint(rawValue: rawValue.image_hint)!
+        guard let imageHint = WebPImageHint(rawValue: rawValue.image_hint.rawValue) else {
+            preconditionFailure("Unexpected WebP image hint value: \(rawValue.image_hint.rawValue)")
+        }
+        self.imageHint = imageHint
         targetSize = Int(rawValue.target_size)
         targetPSNR = Float(rawValue.target_PSNR)
         segments = Int(rawValue.segments)
@@ -169,7 +173,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         qmax = Int(rawValue.qmax)
     }
 
-    internal var rawValue: libwebp.WebPConfig {
+    var rawValue: libwebp.WebPConfig {
         let show_compressed = showCompressed ? Int32(1) : Int32(0)
         let emulate_jpeg_size = emulateJpegSize ? Int32(1) : Int32(0)
         let low_memory = lowMemory ? Int32(1) : Int32(0)
@@ -180,7 +184,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
             lossless: Int32(lossless),
             quality: Float(quality),
             method: Int32(method),
-            image_hint: imageHint.rawValue,
+            image_hint: libwebp.WebPImageHint(rawValue: imageHint.rawValue),
             target_size: Int32(targetSize),
             target_PSNR: Float(targetPSNR),
             segments: Int32(segments),
@@ -209,7 +213,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         )
     }
 
-    public enum Preset {
+    public enum Preset: Sendable {
         case `default`, picture, photo, drawing, icon, text
 
         func webPConfig(quality: Float) -> libwebp.WebPConfig {
@@ -233,5 +237,4 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
             return config
         }
     }
-
 }

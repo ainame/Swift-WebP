@@ -1,0 +1,17 @@
+# SwiftFormat configuration
+# https://github.com/nicklockwood/SwiftFormat/blob/main/Rules.md
+
+--swiftversion 6.2
+--indent 4
+--linebreaks lf
+--maxwidth 120
+--stripunusedargs closure-only
+--self remove
+--ifdef no-indent
+--wraparguments before-first
+--wrapparameters before-first
+--commas inline
+--trimwhitespace always
+--allman false
+
+# Keep defaults for most rules and only pin a minimal baseline above.

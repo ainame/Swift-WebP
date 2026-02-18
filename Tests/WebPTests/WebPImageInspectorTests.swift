@@ -1,37 +1,62 @@
 import Foundation
+import Testing
 import WebP
-import XCTest
 
-class WebPImageInspectorTests: XCTestCase {
+struct WebPImageInspectorTests {
     enum WebPImageInspectorTestError: Error {
         case cantReadTestData(String)
     }
 
-    func testInspectWebPImageHeightAndWidth() throws {
-        let path = ResourceAccessHelper.getExamplImagePath(of: "jiro.webp")
-        guard let data = FileManager.default.contents(atPath: path) else {
-            throw WebPImageInspectorTestError.cantReadTestData(path)
-        }
+    @Test
+    func inspectWebPImageHeightAndWidth() throws {
+        let data = try TestFixtures.makeWebPFixture(width: 2, height: 2)
         let feature = try WebPImageInspector.inspect(data)
-        XCTAssert(feature.width > 0)
-        XCTAssert(feature.height > 0)
-        XCTAssertFalse(feature.hasAlpha)
-        XCTAssertFalse(feature.hasAnimation)
+        #expect(feature.width > 0)
+        #expect(feature.height > 0)
+        #expect(!feature.hasAnimation)
     }
 
-    func testInspectingJpegImageThrowsError() throws {
-        let path = ResourceAccessHelper.getExamplImagePath(of: "jiro.jpg")
-        guard let data = FileManager.default.contents(atPath: path) else {
-            throw WebPImageInspectorTestError.cantReadTestData(path)
+    @Test
+    func inspectWebP_reportsExactDimensionsAndFormat() throws {
+        let data = try TestFixtures.makeWebPFixture(width: 2, height: 2)
+        let feature = try WebPImageInspector.inspect(data)
+        #expect(feature.width == 2)
+        #expect(feature.height == 2)
+        #expect(feature.format != .undefined)
+        #expect(!feature.hasAnimation)
+    }
+
+    @Test
+    func inspectingJpegImageThrowsError() throws {
+        guard let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")?.path,
+              let data = FileManager.default.contents(atPath: path)
+        else {
+            throw WebPImageInspectorTestError.cantReadTestData("jiro.jpg")
         }
-        XCTAssertThrowsError(try WebPImageInspector.inspect(data)) { _error in
-            if let error = _error as? WebPError,
-                case .unexpectedError(let _) = error {
-                XCTAssert(true)
-            } else {
-                XCTFail()
+
+        var didThrowExpectedError = false
+        do {
+            _ = try WebPImageInspector.inspect(data)
+        } catch let error as WebPError {
+            if case .unexpectedError = error {
+                didThrowExpectedError = true
             }
         }
+        #expect(didThrowExpectedError)
     }
 
+    @Test
+    func inspect_randomDataThrowsUnexpectedError() throws {
+        let data = Data([0x01, 0x02, 0x03, 0x04, 0x05])
+
+        var didThrowExpectedError = false
+        do {
+            _ = try WebPImageInspector.inspect(data)
+        } catch let error as WebPError {
+            if case .unexpectedError = error {
+                didThrowExpectedError = true
+            }
+        }
+        #expect(didThrowExpectedError)
+    }
 }

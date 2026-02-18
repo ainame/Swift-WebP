@@ -1,36 +1,31 @@
 #if os(iOS)
-import XCTest
 import Foundation
+import Testing
 import UIKit
-@testable import WebP
+import WebP
 
-class WebPEncoderIOSTests: XCTestCase {
-
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
-    func testExample() throws {
+struct WebPEncoderIOSTests {
+    @Test
+    func example() throws {
         let encoder = WebPEncoder()
 
-        let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")!
-        let uiimage = UIImage(contentsOfFile: path.path)!
+        guard let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg") else {
+            throw WebPError.unexpectedError(withMessage: "Image couldn't be loaded from test resources")
+        }
+        guard let uiimage = UIImage(contentsOfFile: path.path) else {
+            throw WebPError.unexpectedError(withMessage: "Couldn't create UIImage from test file")
+        }
         let data = try encoder.encode(uiimage, config: .preset(.photo, quality: 100))
-        XCTAssertTrue(data.count > 0)
+        #expect(data.count > 0)
 
         let decoder = WebPDecoder()
         var options = WebPDecoderOptions()
         options.useScaling = true
         options.scaledWidth = Int(uiimage.size.width)
         options.scaledHeight = Int(uiimage.size.height)
-        let decodedImage = try decoder.decode(data, options: options)
-        XCTAssertEqual(decodedImage.width, options.scaledWidth)
-        XCTAssertEqual(decodedImage.height, options.scaledHeight)
+        let decodedImage = try decoder.decodeCGImage(from: data, options: options)
+        #expect(decodedImage.width == options.scaledWidth)
+        #expect(decodedImage.height == options.scaledHeight)
     }
-
 }
 #endif
