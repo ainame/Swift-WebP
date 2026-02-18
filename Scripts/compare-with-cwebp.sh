@@ -54,6 +54,7 @@ CWEBP_OUTPUT="$(
   perl -MTime::HiRes=time -e '
     use strict;
     use warnings;
+    use File::Spec;
     my $in = $ENV{"INPUT"};
     my $quality = $ENV{"QUALITY"};
     my $iters = int($ENV{"ITERATIONS"});
@@ -65,14 +66,22 @@ CWEBP_OUTPUT="$(
     my (@enc, @dec);
     for (my $i = 0; $i < $iters + $warm; $i++) {
       my $start = time();
-      my $enc_cmd = "cwebp -quiet -preset picture -q $quality $cwebp_mt $in -o $webp";
-      system($enc_cmd) == 0 or die "cwebp failed";
+      my @enc_cmd = ("cwebp", "-quiet", "-preset", "picture", "-q", $quality);
+      push @enc_cmd, $cwebp_mt if defined($cwebp_mt) && $cwebp_mt ne "";
+      push @enc_cmd, ($in, "-o", $webp);
+      system(@enc_cmd) == 0 or die "cwebp failed";
       my $enc_ms = (time() - $start) * 1000;
       if ($i >= $warm) { push @enc, $enc_ms; }
 
       $start = time();
-      my $dec_cmd = "dwebp -quiet $dwebp_mt $webp -ppm -o - >/dev/null";
-      system($dec_cmd) == 0 or die "dwebp failed";
+      my @dec_cmd = ("dwebp", "-quiet");
+      push @dec_cmd, $dwebp_mt if defined($dwebp_mt) && $dwebp_mt ne "";
+      push @dec_cmd, ($webp, "-ppm", "-o", "-");
+      open my $null, ">", File::Spec->devnull() or die "open devnull failed: $!";
+      {
+        local *STDOUT = $null;
+        system(@dec_cmd) == 0 or die "dwebp failed";
+      }
       my $dec_ms = (time() - $start) * 1000;
       if ($i >= $warm) { push @dec, $dec_ms; }
     }

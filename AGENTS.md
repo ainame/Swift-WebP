@@ -15,7 +15,6 @@ Use this file as the execution guide for ongoing implementation and maintenance 
 - CI:
   - macOS build + test
   - Linux build + test
-  - iOS package build
 - Current branch policy from user: perform modernization work on `major-bump`.
 
 ## Library Surface (Current)
