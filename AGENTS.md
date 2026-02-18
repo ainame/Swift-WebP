@@ -7,7 +7,7 @@ Use this file as the execution guide for ongoing implementation and maintenance 
 
 ## Current Baseline (2026-02-17)
 
-- Swift tools: 6.2 (`swiftLanguageModes: [.v6]`)
+- Swift toolchain: 6.2.3 (`.swift-version`), `swift-tools-version: 6.2` (`swiftLanguageModes: [.v6]`)
 - Deployment targets: iOS 17+, macOS 14+
 - Dependency:
   - [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) 1.5.0+

@@ -4,7 +4,7 @@ Swift-WebP provides Swift wrappers around `libwebp` for encoding, decoding, and 
 
 ## Support Versions
 
-- Swift tools: 6.2
+- Swift toolchain: 6.2.3 (`.swift-version`)
 - Swift language mode: 6
 - libwebp-Xcode: 1.5.0+
 - iOS deployment target: 17.0+

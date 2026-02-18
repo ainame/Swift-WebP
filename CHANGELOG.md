@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
   - `WebPDecBuffer.ExternalMemoryMode.externalMemorySlow`
 - Removed `WebPDecBuffer.isExternalMemory`.
 - Made `WebPDecBuffer.privateMemory` internal (no longer public API surface).
-- Raised Swift tools to `6.2` and Swift language mode to `v6`.
+- Raised Swift toolchain to `6.2.3` (`.swift-version`) and Swift language mode to `v6` (`swift-tools-version: 6.2`).
 - Raised platform baselines to iOS 17+ and macOS 14+.
 - Removed old per-format encode/decode method families in favor of explicit format-based entrypoints.
 - Renamed platform decoding helpers:
@@ -62,7 +62,7 @@ All notable changes to this project will be documented in this file.
 - Removed runtime `fatalError` paths in core decoding config conversions.
 - Replaced unsafe cast in `CGImage` byte access path.
 - Resolved retroactive conformance warning in encoder config mappings.
-- Simplified CI to run only `swift test` on separate macOS 26 and Linux jobs.
+- Simplified CI to run only `swift test` on separate macOS and Linux jobs.
 - Linux CI now installs the Swift toolchain via `vapor/swiftly-action`, sourced from `.swift-version`.
 
 ### Migration Guide

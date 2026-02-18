@@ -4,8 +4,8 @@ Contributions are welcome through issues and pull requests.
 
 ## Development Requirements
 
-- Swift 6.2 toolchain
-- Xcode with Swift 6.2 support (for Apple platform checks)
+- Swift 6.2.3 toolchain (`.swift-version`)
+- Xcode with Swift 6.2.3 support (for Apple platform checks)
 
 ## Local Validation
 
@@ -30,7 +30,6 @@ GitHub Actions validates:
 
 - macOS build + test
 - Linux build + test
-- iOS package build (`xcodebuild`)
 
 ## Changelog
 
