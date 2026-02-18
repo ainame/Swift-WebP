@@ -11,8 +11,11 @@ public extension WebPEncoder {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        try encode(
-            cgImage.getBaseAddress(),
+        let baseAddress = try cgImage.getBaseAddress()
+        let byteCount = cgImage.bytesPerRow * cgImage.height
+        let buffer = UnsafeBufferPointer(start: baseAddress, count: byteCount)
+        return try encode(
+            buffer,
             format: format,
             config: config,
             originWidth: cgImage.width,

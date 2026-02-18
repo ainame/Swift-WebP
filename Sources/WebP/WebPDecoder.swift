@@ -77,11 +77,25 @@ public struct WebPDecoder: Sendable {
         try requiredOutputLayout(for: webPData, options: options, format: format).byteCount
     }
 
+    @available(
+        *,
+        deprecated,
+        message: "Use decode(_:into: inout [UInt8], options:format:) unless low-level interop requires UnsafeMutableBufferPointer."
+    )
     public func decode(
         _ webPData: Data,
         into output: UnsafeMutableBufferPointer<UInt8>,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat = .rgba
+    ) throws -> Int {
+        try decodeIntoBuffer(webPData, output: output, options: options, format: format)
+    }
+
+    private func decodeIntoBuffer(
+        _ webPData: Data,
+        output: UnsafeMutableBufferPointer<UInt8>,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat
     ) throws -> Int {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
@@ -118,7 +132,7 @@ public struct WebPDecoder: Sendable {
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
         try output.withUnsafeMutableBufferPointer { buffer in
-            try decode(webPData, into: buffer, options: options, format: format)
+            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
         }
     }
 
@@ -141,12 +155,7 @@ public struct WebPDecoder: Sendable {
                 throw WebPError.outputBufferTooSmall(required: requiredByteCount, actual: 0)
             }
             let buffer = UnsafeMutableBufferPointer(start: baseAddress, count: rawPtr.count)
-            return try decode(
-                webPData,
-                into: buffer,
-                options: options,
-                format: format
-            )
+            return try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
         }
         if written == output.count {
             return output

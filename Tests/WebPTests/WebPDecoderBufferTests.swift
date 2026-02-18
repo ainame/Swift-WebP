@@ -11,9 +11,7 @@ struct WebPDecoderBufferTests {
         let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
 
         var output = [UInt8](repeating: 0, count: required)
-        let written = try output.withUnsafeMutableBufferPointer { buffer in
-            try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
-        }
+        let written = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
 
         #expect(written == required)
         #expect(output.contains { $0 != 0 })
@@ -41,9 +39,7 @@ struct WebPDecoderBufferTests {
         let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
 
         var output = [UInt8](repeating: 0xCD, count: required + 64)
-        let written = try output.withUnsafeMutableBufferPointer { buffer in
-            try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
-        }
+        let written = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
 
         #expect(written == required)
         let tail = output.suffix(64)
@@ -59,9 +55,7 @@ struct WebPDecoderBufferTests {
 
         var output = [UInt8](repeating: 0, count: max(0, required - 1))
         do {
-            _ = try output.withUnsafeMutableBufferPointer { buffer in
-                try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
-            }
+            _ = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
             #expect(Bool(false), "Expected outputBufferTooSmall error")
         } catch let error as WebPError {
             switch error {
@@ -166,9 +160,7 @@ struct WebPDecoderBufferTests {
         var output = [UInt8](repeating: 0, count: 1)
 
         expectWebPError {
-            _ = try output.withUnsafeMutableBufferPointer { buffer in
-                try decoder.decode(webPData, into: buffer, options: .init(), format: .yuv)
-            }
+            _ = try decoder.decode(webPData, into: &output, options: .init(), format: .yuv)
         } matches: { error in
             if case .unsupportedDecodeFormat = error {
                 return true

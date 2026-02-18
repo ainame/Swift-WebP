@@ -58,9 +58,10 @@ public struct WebPEncoder: Sendable {
         guard let baseAddress = data.baseAddress else {
             throw WebPError.unexpectedPointerError
         }
+        let importer = importer(for: format)
         return try encode(
             UnsafeMutablePointer(mutating: baseAddress),
-            format: format,
+            importer: importer,
             config: config,
             originWidth: originWidth,
             originHeight: originHeight,
@@ -70,6 +71,11 @@ public struct WebPEncoder: Sendable {
         )
     }
 
+    @available(
+        *,
+        deprecated,
+        message: "Use encode(_: UnsafeBufferPointer<UInt8>, format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:) unless low-level interop requires mutable pointers."
+    )
     public func encode(
         _ dataPtr: UnsafeMutablePointer<UInt8>,
         format: WebPEncodePixelFormat,

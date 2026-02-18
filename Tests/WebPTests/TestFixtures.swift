@@ -23,13 +23,13 @@ enum TestFixtures {
         config: WebPEncoderConfig = .preset(.picture, quality: 90)
     ) throws -> Data {
         let encoder = WebPEncoder()
-        var rgba = makeRGBAFixture(width: width, height: height)
-        return try rgba.withUnsafeMutableBufferPointer { pointer in
-            guard let base = pointer.baseAddress else {
+        let rgba = makeRGBAFixture(width: width, height: height)
+        return try rgba.withUnsafeBufferPointer { pointer in
+            guard pointer.baseAddress != nil else {
                 throw WebPError.unexpectedPointerError
             }
             return try encoder.encode(
-                base,
+                pointer,
                 format: .rgba,
                 config: config,
                 originWidth: width,

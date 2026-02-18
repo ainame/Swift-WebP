@@ -11,8 +11,10 @@ public extension WebPEncoder {
         }
 
         let stride = cgImage.bytesPerRow
+        let byteCount = stride * cgImage.height
+        let buffer = try UnsafeBufferPointer(start: cgImage.getBaseAddress(), count: byteCount)
         return try encode(
-            cgImage.getBaseAddress(),
+            buffer,
             format: .rgba,
             config: config,
             originWidth: cgImage.width,
@@ -33,8 +35,10 @@ extension WebPEncoder {
     public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         let cgImage = try convertUIImageToCGImageWithRGBA(image)
         let stride = cgImage.bytesPerRow
+        let byteCount = stride * cgImage.height
+        let buffer = try UnsafeBufferPointer(start: cgImage.getBaseAddress(), count: byteCount)
         return try encode(
-            cgImage.getBaseAddress(),
+            buffer,
             format: .rgba,
             config: config,
             originWidth: Int(image.size.width),

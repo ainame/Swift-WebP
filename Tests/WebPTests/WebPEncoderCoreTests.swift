@@ -60,14 +60,14 @@ struct WebPEncoderCoreTests {
         config.quality = 101
         #expect(!config.validate())
 
-        var rgba = TestFixtures.makeRGBAFixture(width: 2, height: 2)
+        let rgba = TestFixtures.makeRGBAFixture(width: 2, height: 2)
         do {
-            _ = try rgba.withUnsafeMutableBufferPointer { buffer in
-                guard let base = buffer.baseAddress else {
+            _ = try rgba.withUnsafeBufferPointer { buffer in
+                guard buffer.baseAddress != nil else {
                     throw WebPError.unexpectedPointerError
                 }
                 return try encoder.encode(
-                    base,
+                    buffer,
                     format: .rgba,
                     config: config,
                     originWidth: 2,
