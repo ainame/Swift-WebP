@@ -2,8 +2,8 @@ import Foundation
 import libwebp
 
 /// mapping from libwebp.WebPConfig
-public struct WebPEncoderConfig: InternalRawRepresentable {
-    public enum WebPImageHint: UInt32 {
+public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
+    public enum WebPImageHint: UInt32, Sendable {
         case `default` = 0
         case picture = 1
         case photo = 2
@@ -213,7 +213,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable {
         )
     }
 
-    public enum Preset {
+    public enum Preset: Sendable {
         case `default`, picture, photo, drawing, icon, text
 
         func webPConfig(quality: Float) -> libwebp.WebPConfig {

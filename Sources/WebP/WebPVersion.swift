@@ -1,7 +1,7 @@
 import Foundation
 import libwebp
 
-public struct WebPVersion: Equatable, CustomStringConvertible {
+public struct WebPVersion: Equatable, CustomStringConvertible, Sendable {
     public let major: Int
     public let minor: Int
     public let patch: Int

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum WebPError: Error {
+public enum WebPError: Error, Sendable {
     case unexpectedPointerError // Something related pointer operation's error
     case unexpectedError(withMessage: String) // Something happened
     case decoderConfigInitializationFailed

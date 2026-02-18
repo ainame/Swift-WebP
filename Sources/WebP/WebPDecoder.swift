@@ -3,7 +3,7 @@ import libwebp
 
 /// There's no definition of WebPDecodingError in libwebp.
 /// We map VP8StatusCode enum as WebPDecodingError instead.
-public enum WebPDecodingError: UInt32, Error {
+public enum WebPDecodingError: UInt32, Error, Sendable {
     case ok = 0 // shouldn't be used as this is the succseed case
     case outOfMemory
     case invalidParam
@@ -19,7 +19,7 @@ public enum WebPDecodingError: UInt32, Error {
     }
 }
 
-public enum WebPDecodePixelFormat {
+public enum WebPDecodePixelFormat: Sendable {
     case rgb
     case rgba
     case bgr
@@ -66,7 +66,7 @@ public enum WebPDecodePixelFormat {
     }
 }
 
-public struct WebPDecoder {
+public struct WebPDecoder: Sendable {
     public init() {}
 
     public func requiredOutputByteCount(

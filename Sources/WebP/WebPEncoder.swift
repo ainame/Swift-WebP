@@ -3,13 +3,13 @@ import libwebp
 
 /// This is customised error that describes the pattern of error causes.
 /// However, the error is unlikely to happen normally but it's still better to handle with throw-catch than fatal error.
-public enum WebPEncoderError: Error {
+public enum WebPEncoderError: Error, Sendable {
     case invalidParameter
     case versionMismatched
 }
 
 /// This is the mapped error codes that CWebP.WebPEncode returns
-public enum WebPEncodeStatusCode: Int, Error {
+public enum WebPEncodeStatusCode: Int, Error, Sendable {
     case ok = 0
     case outOfMemory // memory error allocating objects
     case bitstreamOutOfMemory // memory error while flushing bits
@@ -31,7 +31,7 @@ public enum WebPEncodeStatusCode: Int, Error {
     }
 }
 
-public enum WebPEncodePixelFormat {
+public enum WebPEncodePixelFormat: Sendable {
     case rgb
     case rgba
     case rgbx
@@ -40,7 +40,7 @@ public enum WebPEncodePixelFormat {
     case bgrx
 }
 
-public struct WebPEncoder {
+public struct WebPEncoder: Sendable {
     typealias WebPPictureImporter = (UnsafeMutablePointer<WebPPicture>, UnsafeMutablePointer<UInt8>, Int32) -> Int32
 
     public init() {}
