@@ -5,7 +5,7 @@ Contributions are welcome through issues and pull requests.
 ## Development Requirements
 
 - Swift 6.2.3 toolchain (`.swift-version`)
-- Xcode with Swift 6.2.3 support (for Apple platform checks)
+- Xcode 26.2+ (Swift 6.2.3 support) for Apple platform checks
 
 ## Local Validation
 
