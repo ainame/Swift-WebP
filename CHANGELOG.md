@@ -34,6 +34,7 @@ All notable changes to this project will be documented in this file.
 - Added benchmark execution modes (`pipeline`, `source-decode-only`, `encode-only`, `decode-only`) and stage RSS telemetry fields.
 - Added decode buffer coverage tests (`WebPDecoderBufferTests`) for exact-size, oversized, undersized, and scaling scenarios.
 - Added explicit `Sendable` conformances for core value-oriented public APIs and option/config enums used in concurrency-safe call sites.
+- Added `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)` overload for `UnsafeBufferPointer<UInt8>` inputs.
 - `WebPEncodePixelFormat` and `WebPDecodePixelFormat` enums.
 - Canonical APIs:
   - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`

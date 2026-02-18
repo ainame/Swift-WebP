@@ -46,6 +46,31 @@ public struct WebPEncoder: Sendable {
     public init() {}
 
     public func encode(
+        _ data: UnsafeBufferPointer<UInt8>,
+        format: WebPEncodePixelFormat,
+        config: WebPEncoderConfig,
+        originWidth: Int,
+        originHeight: Int,
+        stride: Int,
+        resizeWidth: Int = 0,
+        resizeHeight: Int = 0
+    ) throws -> Data {
+        guard let baseAddress = data.baseAddress else {
+            throw WebPError.unexpectedPointerError
+        }
+        return try encode(
+            UnsafeMutablePointer(mutating: baseAddress),
+            format: format,
+            config: config,
+            originWidth: originWidth,
+            originHeight: originHeight,
+            stride: stride,
+            resizeWidth: resizeWidth,
+            resizeHeight: resizeHeight
+        )
+    }
+
+    public func encode(
         _ dataPtr: UnsafeMutablePointer<UInt8>,
         format: WebPEncodePixelFormat,
         config: WebPEncoderConfig,
