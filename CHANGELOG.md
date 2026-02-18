@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 0.6.0
+
+Git tag naming convention now removes `v` prefix.
 
 ### Breaking
 

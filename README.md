@@ -2,6 +2,11 @@
 
 Swift-WebP provides Swift wrappers around `libwebp` for encoding, decoding, and bitstream inspection.
 
+## Notice
+
+**v0.6.0 tried modernising codebase and made minor breaking changes.**
+**See details in [CHANGELOG.md](./CHANGELOG.md)**
+
 ## Support Versions
 
 - Swift toolchain: 6.2.3 (`.swift-version`)
