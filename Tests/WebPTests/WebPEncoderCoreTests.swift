@@ -4,6 +4,56 @@ import WebP
 
 struct WebPEncoderCoreTests {
     @Test
+    func encode_unsafeBufferPointerOverloadProducesWebPData() throws {
+        let encoder = WebPEncoder()
+        let config = WebPEncoderConfig.preset(.picture, quality: 90)
+        let width = 2
+        let height = 2
+        let rgba = TestFixtures.makeRGBAFixture(width: width, height: height)
+
+        let encoded = try rgba.withUnsafeBufferPointer { buffer in
+            try encoder.encode(
+                buffer,
+                format: .rgba,
+                config: config,
+                originWidth: width,
+                originHeight: height,
+                stride: width * 4
+            )
+        }
+
+        let feature = try WebPImageInspector.inspect(encoded)
+        #expect(feature.width == width)
+        #expect(feature.height == height)
+    }
+
+    @Test
+    func encode_unsafeBufferPointerOverloadEmptyBufferThrowsUnexpectedPointerError() throws {
+        let encoder = WebPEncoder()
+        let config = WebPEncoderConfig.preset(.picture, quality: 90)
+        let empty = UnsafeBufferPointer<UInt8>(start: nil, count: 0)
+
+        do {
+            _ = try encoder.encode(
+                empty,
+                format: .rgba,
+                config: config,
+                originWidth: 1,
+                originHeight: 1,
+                stride: 4
+            )
+            #expect(Bool(false), "Expected unexpectedPointerError")
+        } catch let error as WebPError {
+            switch error {
+            case .unexpectedPointerError:
+                #expect(Bool(true))
+            default:
+                #expect(Bool(false), "Unexpected WebPError: \(error)")
+            }
+        }
+    }
+
+    @Test
     func encode_invalidConfigThrowsInvalidParameter() throws {
         let encoder = WebPEncoder()
         var config = WebPEncoderConfig.preset(.photo, quality: 90)
