@@ -113,6 +113,17 @@ public struct WebPDecoder: Sendable {
 
     public func decode(
         _ webPData: Data,
+        into output: inout [UInt8],
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat = .rgba
+    ) throws -> Int {
+        try output.withUnsafeMutableBufferPointer { buffer in
+            try decode(webPData, into: buffer, options: options, format: format)
+        }
+    }
+
+    public func decode(
+        _ webPData: Data,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Data {

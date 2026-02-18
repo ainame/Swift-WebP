@@ -35,6 +35,7 @@ All notable changes to this project will be documented in this file.
 - Added decode buffer coverage tests (`WebPDecoderBufferTests`) for exact-size, oversized, undersized, and scaling scenarios.
 - Added explicit `Sendable` conformances for core value-oriented public APIs and option/config enums used in concurrency-safe call sites.
 - Added `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)` overload for `UnsafeBufferPointer<UInt8>` inputs.
+- Added `WebPDecoder.decode(_:into:options:format:)` overload for `inout [UInt8]` output buffers.
 - `WebPEncodePixelFormat` and `WebPDecodePixelFormat` enums.
 - Canonical APIs:
   - `WebPEncoder.encode(_:format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:)`

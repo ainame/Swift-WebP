@@ -20,6 +20,20 @@ struct WebPDecoderBufferTests {
     }
 
     @Test
+    func decodeIntoExactSizedArrayViaInoutOverload() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+        let options = WebPDecoderOptions()
+        let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
+        var output = [UInt8](repeating: 0, count: required)
+
+        let written = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
+
+        #expect(written == required)
+        #expect(output.contains { $0 != 0 })
+    }
+
+    @Test
     func decodeIntoLargerBufferKeepsTailUntouched() throws {
         let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
@@ -48,6 +62,28 @@ struct WebPDecoderBufferTests {
             _ = try output.withUnsafeMutableBufferPointer { buffer in
                 try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
             }
+            #expect(Bool(false), "Expected outputBufferTooSmall error")
+        } catch let error as WebPError {
+            switch error {
+            case let .outputBufferTooSmall(req, actual):
+                #expect(req == required)
+                #expect(actual == required - 1)
+            default:
+                #expect(Bool(false), "Unexpected WebPError: \(error)")
+            }
+        }
+    }
+
+    @Test
+    func decodeIntoUndersizedArrayViaInoutOverloadThrows() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+        let options = WebPDecoderOptions()
+        let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
+        var output = [UInt8](repeating: 0, count: max(0, required - 1))
+
+        do {
+            _ = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
             #expect(Bool(false), "Expected outputBufferTooSmall error")
         } catch let error as WebPError {
             switch error {
