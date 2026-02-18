@@ -130,11 +130,6 @@ let feature = try WebPImageInspector.inspect(webPData)
 print(feature.width, feature.height, feature.hasAlpha, feature.hasAnimation)
 ```
 
-## Ownership Model (Internals)
-
-Public APIs are intentionally `Data`-centric for ergonomics.
-Internally, the package uses Swift ownership features (`~Copyable`, `borrowing`, `consuming`) and `Span` to safely manage C-allocated buffers and reduce copying across hot decode/inspect paths.
-
 ## License
 
 Swift-WebP is available under the MIT license. See [LICENSE](LICENSE).
