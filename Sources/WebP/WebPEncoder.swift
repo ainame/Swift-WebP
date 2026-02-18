@@ -182,7 +182,11 @@ public struct WebPEncoder: Sendable {
             }
         }
 
-        let owner = WebPMemoryOwner(pointer: buffer.mem, count: buffer.size)
-        return owner.takeData()
+        guard let pointer = buffer.mem else {
+            return Data()
+        }
+        return Data(bytesNoCopy: pointer, count: buffer.size, deallocator: .custom { rawPointer, _ in
+            WebPFree(rawPointer)
+        })
     }
 }

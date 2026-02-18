@@ -46,7 +46,7 @@ All notable changes to this project will be documented in this file.
   - `WebPDecoder.libwebpVersion`
   - `WebPEncoderConfig.losslessPreset(level:)`
   - `WebPEncoderConfig.validate()`
-- Internal ownership model with `~Copyable` memory ownership and `Span`-based decode/inspect internals.
+- Internal decode/inspect implementation uses `Span`-based internals.
 - GitHub Actions CI for macOS and Linux package tests.
 
 ### Changed
