@@ -3,37 +3,9 @@ import Testing
 import WebP
 
 struct WebPDecoderBufferTests {
-    private func makeFixtureWebP(width: Int = 4, height: Int = 3) throws -> Data {
-        var rgba = [UInt8](repeating: 0, count: width * height * 4)
-        for y in 0 ..< height {
-            for x in 0 ..< width {
-                let base = (y * width + x) * 4
-                rgba[base] = UInt8((x * 255) / max(width - 1, 1))
-                rgba[base + 1] = UInt8((y * 255) / max(height - 1, 1))
-                rgba[base + 2] = UInt8((x ^ y) & 0xFF)
-                rgba[base + 3] = UInt8(64 + ((x + y) % 191))
-            }
-        }
-
-        let encoder = WebPEncoder()
-        return try rgba.withUnsafeMutableBufferPointer { pointer in
-            guard let base = pointer.baseAddress else {
-                throw WebPError.unexpectedPointerError
-            }
-            return try encoder.encode(
-                base,
-                format: .rgba,
-                config: .preset(.picture, quality: 90),
-                originWidth: width,
-                originHeight: height,
-                stride: width * 4
-            )
-        }
-    }
-
     @Test
     func decodeIntoExactSizedBuffer() throws {
-        let webPData = try makeFixtureWebP(width: 4, height: 3)
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
         let options = WebPDecoderOptions()
         let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
@@ -49,7 +21,7 @@ struct WebPDecoderBufferTests {
 
     @Test
     func decodeIntoLargerBufferKeepsTailUntouched() throws {
-        let webPData = try makeFixtureWebP(width: 4, height: 3)
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
         let options = WebPDecoderOptions()
         let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
@@ -66,7 +38,7 @@ struct WebPDecoderBufferTests {
 
     @Test
     func decodeIntoUndersizedBufferThrows() throws {
-        let webPData = try makeFixtureWebP(width: 4, height: 3)
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
         let options = WebPDecoderOptions()
         let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
@@ -90,7 +62,7 @@ struct WebPDecoderBufferTests {
 
     @Test
     func requiredOutputByteCountReflectsScaling() throws {
-        let webPData = try makeFixtureWebP(width: 4, height: 3)
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
         let decoder = WebPDecoder()
         var options = WebPDecoderOptions()
         options.useScaling = true
@@ -102,5 +74,90 @@ struct WebPDecoderBufferTests {
 
         let decoded = try decoder.decode(webPData, options: options, format: .rgba)
         #expect(decoded.count == required)
+    }
+
+    @Test
+    func requiredOutputByteCount_respectsBytesPerPixel_rgb() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+        let required = try decoder.requiredOutputByteCount(for: webPData, options: .init(), format: .rgb)
+        #expect(required == 4 * 3 * 3)
+    }
+
+    @Test
+    func requiredOutputByteCount_respectsBytesPerPixel_rgba4444() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+        let required = try decoder.requiredOutputByteCount(for: webPData, options: .init(), format: .rgba4444)
+        #expect(required == 4 * 3 * 2)
+    }
+
+    @Test
+    func croppingThenScaling_layoutUsesScaledDimensions() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 6, height: 5)
+        let decoder = WebPDecoder()
+        var options = WebPDecoderOptions()
+        options.useCropping = true
+        options.cropWidth = 4
+        options.cropHeight = 3
+        options.useScaling = true
+        options.scaledWidth = 2
+        options.scaledHeight = 1
+
+        let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
+        #expect(required == 2 * 1 * 4)
+    }
+
+    @Test
+    func decode_dataVariant_unsupportedFormatThrows() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+
+        expectWebPError(
+            {
+                _ = try decoder.decode(webPData, options: .init(), format: .yuv)
+            },
+            matches: { error in
+                if case .unsupportedDecodeFormat = error {
+                    return true
+                }
+                return false
+            }
+        )
+    }
+
+    @Test
+    func decode_bufferVariant_unsupportedFormatThrows() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        let decoder = WebPDecoder()
+        var output = [UInt8](repeating: 0, count: 1)
+
+        expectWebPError(
+            {
+                _ = try output.withUnsafeMutableBufferPointer { buffer in
+                    try decoder.decode(webPData, into: buffer, options: .init(), format: .yuv)
+                }
+            },
+            matches: { error in
+                if case .unsupportedDecodeFormat = error {
+                    return true
+                }
+                return false
+            }
+        )
+    }
+
+    @Test
+    func decode_invalidBitstreamThrowsDecodingError() throws {
+        let webPData = try TestFixtures.makeWebPFixture(width: 8, height: 8)
+        let truncated = Data(webPData.prefix(max(1, webPData.count / 2)))
+        let decoder = WebPDecoder()
+
+        do {
+            _ = try decoder.decode(truncated, options: .init(), format: .rgba)
+            #expect(Bool(false), "Expected WebPDecodingError")
+        } catch let error as WebPDecodingError {
+            #expect(error != .ok)
+        }
     }
 }
