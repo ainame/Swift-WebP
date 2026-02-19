@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "WebP",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14)
+        .iOS(.v13),
+        .macOS(.v11),
     ],
     products: [
         .library(name: "WebP", targets: ["WebP"]),
