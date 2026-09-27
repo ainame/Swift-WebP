@@ -9,7 +9,7 @@ Swift-WebP provides Swift wrappers around `libwebp` for encoding, decoding, and 
 
 ## Support Versions
 
-- Swift toolchain: 6.4.0 (`.swift-version`)
+- Minimum Swift version: 6.2 (`swift-tools-version: 6.2` in `Package.swift`)
 - Swift language mode: 6
 - libwebp: 1.6.0+ (via `libwebp-Xcode`)
 - iOS deployment target: 13.0+
@@ -32,6 +32,8 @@ Add Swift-WebP in your `Package.swift`:
 ```
 
 ## Development
+
+The local development toolchain is Swift 6.4.0, selected by `.swift-version`. This file does not define the minimum supported Swift version.
 
 Common local commands:
 
