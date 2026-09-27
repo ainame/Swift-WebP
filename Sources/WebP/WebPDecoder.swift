@@ -77,18 +77,20 @@ public struct WebPDecoder: Sendable {
         try requiredOutputLayout(for: webPData, options: options, format: format).byteCount
     }
 
+    /// Caller must keep the output allocation alive and exclusively writable throughout the call.
     @available(
         *,
         deprecated,
         message: "Use decode(_:into: inout [UInt8], options:format:) unless low-level interop requires UnsafeMutableBufferPointer."
     )
+    @unsafe
     public func decode(
         _ webPData: Data,
         into output: UnsafeMutableBufferPointer<UInt8>,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
-        try decodeIntoBuffer(webPData, output: output, options: options, format: format)
+        unsafe try decodeIntoBuffer(webPData, output: output, options: options, format: format)
     }
 
     private func decodeIntoBuffer(
@@ -109,19 +111,20 @@ public struct WebPDecoder: Sendable {
             throw WebPError.outputBufferTooSmall(required: layout.byteCount, actual: output.count)
         }
 
-        var config = try makeConfig(options, format.colorspace)
-        config.output.externalMemoryMode = .externalMemory
-        config.output.width = layout.width
-        config.output.height = layout.height
-        let rgbaBuffer = WebPRGBABuffer(
+        var config = unsafe try makeConfig(options, format.colorspace)
+        unsafe config.output.externalMemoryMode = .externalMemory
+        unsafe config.output.width = layout.width
+        unsafe config.output.height = layout.height
+        // External output stays borrowed for this synchronous C call; the layout check bounds every write.
+        let rgbaBuffer = unsafe WebPRGBABuffer(
             rgba: base,
             stride: Int32(layout.stride),
             size: layout.byteCount
         )
-        config.output.u = .RGBA(rgbaBuffer)
-        try webPData.withUnsafeBytes { rawPtr in
-            let span = Span<UInt8>(_unsafeBytes: rawPtr)
-            try decode(span, config: &config)
+        unsafe config.output.u = .RGBA(rgbaBuffer)
+        unsafe try webPData.withUnsafeBytes { rawPtr in
+            let span = unsafe Span<UInt8>(_unsafeBytes: rawPtr)
+            unsafe try decode(span, config: &config)
         }
         return layout.byteCount
     }
@@ -133,8 +136,8 @@ public struct WebPDecoder: Sendable {
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
-        try output.withUnsafeMutableBufferPointer { buffer in
-            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
+        try withWebPMutablePixels(&output) { buffer in
+            unsafe try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
         }
     }
 
@@ -144,8 +147,8 @@ public struct WebPDecoder: Sendable {
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
-        try output.withUnsafeMutableBufferPointer { buffer in
-            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
+        try output.withWebPMutablePixels { buffer in
+            unsafe try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
         }
     }
 
@@ -161,32 +164,32 @@ public struct WebPDecoder: Sendable {
         let storage = WebPDecodedStorage(byteCount: layout.byteCount)
         // UInt8 has no destructor. C may initialize only part of this allocation on failure;
         // the owner can free it without exposing or reading those bytes.
-        _ = try decodeIntoBuffer(
+        unsafe _ = try decodeIntoBuffer(
             webPData, output: storage.buffer, options: options, format: format, layout: layout
         )
         // Only a successful full decode can publish the initialized bytes as Data.
-        return storage.takeData()
+        return unsafe storage.takeData()
     }
 
     private func decode(_ webPData: borrowing Span<UInt8>, config: inout WebPDecoderConfig) throws {
-        var rawConfig: libwebp.WebPDecoderConfig = config.rawValue
+        var rawConfig: libwebp.WebPDecoderConfig = unsafe config.rawValue
 
-        try webPData.withUnsafeBytes { rawPtr in
-            guard let bindedBasePtr = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+        try webPData.withWebPBytes { rawPtr in
+            guard let bindedBasePtr = unsafe rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
                 throw WebPDecodingError.unknownError
             }
 
-            let status = WebPDecode(bindedBasePtr, webPData.count, &rawConfig)
+            let status = unsafe WebPDecode(bindedBasePtr, webPData.count, &rawConfig)
             if status != VP8_STATUS_OK {
                 throw WebPDecodingError(vp8StatusCodeRawValue: status.rawValue)
             }
         }
 
-        switch config.output.u {
+        switch unsafe config.output.u {
         case .RGBA:
-            config.output.u = WebPDecBuffer.Colorspace.RGBA(rawConfig.output.u.RGBA)
+            unsafe config.output.u = WebPDecBuffer.Colorspace.RGBA(rawConfig.output.u.RGBA)
         case .YUVA:
-            config.output.u = WebPDecBuffer.Colorspace.YUVA(rawConfig.output.u.YUVA)
+            unsafe config.output.u = WebPDecBuffer.Colorspace.YUVA(rawConfig.output.u.YUVA)
         }
     }
 
@@ -194,10 +197,10 @@ public struct WebPDecoder: Sendable {
         _ options: WebPDecoderOptions,
         _ colorspace: ColorspaceMode
     ) throws -> WebPDecoderConfig {
-        var config = try WebPDecoderConfig()
-        config.options = options
-        config.output.colorspace = colorspace
-        return config
+        var config = unsafe try WebPDecoderConfig()
+        unsafe config.options = options
+        unsafe config.output.colorspace = colorspace
+        return unsafe config
     }
 
     func requiredOutputLayout(
@@ -209,16 +212,16 @@ public struct WebPDecoder: Sendable {
             throw WebPError.unsupportedDecodeFormat
         }
         let feature = try WebPImageInspector.inspect(webPData)
-        var config = try makeConfig(options, format.colorspace)
-        config.input = feature
+        var config = unsafe try makeConfig(options, format.colorspace)
+        unsafe config.input = feature
         // Lossy (YUV420) decoding snaps crop origins down to even pixels.
         // Lossless decoding preserves the exact origin.
         // Normalize the validation copy so valid edge crops stay accepted.
         if feature.format == .lossy, options.useCropping, options.cropLeft >= 0, options.cropTop >= 0 {
-            config.options.cropLeft &= ~1
-            config.options.cropTop &= ~1
+            unsafe config.options.cropLeft &= ~1
+            unsafe config.options.cropTop &= ~1
         }
-        guard config.validate() else {
+        guard unsafe config.validate() else {
             throw WebPDecodingError.invalidParam
         }
         var width = options.useCropping ? options.cropWidth : feature.width

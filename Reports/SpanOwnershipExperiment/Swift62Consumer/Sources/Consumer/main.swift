@@ -8,13 +8,15 @@ let encoded = try encoder.encode(pixels, format: .rgba, config: config,
                                  originWidth: 2, originHeight: 1, stride: 8)
 let fromData = try encoder.encode(Data(pixels), format: .rgba, config: config,
                                   originWidth: 2, originHeight: 1, stride: 8)
+// These raw-buffer bridges intentionally exercise Swift 6.2 Span construction.
+// The source collections remain alive for the entire scoped borrow.
 let fromSpan = try pixels.withUnsafeBufferPointer { buffer in
-    try encoder.encode(Span(_unsafeElements: buffer), format: .rgba, config: config,
+    unsafe try encoder.encode(Span(_unsafeElements: buffer), format: .rgba, config: config,
                        originWidth: 2, originHeight: 1, stride: 8)
 }
 precondition(encoded == fromData && encoded == fromSpan)
 let features = try encoded.withUnsafeBytes { bytes in
-    try WebPImageInspector.inspect(Span<UInt8>(_unsafeBytes: bytes))
+    unsafe try WebPImageInspector.inspect(Span<UInt8>(_unsafeBytes: bytes))
 }
 precondition(features.width == 2 && features.height == 1)
 let decoder = WebPDecoder()
@@ -25,7 +27,7 @@ var output = [UInt8](repeating: 0, count: 8)
 _ = try decoder.decode(encoded, into: &output, options: options)
 precondition(output == pixels)
 try output.withUnsafeMutableBufferPointer { buffer in
-    var span = MutableSpan(_unsafeElements: buffer)
+    var span = unsafe MutableSpan(_unsafeElements: buffer)
     _ = try decoder.decode(encoded, into: &span, options: options)
 }
 precondition(output == pixels)

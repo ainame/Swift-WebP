@@ -171,3 +171,11 @@ Use a fresh scratch directory for the consumer fixture. Reusing a build director
 ## Direct C follow-up
 
 The [direct libwebp comparison](DIRECT_C.md) evaluates the current wrapper against ordinary-pointer Swift implementations with C-output copying and direct decoding into Foundation storage. It uses the same fixtures and equivalent codec settings; raw results and reproduction instructions are included.
+
+## Strict memory-safety follow-up
+
+The library target now enables `.strictMemorySafety()`. Intentional pointer operations, C calls and allocation transfers are acknowledged with expression-level `unsafe`; the warning group is not disabled. Public pointer entry points and the pointer-bearing `WebPDecoderConfig` / `WebPDecBuffer` types are explicitly unsafe. High-level array, Data and Span APIs remain safe entry points.
+
+The private noncopyable allocation owners are marked safe because they encapsulate cleanup. Their raw buffer access remains unsafe, and decoded storage transfer is explicitly unsafe until the caller has established full initialization through a successful decode. A positive byte-count precondition protects the allocation owner's internal invariant. Scoped access adapters isolate missing standard-library safety annotations on Swift 6.2/6.3 without introducing redundant unsafe markers on Swift 6.4.
+
+Verification: library builds completed with zero compiler diagnostics under Swift 6.2.3, 6.3.3 and 6.4; all 44 tests passed on Swift 6.4. A separate strict-checking consumer compiled with compiler warnings treated as errors, exercised array/Data encoding, inspection and allocating/reusable decoding, and typechecked Span/MutableSpan entry points without unsafe annotations. The consumer link emitted the previously observed toolchain deployment-target warnings. These annotations document audited responsibilities; they do not prove that libwebp or all manual C interop is memory-safe. This follow-up was not benchmarked.

@@ -51,7 +51,7 @@ let data = try encoder.encode(
 )
 ```
 
-The encoder validates dimensions, stride, and input capacity before calling libwebp. Borrowed spans avoid copying the input storage; C interoperability remains internal.
+The encoder validates dimensions, stride, and input capacity. Provide at least `stride * originHeight` bytes, including padding after the final row. Borrowed spans avoid copying the input storage.
 
 ### Decoding to raw pixel bytes
 
@@ -68,8 +68,6 @@ let rgbaData = try decoder.decode(webPData, options: options, format: .rgba)
 ```
 
 Set either scaled dimension to `0` to infer it while preserving the aspect ratio (after cropping, if enabled). Invalid decoder options throw `WebPDecodingError.invalidParam`.
-
-For configuration checks without decoding, use `WebPDecoderConfig.validate()`. Set its `input` to inspected bitstream features to also validate crop bounds. Validation does not check bitstream integrity or external buffer capacity.
 
 ### Decoding into caller-owned memory
 
@@ -120,6 +118,8 @@ swift test
 ```
 
 `make format` runs the SwiftFormat SPM plugin.
+
+The library enables strict memory-safety checking. Intentional C operations are marked with `unsafe` at the interoperability boundary; pointer-based APIs and low-level buffer configuration remain unsafe interfaces. Array, `Data`, and Span entry points handle those requirements internally.
 
 See the [benchmark guide](Benchmark/README.md) for reproducible version comparisons, pipeline benchmarks, metric definitions, and interpretation limits.
 

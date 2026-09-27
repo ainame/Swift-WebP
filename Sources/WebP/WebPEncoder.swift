@@ -45,7 +45,9 @@ public struct WebPEncoder: Sendable {
 
     public init() {}
 
-    /// Requires at least `stride * originHeight` bytes, including padding after the final row.
+    /// Requires live, initialized pixel storage for the entire call with at least
+    /// `stride * originHeight` bytes, including padding after the final row.
+    @unsafe
     public func encode(
         _ data: UnsafeBufferPointer<UInt8>,
         format: WebPEncodePixelFormat,
@@ -56,10 +58,10 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        guard data.baseAddress != nil else {
+        guard unsafe data.baseAddress != nil else {
             throw WebPError.unexpectedPointerError
         }
-        return try encode(
+        return unsafe try encode(
             Span(_unsafeElements: data), format: format, config: config,
             originWidth: originWidth, originHeight: originHeight, stride: stride,
             resizeWidth: resizeWidth, resizeHeight: resizeHeight
@@ -86,8 +88,8 @@ public struct WebPEncoder: Sendable {
               !rowOverflow, !sizeOverflow, stride >= rowBytes, Int32(exactly: stride) != nil,
               data.count >= required
         else { throw WebPEncoderError.invalidParameter }
-        return try data.withUnsafeBufferPointer { buffer in
-            try encode(
+        return try data.withWebPPixels { buffer in
+            unsafe try encode(
                 buffer.baseAddress!, importer: importer(for: format), config: config,
                 originWidth: originWidth, originHeight: originHeight, stride: stride,
                 resizeWidth: resizeWidth, resizeHeight: resizeHeight
@@ -106,8 +108,8 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        try data.withUnsafeBufferPointer { buffer in
-            try encode(
+        try data.withWebPPixels { buffer in
+            unsafe try encode(
                 Span(_unsafeElements: buffer), format: format, config: config,
                 originWidth: originWidth, originHeight: originHeight, stride: stride,
                 resizeWidth: resizeWidth, resizeHeight: resizeHeight
@@ -126,8 +128,8 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        try data.withUnsafeBytes { bytes in
-            try encode(
+        unsafe try data.withUnsafeBytes { bytes in
+            unsafe try encode(
                 Span<UInt8>(_unsafeBytes: bytes), format: format, config: config,
                 originWidth: originWidth, originHeight: originHeight, stride: stride,
                 resizeWidth: resizeWidth, resizeHeight: resizeHeight
@@ -135,11 +137,13 @@ public struct WebPEncoder: Sendable {
         }
     }
 
+    /// Caller must provide live, initialized storage for the full strided image throughout this call.
     @available(
         *,
         deprecated,
         message: "Use encode(_: UnsafeBufferPointer<UInt8>, format:config:originWidth:originHeight:stride:resizeWidth:resizeHeight:) unless low-level interop requires mutable pointers."
     )
+    @unsafe
     public func encode(
         _ dataPtr: UnsafeMutablePointer<UInt8>,
         format: WebPEncodePixelFormat,
@@ -150,8 +154,8 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        let importer = importer(for: format)
-        return try encode(
+        let importer = unsafe importer(for: format)
+        return unsafe try encode(
             dataPtr,
             importer: importer,
             config: config,
@@ -167,27 +171,27 @@ public struct WebPEncoder: Sendable {
         switch format {
         case .rgb:
             { picturePtr, data, stride in
-                WebPPictureImportRGB(picturePtr, data, stride)
+                unsafe WebPPictureImportRGB(picturePtr, data, stride)
             }
         case .rgba:
             { picturePtr, data, stride in
-                WebPPictureImportRGBA(picturePtr, data, stride)
+                unsafe WebPPictureImportRGBA(picturePtr, data, stride)
             }
         case .rgbx:
             { picturePtr, data, stride in
-                WebPPictureImportRGBX(picturePtr, data, stride)
+                unsafe WebPPictureImportRGBX(picturePtr, data, stride)
             }
         case .bgr:
             { picturePtr, data, stride in
-                WebPPictureImportBGR(picturePtr, data, stride)
+                unsafe WebPPictureImportBGR(picturePtr, data, stride)
             }
         case .bgra:
             { picturePtr, data, stride in
-                WebPPictureImportBGRA(picturePtr, data, stride)
+                unsafe WebPPictureImportBGRA(picturePtr, data, stride)
             }
         case .bgrx:
             { picturePtr, data, stride in
-                WebPPictureImportBGRX(picturePtr, data, stride)
+                unsafe WebPPictureImportBGRX(picturePtr, data, stride)
             }
         }
     }
@@ -209,29 +213,30 @@ public struct WebPEncoder: Sendable {
               resizeWidth <= Int(WEBP_MAX_DIMENSION), resizeHeight <= Int(WEBP_MAX_DIMENSION)
         else { throw WebPEncoderError.invalidParameter }
         var config = config.rawValue
-        if WebPValidateConfig(&config) == 0 {
+        if unsafe WebPValidateConfig(&config) == 0 {
             throw WebPEncoderError.invalidParameter
         }
 
-        var picture = WebPPicture()
-        if WebPPictureInit(&picture) == 0 {
+        var picture = unsafe WebPPicture()
+        if unsafe WebPPictureInit(&picture) == 0 {
             throw WebPEncoderError.invalidParameter
         }
         defer {
-            WebPPictureFree(&picture)
+            unsafe WebPPictureFree(&picture)
         }
 
-        picture.use_argb = config.lossless == 0 ? 0 : 1
-        picture.width = Int32(originWidth)
-        picture.height = Int32(originHeight)
+        unsafe picture.use_argb = config.lossless == 0 ? 0 : 1
+        unsafe picture.width = Int32(originWidth)
+        unsafe picture.height = Int32(originHeight)
 
-        let ok = importer(&picture, dataPtr, Int32(stride))
+        // Import copies source pixels synchronously; it does not retain the source pointer.
+        let ok = unsafe importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             throw WebPEncoderError.versionMismatched
         }
 
         if resizeHeight > 0, resizeWidth > 0 {
-            if WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0 {
+            if unsafe WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0 {
                 throw WebPEncodeStatusCode.outOfMemory
             }
         }
@@ -239,15 +244,15 @@ public struct WebPEncoder: Sendable {
         var writer = WebPMemoryWriterOwner()
         let writeWebP: @convention(c) (UnsafePointer<UInt8>?, Int, UnsafePointer<WebPPicture>?)
             -> Int32 = { data, size, picture -> Int32 in
-                return WebPMemoryWrite(data, size, picture)
+                return unsafe WebPMemoryWrite(data, size, picture)
             }
-        picture.writer = writeWebP
+        unsafe picture.writer = writeWebP
 
-        try withUnsafeMutablePointer(to: &writer.rawValue) { ptr in
-            picture.custom_ptr = UnsafeMutableRawPointer(ptr)
+        unsafe try withUnsafeMutablePointer(to: &writer.rawValue) { ptr in
+            unsafe picture.custom_ptr = UnsafeMutableRawPointer(ptr)
 
-            if WebPEncode(&config, &picture) == 0 {
-                throw WebPEncodeStatusCode(libwebpRawValue: Int(picture.error_code.rawValue))
+            if unsafe WebPEncode(&config, &picture) == 0 {
+                throw unsafe WebPEncodeStatusCode(libwebpRawValue: Int(picture.error_code.rawValue))
             }
         }
 

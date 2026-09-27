@@ -123,10 +123,10 @@ public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
     /// Higher levels spend more time searching for better compression.
     public static func losslessPreset(level: Int) throws -> WebPEncoderConfig {
         var config = libwebp.WebPConfig()
-        guard WebPConfigInit(&config) != 0 else {
+        guard unsafe WebPConfigInit(&config) != 0 else {
             throw WebPError.invalidWebPConfig
         }
-        guard WebPConfigLosslessPreset(&config, Int32(level)) != 0 else {
+        guard unsafe WebPConfigLosslessPreset(&config, Int32(level)) != 0 else {
             throw WebPError.invalidWebPConfig
         }
         return WebPEncoderConfig(rawValue: config)
@@ -135,7 +135,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
     /// Validate config fields against libwebp's supported ranges.
     public func validate() -> Bool {
         var config = rawValue
-        return WebPValidateConfig(&config) != 0
+        return unsafe WebPValidateConfig(&config) != 0
     }
 
     init(rawValue: libwebp.WebPConfig) {
@@ -221,17 +221,17 @@ public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
 
             switch self {
             case .default:
-                WebPConfigPreset(&config, WEBP_PRESET_DEFAULT, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_DEFAULT, quality)
             case .picture:
-                WebPConfigPreset(&config, WEBP_PRESET_PICTURE, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_PICTURE, quality)
             case .photo:
-                WebPConfigPreset(&config, WEBP_PRESET_PHOTO, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_PHOTO, quality)
             case .drawing:
-                WebPConfigPreset(&config, WEBP_PRESET_DRAWING, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_DRAWING, quality)
             case .icon:
-                WebPConfigPreset(&config, WEBP_PRESET_ICON, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_ICON, quality)
             case .text:
-                WebPConfigPreset(&config, WEBP_PRESET_TEXT, quality)
+                unsafe WebPConfigPreset(&config, WEBP_PRESET_TEXT, quality)
             }
 
             return config

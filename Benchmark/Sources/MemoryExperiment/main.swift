@@ -109,7 +109,7 @@ func encode() throws -> Data {
                               originWidth: width, originHeight: height, stride: width * 4)
     #else
     return try pixels.withUnsafeBufferPointer { buffer in
-        try encoder.encode(buffer, format: .rgba, config: config,
+        unsafe try encoder.encode(buffer, format: .rgba, config: config,
                            originWidth: width, originHeight: height, stride: width * 4)
     }
     #endif
