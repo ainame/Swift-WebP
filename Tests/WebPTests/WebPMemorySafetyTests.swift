@@ -72,24 +72,27 @@ struct WebPMemorySafetyTests {
     }
 
     @Test(arguments: [WebPEncodePixelFormat.rgb, .rgba, .rgbx, .bgr, .bgra, .bgrx])
-    func compactFinalRowMatchesFullyPaddedInput(format: WebPEncodePixelFormat) throws {
+    func missingFinalRowPaddingIsRejected(format: WebPEncodePixelFormat) {
         let rowBytes = (format == .rgb || format == .bgr) ? 6 : 8
         let stride = rowBytes + 4
-        let full = [UInt8](repeating: 128, count: stride * 2)
-        let compact = Array(full.prefix(stride + rowBytes))
+        let compact = [UInt8](repeating: 128, count: stride + rowBytes)
         let encoder = WebPEncoder()
         let config = WebPEncoderConfig.preset(.picture, quality: 75)
-        let expected = try encoder.encode(
-            full,
-            format: format,
-            config: config,
-            originWidth: 2,
-            originHeight: 2,
-            stride: stride
-        )
-        let actual = try compact.withUnsafeBufferPointer { buffer in
+        #expect(throws: WebPEncoderError.invalidParameter) {
+            try compact.withUnsafeBufferPointer { buffer in
+                try encoder.encode(
+                    buffer,
+                    format: format,
+                    config: config,
+                    originWidth: 2,
+                    originHeight: 2,
+                    stride: stride
+                )
+            }
+        }
+        #expect(throws: WebPEncoderError.invalidParameter) {
             try encoder.encode(
-                buffer,
+                compact,
                 format: format,
                 config: config,
                 originWidth: 2,
@@ -97,15 +100,6 @@ struct WebPMemorySafetyTests {
                 stride: stride
             )
         }
-        #expect(actual == expected)
-        #expect(try encoder.encode(
-            compact,
-            format: format,
-            config: config,
-            originWidth: 2,
-            originHeight: 2,
-            stride: stride
-        ) == expected)
     }
 
     @Test
