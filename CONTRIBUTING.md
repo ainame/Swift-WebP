@@ -4,7 +4,7 @@ Contributions are welcome through issues and pull requests.
 
 ## Development Requirements
 
-- Swift 6.2.3 toolchain (`.swift-version`)
+- Swift 6.4.0 for local development, selected by `.swift-version`. The package minimum is Swift 6.2 (`swift-tools-version: 6.2`).
 - Xcode 26.2+ (Swift 6.2.3 support) for Apple platform checks
 
 ## Local Validation

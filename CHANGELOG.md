@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 - Corrected decode buffer sizing when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions.
 - Crop validation preserves exact origins for lossless images and snaps to even pixels only for lossy images.
+- Platform image helpers now use resolved output dimensions for cropping and inferred scaling.
 - Invalid decoder settings now throw `WebPDecodingError.invalidParam` before output allocation.
 
 ### Changed

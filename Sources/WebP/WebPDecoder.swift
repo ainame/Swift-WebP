@@ -195,7 +195,7 @@ public struct WebPDecoder: Sendable {
         return config
     }
 
-    private func requiredOutputLayout(
+    func requiredOutputLayout(
         for webPData: Data,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat
@@ -255,7 +255,7 @@ public struct WebPDecoder: Sendable {
     }
 }
 
-private struct OutputLayout {
+struct OutputLayout {
     let width: Int
     let height: Int
     let bytesPerPixel: Int
