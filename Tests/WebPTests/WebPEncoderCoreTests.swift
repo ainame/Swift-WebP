@@ -86,6 +86,34 @@ struct WebPEncoderCoreTests {
         }
     }
 
+    @Test(arguments: [WebPEncodePixelFormat.rgb, .rgba, .rgbx, .bgr, .bgra, .bgrx])
+    func deprecatedPointerEncoderRejectsInvalidStride(format: WebPEncodePixelFormat) throws {
+        var pixels = [UInt8](repeating: 128, count: 16)
+        let rowBytes = (format == .rgb || format == .bgr) ? 6 : 8
+        try pixels.withUnsafeMutableBufferPointer { buffer in
+            for stride in [-1, 0, rowBytes - 1, Int.max] {
+                #expect(throws: WebPEncoderError.invalidParameter) {
+                    unsafe try WebPEncoder().encode(
+                        buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
+                        originWidth: 2, originHeight: 2, stride: stride
+                    )
+                }
+            }
+            #expect(throws: WebPEncoderError.invalidParameter) {
+                unsafe try WebPEncoder().encode(
+                    buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
+                    originWidth: Int.max, originHeight: 2, stride: rowBytes
+                )
+            }
+            let encoded = unsafe try WebPEncoder().encode(
+                buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
+                originWidth: 2, originHeight: 2, stride: rowBytes
+            )
+            let features = try WebPImageInspector.inspect(encoded)
+            #expect(features.width == 2 && features.height == 2)
+        }
+    }
+
     @Test
     func losslessPreset_invalidLevelThrows() throws {
         do {

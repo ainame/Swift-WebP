@@ -90,7 +90,7 @@ public struct WebPEncoder: Sendable {
         else { throw WebPEncoderError.invalidParameter }
         return try data.withWebPPixels { buffer in
             unsafe try encode(
-                buffer.baseAddress!, importer: importer(for: format), config: config,
+                buffer.baseAddress!, format: format, config: config,
                 originWidth: originWidth, originHeight: originHeight, stride: stride,
                 resizeWidth: resizeWidth, resizeHeight: resizeHeight
             )
@@ -154,10 +154,9 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
-        let importer = unsafe importer(for: format)
         return unsafe try encode(
-            dataPtr,
-            importer: importer,
+            UnsafePointer(dataPtr),
+            format: format,
             config: config,
             originWidth: originWidth,
             originHeight: originHeight,
@@ -198,7 +197,7 @@ public struct WebPEncoder: Sendable {
 
     private func encode(
         _ dataPtr: UnsafePointer<UInt8>,
-        importer: WebPPictureImporter,
+        format: WebPEncodePixelFormat,
         config: WebPEncoderConfig,
         originWidth: Int,
         originHeight: Int,
@@ -206,9 +205,11 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0
     ) throws -> Data {
+        let bytesPerPixel = (format == .rgb || format == .bgr) ? 3 : 4
+        let (rowBytes, rowOverflow) = originWidth.multipliedReportingOverflow(by: bytesPerPixel)
         guard originWidth > 0, originHeight > 0,
               originWidth <= Int(WEBP_MAX_DIMENSION), originHeight <= Int(WEBP_MAX_DIMENSION),
-              Int32(exactly: stride) != nil,
+              !rowOverflow, stride >= rowBytes, Int32(exactly: stride) != nil,
               resizeWidth >= 0, resizeHeight >= 0,
               resizeWidth <= Int(WEBP_MAX_DIMENSION), resizeHeight <= Int(WEBP_MAX_DIMENSION)
         else { throw WebPEncoderError.invalidParameter }
@@ -230,6 +231,7 @@ public struct WebPEncoder: Sendable {
         unsafe picture.height = Int32(originHeight)
 
         // Import copies source pixels synchronously; it does not retain the source pointer.
+        let importer = unsafe importer(for: format)
         let ok = unsafe importer(&picture, dataPtr, Int32(stride))
         if ok == 0 {
             throw WebPEncoderError.versionMismatched

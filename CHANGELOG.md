@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Reject invalid row strides in the deprecated raw-pointer encoder before calling libwebp.
+
 - Validate encoder input capacity, row stride, and dimensions before reading pixel memory.
 - Encoder inputs must contain `stride * originHeight` bytes, including final-row padding, matching libwebp’s documented contract. Compact padded layouts previously accepted by the unchecked pointer API now throw `invalidParameter`.
 - Retain CoreGraphics pixel storage throughout encoding.
