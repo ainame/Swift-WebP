@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Normalize NSImage and UIImage pixels to straight-alpha RGBA before encoding, preserving translucent colors and UIImage pixel resolution.
+
 - Reject invalid row strides in the deprecated raw-pointer encoder before calling libwebp. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 
 - Validate encoder input capacity, row stride, and dimensions before reading pixel memory. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
