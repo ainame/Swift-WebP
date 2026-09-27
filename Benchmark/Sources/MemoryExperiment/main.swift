@@ -5,6 +5,7 @@ import Glibc
 #endif
 import Foundation
 import WebP
+import libwebp
 
 // Decode processes load a pre-generated WebP and reference hash, avoiding encoder/source-decoder RSS carry-over.
 let args = CommandLine.arguments
@@ -17,7 +18,7 @@ precondition(width > 0 && height > 0 && iterations > 0)
 let encoder = WebPEncoder()
 let decoder = WebPDecoder()
 let config = WebPEncoderConfig.preset(.picture, quality: 75)
-var options = WebPDecoderOptions()
+var options = WebP.WebPDecoderOptions()
 options.useThreads = false
 let pixels: [UInt8] = mode == "encode" || mode == "fixture" ? (0 ..< width * height * 4).map { i in
     if i % 4 == 3 { return 255 }
@@ -29,9 +30,81 @@ func hash(_ data: Data) -> String {
     for byte in data { value = (value ^ UInt64(byte)) &* 1099511628211 }
     return String(value, radix: 16)
 }
+// Direct C variants deliberately use ordinary pointers, defer cleanup and Data.
+// No Span, noncopyable owners, borrowing/consuming declarations or ownership transfer.
+func cDecode(_ encoded: Data) throws -> Data {
+    #if DIRECT_C_COPY
+    return try encoded.withUnsafeBytes { input in
+        var w: Int32 = 0
+        var h: Int32 = 0
+        guard let pointer = WebPDecodeRGBA(input.baseAddress!.assumingMemoryBound(to: UInt8.self), input.count, &w, &h) else {
+            throw CocoaError(.coderReadCorrupt)
+        }
+        defer { WebPFree(pointer) }
+        precondition(Int(w) == width && Int(h) == height)
+        return Data(bytes: pointer, count: width * height * 4)
+    }
+    #else
+    var result = Data(count: width * height * 4)
+    try result.withUnsafeMutableBytes { output in
+        try encoded.withUnsafeBytes { input in
+            guard WebPDecodeRGBAInto(input.baseAddress!.assumingMemoryBound(to: UInt8.self), input.count,
+                                     output.baseAddress!.assumingMemoryBound(to: UInt8.self), output.count, Int32(width * 4)) != nil else {
+                throw CocoaError(.coderReadCorrupt)
+            }
+        }
+    }
+    return result
+    #endif
+}
+func cReuse(_ encoded: Data, output: inout [UInt8]) throws -> Int {
+    try output.withUnsafeMutableBufferPointer { buffer in
+        try encoded.withUnsafeBytes { input in
+            guard WebPDecodeRGBAInto(input.baseAddress!.assumingMemoryBound(to: UInt8.self), input.count,
+                                     buffer.baseAddress!, buffer.count, Int32(width * 4)) != nil else {
+                throw CocoaError(.coderReadCorrupt)
+            }
+        }
+    }
+    return width * height * 4
+}
+@MainActor
+func cEncode() throws -> Data {
+    var config = libwebp.WebPConfig()
+    precondition(WebPConfigPreset(&config, WEBP_PRESET_PICTURE, 75) != 0)
+    var picture = WebPPicture()
+    precondition(WebPPictureInit(&picture) != 0)
+    defer { WebPPictureFree(&picture) }
+    picture.width = Int32(width)
+    picture.height = Int32(height)
+    try pixels.withUnsafeBufferPointer { input in
+        guard WebPPictureImportRGBA(&picture, input.baseAddress!, Int32(width * 4)) != 0 else {
+            throw CocoaError(.coderInvalidValue)
+        }
+    }
+    var writer = WebPMemoryWriter()
+    WebPMemoryWriterInit(&writer)
+    defer { WebPMemoryWriterClear(&writer) }
+    picture.writer = WebPMemoryWrite
+    return try withUnsafeMutablePointer(to: &writer) { pointer in
+        picture.custom_ptr = UnsafeMutableRawPointer(pointer)
+        guard WebPEncode(&config, &picture) != 0 else { throw CocoaError(.coderInvalidValue) }
+        return Data(bytes: pointer.pointee.mem!, count: pointer.pointee.size)
+    }
+}
+@MainActor
+func allocatedDecode(_ encoded: Data) throws -> Data {
+    #if DIRECT_C_COPY || DIRECT_C_INTO
+    return try cDecode(encoded)
+    #else
+    return try decoder.decode(encoded, options: options)
+    #endif
+}
 @MainActor
 func encode() throws -> Data {
-    #if EXPERIMENT_SPAN
+    #if DIRECT_C_COPY || DIRECT_C_INTO
+    return try cEncode()
+    #elseif EXPERIMENT_SPAN
     return try encoder.encode(pixels, format: .rgba, config: config,
                               originWidth: width, originHeight: height, stride: width * 4)
     #else
@@ -47,7 +120,7 @@ if mode == "fixture" {
         return fixturePath
     }()
     let encoded = try encode()
-    let decoded = try decoder.decode(encoded, options: options)
+    let decoded = try allocatedDecode(encoded)
     try encoded.write(to: URL(fileURLWithPath: destination))
     let metadata: [String: Any] = ["width": width, "height": height,
                                  "decoded_hash": hash(decoded), "encoded_hash": hash(encoded),
@@ -78,12 +151,16 @@ func operation() throws {
         precondition(result == encoded)
         checksum &+= result.count
     case "decode":
-        let result = try decoder.decode(encoded, options: options)
+        let result = try allocatedDecode(encoded)
         precondition(result.count == width * height * 4)
         precondition(Int(result.first!) == metadata["first"] as? Int && Int(result.last!) == metadata["last"] as? Int)
         checksum &+= result.count
     case "reuse":
+        #if DIRECT_C_COPY || DIRECT_C_INTO
+        let count = try cReuse(encoded, output: &output)
+        #else
         let count = try decoder.decode(encoded, into: &output, options: options)
+        #endif
         precondition(count == width * height * 4)
         checksum &+= count
     case "inspect":
@@ -127,7 +204,7 @@ let finalRSS = -1.0
 // Full-byte validation runs after memory/timing capture so it cannot inflate reported peak RSS.
 var decodedHash = metadata["decoded_hash"] as? String ?? ""
 if mode == "decode" || mode == "reuse" {
-    let result = mode == "reuse" ? Data(output) : try decoder.decode(encoded, options: options)
+    let result = mode == "reuse" ? Data(output) : try allocatedDecode(encoded)
     decodedHash = hash(result)
     precondition(decodedHash == metadata["decoded_hash"] as? String)
 }

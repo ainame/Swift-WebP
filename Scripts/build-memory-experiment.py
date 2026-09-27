@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('ref', help='Committed library version to benchmark')
 parser.add_argument('--span', action='store_true', help='Use the safe array encoding entry point')
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--direct-c', choices=['copy', 'into'], help='Use direct C APIs with copied C output or Foundation output storage')
 args = parser.parse_args()
 repo = Path(__file__).resolve().parents[1]
 snapshot = Path(tempfile.mkdtemp(prefix='webp-benchmark-source-'))
@@ -25,6 +26,8 @@ command = ['swift', 'build', '--package-path', str(snapshot / 'Benchmark'), '-c'
            '--disable-automatic-resolution', '--product', 'MemoryExperiment']
 if args.span:
     command += ['-Xswiftc', '-DEXPERIMENT_SPAN']
+if args.direct_c:
+    command += ['-Xswiftc', '-DDIRECT_C_' + args.direct_c.upper()]
 subprocess.run(command, check=True)
 binpath = subprocess.check_output(['swift', 'build', '--package-path', str(snapshot / 'Benchmark'),
                                    '-c', 'release', '--show-bin-path'], text=True).strip()
