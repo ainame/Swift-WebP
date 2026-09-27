@@ -4,6 +4,33 @@ import Testing
 
 struct WebPBridgingTests {
     @Test
+    func decoderConfigValidation() throws {
+        var config = try WebP.WebPDecoderConfig()
+        #expect(config.validate())
+        config.options.useScaling = true
+        #expect(!config.validate())
+        config.options.scaledWidth = 2
+        #expect(config.validate())
+        config.options.alphaDitheringStrength = -1
+        #expect(!config.validate())
+        config.options.alphaDitheringStrength = 0
+        config.output.colorspace = .LAST
+        #expect(!config.validate())
+    }
+
+    @Test
+    func decoderValidationUsesInputFeatures() throws {
+        let data = try TestFixtures.makeWebPFixture(width: 4, height: 3)
+        var config = try WebP.WebPDecoderConfig()
+        config.options.useCropping = true
+        config.options.cropWidth = 5
+        config.options.cropHeight = 3
+        #expect(config.validate()) // Source dimensions are not known yet.
+        config.input = try WebPImageInspector.inspect(data)
+        #expect(!config.validate())
+    }
+
+    @Test
     func libwebpVersionIsSane() {
         let encoderVersion = WebPEncoder.libwebpVersion
         let decoderVersion = WebPDecoder.libwebpVersion

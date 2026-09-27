@@ -14,6 +14,26 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
         self = WebPDecoderConfig(rawValue: originConfig)
     }
 
+    /// Checks configuration ranges using libwebp. Set `input` to inspected
+    /// bitstream features to also check cropping against the source dimensions.
+    /// This does not validate the bitstream or external buffer capacity.
+    public func validate() -> Bool {
+        let integers = [output.width, output.height,
+                        options.bypassFiltering, options.noFancyUpsampling,
+                        options.cropLeft, options.cropTop, options.cropWidth, options.cropHeight,
+                        options.scaledWidth, options.scaledHeight, options.ditheringStrength,
+                        options.flip, options.alphaDitheringStrength,
+                        input?.width ?? 0, input?.height ?? 0]
+        guard integers.allSatisfy({ Int32(exactly: $0) != nil }) else { return false }
+        let padding = [output.pad.0, output.pad.1, output.pad.2, output.pad.3,
+                       options.pad.0, options.pad.1, options.pad.2, options.pad.3, options.pad.4,
+                       input?.pad.0 ?? 0, input?.pad.1 ?? 0, input?.pad.2 ?? 0,
+                       input?.pad.3 ?? 0, input?.pad.4 ?? 0]
+        guard padding.allSatisfy({ UInt32(exactly: $0) != nil }) else { return false }
+        var config = rawValue
+        return WebPValidateDecoderConfig(&config) != 0
+    }
+
     init(rawValue: libwebp.WebPDecoderConfig) {
         input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
         output = WebP.WebPDecBuffer(rawValue: rawValue.output)

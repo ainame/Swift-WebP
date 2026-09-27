@@ -94,6 +94,10 @@ options.scaledHeight = targetHeight
 let rgbaData = try decoder.decode(webPData, options: options, format: .rgba)
 ```
 
+Set either scaled dimension to `0` to infer it while preserving the aspect ratio (after cropping, if enabled). Invalid decoder options throw `WebPDecodingError.invalidParam`.
+
+For configuration checks without decoding, use `WebPDecoderConfig.validate()`. Set its `input` to inspected bitstream features to also validate crop bounds. Validation does not check bitstream integrity or external buffer capacity.
+
 ### Decoding into caller-owned memory
 
 ```swift

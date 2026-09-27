@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Added `WebPDecoderConfig.validate()` using upstream decoder configuration validation.
+
+### Fixed
+
+- Corrected decode buffer sizing when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions.
+- Invalid decoder settings now throw `WebPDecodingError.invalidParam` before output allocation.
+
 ### Changed
 
 - Updated the local Swift toolchain to `6.4.0`.
