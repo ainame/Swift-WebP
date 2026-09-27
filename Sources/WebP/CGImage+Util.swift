@@ -14,7 +14,8 @@ extension CGImage {
         guard width > 0,
               height > 0,
               width <= maximumDimension,
-              height <= maximumDimension else {
+              height <= maximumDimension
+        else {
             throw WebPEncoderError.invalidParameter
         }
 
