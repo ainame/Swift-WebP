@@ -1,6 +1,7 @@
 #if canImport(CoreGraphics)
 import CoreGraphics
 import Foundation
+import libwebp
 
 extension CGImage {
     /// Convert any Core Graphics bitmap layout to straight-alpha RGBA bytes for libwebp.
@@ -8,14 +9,22 @@ extension CGImage {
     /// For example, half-transparent red (255, 0, 0, 128) is stored as (128, 0, 0, 128).
     /// libwebp expects the original RGB values, so this undoes that multiplication.
     func webPStraightRGBA() throws -> [UInt8] {
-        let maximumDimension = 16383
-        guard width > 0, height > 0, width <= maximumDimension, height <= maximumDimension else {
+        // Check libwebp's per-side pixel limit before allocating the RGBA buffer.
+        let maximumDimension = Int(WEBP_MAX_DIMENSION)
+        guard width > 0,
+              height > 0,
+              width <= maximumDimension,
+              height <= maximumDimension else {
             throw WebPEncoderError.invalidParameter
         }
 
-        let bytesPerRow = width * 4
+        let (bytesPerRow, rowOverflow) = width.multipliedReportingOverflow(by: 4)
+        let (bufferSize, sizeOverflow) = bytesPerRow.multipliedReportingOverflow(by: height)
+        guard !rowOverflow, !sizeOverflow else {
+            throw WebPEncoderError.invalidParameter
+        }
         let bitmapInfo = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
-        var pixels = [UInt8](repeating: 0, count: bytesPerRow * height)
+        var pixels = [UInt8](repeating: 0, count: bufferSize)
 
         // Drawing normalizes source channel order, but Core Graphics premultiplies alpha.
         try pixels.withUnsafeMutableBytes { buffer in
