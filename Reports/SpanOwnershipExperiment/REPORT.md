@@ -8,7 +8,7 @@ The experiment improves ownership and the public buffer interface, and establish
 
 There is no established codec throughput improvement. The final allocating decode is within about 0.3% of baseline, while reusable-array decode remains approximately 1.7–2.0% slower in local measurements. Keep this branch as an experiment and profile that difference before merging into a workload with a strict throughput budget. The memory benefit belongs to allocation policy, not to Span itself.
 
-No experiment result justifies requiring Swift 6.4: the final library also builds and passes tests with Swift 6.3.3. Older-than-6.2 compilers were already excluded by the merged baseline.
+No experiment result justifies requiring Swift 6.4: the final library also builds and passes tests with Swift 6.2.3 and Swift 6.3.3. Older-than-6.2 compilers were already excluded by the merged baseline.
 
 ## What changed
 
@@ -101,6 +101,7 @@ The earlier conclusion about source-decoding/pipeline spikes remains relevant. T
 ## Validation and limitations
 
 - `make format`, `swift build`, `swift test`, and `git diff --check` passed on Swift 6.4.0. Formatting emitted a cache-write warning; source formatting completed.
+- Swift 6.2.3 with Xcode 26.5: all 43 tests in eight suites passed, and a separate Swift 6.2 consumer package built in release mode and ran successfully. It exercises array/Data/Span encoding, span inspection, allocating decode, array reuse, MutableSpan output, and a lossless byte-for-byte round trip.
 - Swift 6.3.3 with Xcode 26.5: all 43 tests in eight suites passed.
 - Swift 6.4 Address Sanitizer: all 43 tests passed without sanitizer failures. Coverage includes each packed decode format, invalid/overflowing input layouts, padded rows, undersized output, trailing output preservation, ownership transfer, retained decoded data, and a truncated bitstream failing after successful header inspection/output allocation.
 - Sanitizer success does not prove all inputs or allocations are safe. No leak-sanitizer proof or forced libwebp allocator-failure test is claimed; the writer failure-path fix follows its owned cleanup semantics and upstream allocation contract.
@@ -109,9 +110,9 @@ The earlier conclusion about source-decoding/pipeline spikes remains relevant. T
 
 ## Compiler support
 
-The experiment keeps the manifest minimum at Swift 6.2 and the development toolchain at 6.4.0. Span, MutableSpan, and the ownership machinery used here do not require 6.4-only features. Swift 6.3.3 compilation and tests passed; Swift 6.2 was not installed and was not tested. Existing iOS 13/macOS 11 deployment targets are preserved; using scoped pointer adapters avoids depending on newer OS-only container span accessors.
+The experiment keeps the manifest minimum at Swift 6.2 and the development toolchain at 6.4.0. Span, MutableSpan, and the ownership machinery used here do not require 6.4-only features. The initial experiment checked only 6.3/6.4. A follow-up installed Swift 6.2.3 and verified both the full library test suite and a separate release consumer. Swiftly had a stale 6.2.4 installation record pointing at a missing directory; that record was not usable evidence. Swift 6.2.0, 6.2.1, and 6.2.2 were not tested. Existing iOS 13/macOS 11 deployment targets are preserved; using scoped pointer adapters avoids depending on newer OS-only container span accessors.
 
-The result supports modern safe buffer APIs, but supplies no reason to raise the minimum to 6.4. Prefer retaining 6.2 pending validation on that compiler, or explicitly supporting 6.3 if that is the maintenance baseline you want. Safe public APIs still need an audited C boundary; removing the word `Unsafe` from source cannot make libwebp itself memory safe.
+The result supports modern safe buffer APIs, but supplies no reason to raise the minimum to 6.4. Retaining the 6.2 manifest minimum is supported by the Swift 6.2.3 consumer and library checks; no minimum-version bump was needed for this implementation. Safe public APIs still need an audited C boundary; removing the word `Unsafe` from source cannot make libwebp itself memory safe.
 
 References: [SE-0447 Span](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0447-span-access-shared-contiguous-storage.md), [SE-0467 MutableSpan](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0467-MutableSpan.md), [Span deployment guidance](https://forums.swift.org/t/supporting-span-in-packages/81667), [strict safety and C interoperability](https://www.swift.org/documentation/cxx-interop/safe-interop/).
 
@@ -145,3 +146,22 @@ python3 Scripts/run-memory-experiment.py \
 
 swift Benchmark/AllocationProbe.swift
 ```
+
+## Reproduce Swift 6.2 consumer compatibility
+
+The fixture in [Swift62Consumer](Swift62Consumer/Package.swift) is a separate executable package with Swift tools version 6.2 and macOS 11 deployment target. It depends on the library by relative path. Dependency `.swift-version` files do not require the consumer to use 6.4; the selected compiler builds both packages.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode-26.5.0.app/Contents/Developer \
+  swiftly run swift run \
+  --package-path Reports/SpanOwnershipExperiment/Swift62Consumer \
+  --scratch-path /tmp/webp-consumer-62-repro \
+  -c release +6.2.3
+
+DEVELOPER_DIR=/Applications/Xcode-26.5.0.app/Contents/Developer \
+  swiftly run swift test --scratch-path /tmp/webp-library-62-build +6.2.3
+```
+
+The consumer printed `Swift 6.2 consumer: array, Data, Span, MutableSpan, inspection and round-trip passed`. It ran on macOS 27.2. The linker warned that toolchain runtime dylibs were built for macOS 13 while the consumer targets macOS 11; this check does not validate execution on macOS 11. No compiler or SDK selection was changed globally.
+
+Use a fresh scratch directory for the consumer fixture. Reusing a build directory from the earlier consumer at a different package path triggered a Clang module-cache assertion; rebuilding the same fixture in a fresh directory succeeded.
