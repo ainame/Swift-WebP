@@ -1,0 +1,2 @@
+bytes=8294400 data_count_allocation=10371072 transferred_allocation=8306688
+bytes=33177600 data_count_allocation=41484288 transferred_allocation=33177600

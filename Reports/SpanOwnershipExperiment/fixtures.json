@@ -1,0 +1,26 @@
+{
+  "1920x1080": {
+    "decoded_hash": "4b645bd3b0f72565",
+    "encoded_hash": "3ccd140173ad2b02",
+    "first": 1,
+    "height": 1080,
+    "last": 255,
+    "width": 1920
+  },
+  "3840x2160": {
+    "decoded_hash": "f6e211eb00f7517e",
+    "encoded_hash": "5f80e791d50624c6",
+    "first": 1,
+    "height": 2160,
+    "last": 255,
+    "width": 3840
+  },
+  "32x32": {
+    "decoded_hash": "b5212e42ab29c9a5",
+    "encoded_hash": "7ad017f85eba8331",
+    "first": 1,
+    "height": 32,
+    "last": 255,
+    "width": 32
+  }
+}
