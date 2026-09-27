@@ -118,6 +118,8 @@ References: [SE-0447 Span](https://github.com/swiftlang/swift-evolution/blob/mai
 
 ## Reproduce
 
+For general usage and future experiments, see the [benchmark guide](../../Benchmark/README.md).
+
 Use Swift 6.4.0. The build helper extracts committed source archives into temporary directories and injects the same current harness and dependency lock, leaving the checkout state alone. Keep the output directory outside the repository.
 
 ```sh

@@ -45,6 +45,8 @@ swift test
 
 `make format` runs the SwiftFormat SPM plugin.
 
+See the [benchmark guide](Benchmark/README.md) for reproducible version comparisons, pipeline benchmarks, metric definitions, and interpretation limits.
+
 Resource benchmark + validation:
 
 ```bash
