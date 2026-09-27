@@ -60,8 +60,11 @@ struct WebPDecoderBufferTests {
         #expect(try decoder.requiredOutputByteCount(for: data, options: options) == 3 * 3 * 4)
         let decoded = try decoder.decode(data, options: options)
         let source = TestFixtures.makeRGBAFixture(width: 7, height: 5)
-        let expected = (1 ..< 4).flatMap { y in
-            Array(source[(y * 7 + 3) * 4 ..< (y * 7 + 6) * 4])
+        var expected: [UInt8] = []
+        for y in 1 ..< 4 {
+            let rowStart = (y * 7 + 3) * 4
+            let rowEnd = (y * 7 + 6) * 4
+            expected.append(contentsOf: source[rowStart ..< rowEnd])
         }
         #expect(Array(decoded) == expected)
     }
