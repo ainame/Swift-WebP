@@ -2,9 +2,7 @@
 
 Swift-WebP provides Swift wrappers around `libwebp` for encoding, decoding, and bitstream inspection.
 
-Use arrays, `Data`, or borrowed spans without handling C pointers at the call site. The wrapper validates buffer layouts and manages memory lifetime, failure cleanup, and decoded-buffer transfer to `Data`; unsafe C interoperability stays inside the library.
-
-In local HD/4K benchmarks, codec timing was close to equivalent direct-libwebp Swift implementations. Allocating decode used roughly 2 MiB less peak memory at HD and 8 MiB less at 4K than decoding directly into `Data(count:)`. These results are specific to the tested Mac and synthetic workloads; see the [direct-C comparison](Reports/SpanOwnershipExperiment/DIRECT_C.md) for details.
+Encode pixels from arrays, `Data`, or spans, and decode into `Data` or reusable buffers. Swift-WebP handles buffer validation and memory cleanup for you, with efficient decoding that avoids unnecessary output copies.
 
 ## Notice
 
