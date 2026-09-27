@@ -17,21 +17,21 @@ struct PhotoConversionView: View {
                 Text("Convert")
             }
             .buttonStyle(.borderedProminent)
-            
+
             VStack {
                 VStack {
                     Text("Original Image")
-                    
+
                     Image(.jiro)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 350)
                 }
                 .padding()
-                
+
                 VStack {
                     Text("Converted Image quality=10%")
-                    
+
                     if let converted {
                         Image(uiImage: converted)
                             .resizable()
@@ -46,7 +46,7 @@ struct PhotoConversionView: View {
                 }
                 .padding()
             }
-            
+
             Spacer()
         }
         .containerRelativeFrame([.horizontal, .vertical])
