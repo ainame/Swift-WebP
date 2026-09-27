@@ -195,35 +195,56 @@ public struct WebPDecoder: Sendable {
         return config
     }
 
-    private func requiredOutputLayout(
+    func requiredOutputLayout(
         for webPData: Data,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat
     ) throws -> OutputLayout {
-        let feature = try WebPImageInspector.inspect(webPData)
-        var width = feature.width
-        var height = feature.height
-
-        if options.useCropping {
-            if options.cropWidth > 0 {
-                width = options.cropWidth
-            }
-            if options.cropHeight > 0 {
-                height = options.cropHeight
-            }
+        guard format.colorspace.isRGBMode else {
+            throw WebPError.unsupportedDecodeFormat
         }
+        let feature = try WebPImageInspector.inspect(webPData)
+        var config = try makeConfig(options, format.colorspace)
+        config.input = feature
+        // Lossy (YUV420) decoding snaps crop origins down to even pixels.
+        // Lossless decoding preserves the exact origin.
+        // Normalize the validation copy so valid edge crops stay accepted.
+        if feature.format == .lossy, options.useCropping, options.cropLeft >= 0, options.cropTop >= 0 {
+            config.options.cropLeft &= ~1
+            config.options.cropTop &= ~1
+        }
+        guard config.validate() else {
+            throw WebPDecodingError.invalidParam
+        }
+        var width = options.useCropping ? options.cropWidth : feature.width
+        var height = options.useCropping ? options.cropHeight : feature.height
+
         if options.useScaling {
-            if options.scaledWidth > 0 {
-                width = options.scaledWidth
+            // libwebp infers a missing dimension from the cropped source,
+            // rounding up to the next pixel.
+            let sourceWidth = width
+            let sourceHeight = height
+            width = options.scaledWidth
+            height = options.scaledHeight
+            if width == 0 {
+                width = (sourceWidth * height + sourceHeight - 1) / sourceHeight
             }
-            if options.scaledHeight > 0 {
-                height = options.scaledHeight
+            if height == 0 {
+                height = (sourceHeight * width + sourceWidth - 1) / sourceWidth
+            }
+            guard width > 0, height > 0,
+                  width <= Int(Int32.max) / 2, height <= Int(Int32.max) / 2
+            else {
+                throw WebPDecodingError.invalidParam
             }
         }
 
         let bytesPerPixel = format.bytesPerPixel
-        let stride = width * bytesPerPixel
-        let byteCount = stride * height
+        let (stride, strideOverflow) = width.multipliedReportingOverflow(by: bytesPerPixel)
+        let (byteCount, sizeOverflow) = stride.multipliedReportingOverflow(by: height)
+        guard !strideOverflow, !sizeOverflow, Int32(exactly: stride) != nil else {
+            throw WebPDecodingError.invalidParam
+        }
         return OutputLayout(
             width: width,
             height: height,
@@ -234,7 +255,7 @@ public struct WebPDecoder: Sendable {
     }
 }
 
-private struct OutputLayout {
+struct OutputLayout {
     let width: Int
     let height: Int
     let bytesPerPixel: Int

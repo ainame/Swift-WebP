@@ -6,9 +6,7 @@ import CoreGraphics
 
 public extension WebPDecoder {
     func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
-        let feature = try WebPImageInspector.inspect(webPData)
-        let height: Int = options.useScaling ? options.scaledHeight : feature.height
-        let width: Int = options.useScaling ? options.scaledWidth : feature.width
+        let layout = try requiredOutputLayout(for: webPData, options: options, format: .rgba)
 
         let decodedData: CFData = try decode(webPData, options: options, format: .rgba) as CFData
         guard let provider = CGDataProvider(data: decodedData) else {
@@ -22,11 +20,11 @@ public extension WebPDecoder {
         let bytesPerPixel = 4
 
         if let cgImage = CGImage(
-            width: width,
-            height: height,
+            width: layout.width,
+            height: layout.height,
             bitsPerComponent: 8,
             bitsPerPixel: 8 * bytesPerPixel,
-            bytesPerRow: bytesPerPixel * width,
+            bytesPerRow: layout.stride,
             space: colorSpace,
             bitmapInfo: bitmapInfo,
             provider: provider,

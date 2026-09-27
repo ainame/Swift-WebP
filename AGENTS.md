@@ -5,12 +5,12 @@
 This repository is a Swift wrapper around `libwebp` for encoding, decoding, and inspecting WebP data.
 Use this file as the execution guide for ongoing implementation and maintenance work.
 
-## Current Baseline (2026-02-19)
+## Current Baseline (2026-09-27)
 
-- Swift toolchain: 6.2.3 (`.swift-version`), `swift-tools-version: 6.2` (`swiftLanguageModes: [.v6]`)
+- Swift toolchain: 6.4.0 (`.swift-version`), `swift-tools-version: 6.2` (`swiftLanguageModes: [.v6]`)
 - Deployment targets: iOS 13+, macOS 11+
 - Dependency:
-  - [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) 1.5.0+
+  - [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) 1.6.0+
   - [`SwiftFormat`](https://github.com/nicklockwood/SwiftFormat.git) via SPM plugin
 - CI:
   - macOS build + test

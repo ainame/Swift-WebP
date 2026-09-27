@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+- Added `WebPDecoderConfig.validate()` using upstream decoder configuration validation.
+
+### Fixed
+
+- Corrected decode buffer sizing when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions.
+- Crop validation preserves exact origins for lossless images and snaps to even pixels only for lossy images.
+- Platform image helpers now use resolved output dimensions for cropping and inferred scaling.
+- Invalid decoder settings now throw `WebPDecodingError.invalidParam` before output allocation.
+
+### Changed
+
+- Updated the local Swift toolchain to `6.4.0`.
+- Raised the `libwebp-Xcode` dependency minimum to `1.6.0`, including upstream lossless compression improvements and bug fixes.
+
 ## 0.6.0
 
 Git tag naming convention now removes `v` prefix.
