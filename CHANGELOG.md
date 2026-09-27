@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 `WebP` adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- Updated the local Swift toolchain to `6.4.0`.
+- Raised the `libwebp-Xcode` dependency minimum to `1.6.0`, including upstream lossless compression improvements and bug fixes.
+
 ## 0.6.0
 
 Git tag naming convention now removes `v` prefix.
