@@ -19,7 +19,8 @@ public extension WebPDecoder {
         let renderingIntent = CGColorRenderingIntent.defaultIntent
         let bytesPerPixel = 4
 
-        if let cgImage = CGImage(
+        // The provider retains decodedData; nil decode means no caller-supplied decode table.
+        if let cgImage = unsafe CGImage(
             width: layout.width,
             height: layout.height,
             bitsPerComponent: 8,

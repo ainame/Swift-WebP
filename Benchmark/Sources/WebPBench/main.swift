@@ -274,19 +274,14 @@ func run() throws {
 
     let totalRuns = config.warmup + config.iterations
     var encodedLast = Data()
-    let encodedForDecodeOnly: Data = try seedFrame.rgba.withUnsafeBufferPointer { pointer in
-        guard let base = pointer.baseAddress else {
-            throw BenchError.validationFailed("Unable to get source buffer pointer")
-        }
-        return try encoder.encode(
-            UnsafeMutablePointer(mutating: base),
-            format: .rgba,
-            config: .preset(.picture, quality: config.quality),
-            originWidth: seedFrame.width,
-            originHeight: seedFrame.height,
-            stride: seedFrame.stride
-        )
-    }
+    let encodedForDecodeOnly = try encoder.encode(
+        seedFrame.rgba,
+        format: .rgba,
+        config: .preset(.picture, quality: config.quality),
+        originWidth: seedFrame.width,
+        originHeight: seedFrame.height,
+        stride: seedFrame.stride
+    )
 
     var decodeOptions = WebPDecoderOptions()
     decodeOptions.useThreads = config.threads
@@ -349,14 +344,10 @@ func run() throws {
                 frame = seedFrame
             }
 
-            let encoded: Data = try frame.rgba.withUnsafeBufferPointer { pointer in
-                guard let base = pointer.baseAddress else {
-                    throw BenchError.validationFailed("Unable to get source buffer pointer")
-                }
-                let mutable = UnsafeMutablePointer(mutating: base)
+            let encoded: Data = try { () throws -> Data in
                 let start = now()
                 let data = try encoder.encode(
-                    mutable,
+                    frame.rgba,
                     format: .rgba,
                     config: .preset(.picture, quality: config.quality),
                     originWidth: frame.width,
@@ -369,7 +360,7 @@ func run() throws {
                     captureStageRSS(&rssAfterEncode)
                 }
                 return data
-            }
+            }()
             encodedLast = encoded
         case .decodeOnly:
             let decodeStart = now()
@@ -407,29 +398,22 @@ func run() throws {
 
             let expectedBytes = frame.width * frame.height * 4
             let encoded: Data = try withAutoreleasePool {
-                try frame.rgba.withUnsafeBufferPointer { pointer in
-                    guard let base = pointer.baseAddress else {
-                        throw BenchError.validationFailed("Unable to get source buffer pointer")
-                    }
-                    let mutable = UnsafeMutablePointer(mutating: base)
-                    let start = now()
-                    let data = try encoder.encode(
-                        mutable,
-                        format: .rgba,
-                        config: .preset(.picture, quality: config.quality),
-                        originWidth: frame.width,
-                        originHeight: frame.height,
-                        stride: frame.stride
-                    )
-                    let end = now()
-                    if runIndex >= config.warmup {
-                        encodeMS.append(elapsedMS(start, end))
-                        captureStageRSS(&rssAfterEncode)
-                    }
-                    return data
+                let start = now()
+                let data = try encoder.encode(
+                    frame.rgba,
+                    format: .rgba,
+                    config: .preset(.picture, quality: config.quality),
+                    originWidth: frame.width,
+                    originHeight: frame.height,
+                    stride: frame.stride
+                )
+                let end = now()
+                if runIndex >= config.warmup {
+                    encodeMS.append(elapsedMS(start, end))
+                    captureStageRSS(&rssAfterEncode)
                 }
+                return data
             }
-
             try withAutoreleasePool {
                 let decodeStart = now()
                 let decoded = try decoder.decode(encoded, options: decodeOptions, format: .rgba)

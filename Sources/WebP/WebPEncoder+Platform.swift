@@ -6,22 +6,14 @@ import CoreGraphics
 
 public extension WebPEncoder {
     func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
-        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+        // No rectangle pointer is supplied; AppKit manages the returned CGImage lifetime.
+        guard let cgImage = unsafe image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't convert NSImage to CGImage.")
         }
 
-        let stride = cgImage.bytesPerRow
-        let byteCount = stride * cgImage.height
-        let buffer = try UnsafeBufferPointer(start: cgImage.getBaseAddress(), count: byteCount)
         return try encode(
-            buffer,
-            format: .rgba,
-            config: config,
-            originWidth: cgImage.width,
-            originHeight: cgImage.height,
-            stride: stride,
-            resizeWidth: width,
-            resizeHeight: height
+            cgImage, format: .rgba, config: config,
+            resizeWidth: width, resizeHeight: height
         )
     }
 }
@@ -34,18 +26,9 @@ import UIKit
 extension WebPEncoder {
     public func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         let cgImage = try convertUIImageToCGImageWithRGBA(image)
-        let stride = cgImage.bytesPerRow
-        let byteCount = stride * cgImage.height
-        let buffer = try UnsafeBufferPointer(start: cgImage.getBaseAddress(), count: byteCount)
         return try encode(
-            buffer,
-            format: .rgba,
-            config: config,
-            originWidth: Int(image.size.width),
-            originHeight: Int(image.size.height),
-            stride: stride,
-            resizeWidth: width,
-            resizeHeight: height
+            cgImage, format: .rgba, config: config,
+            resizeWidth: width, resizeHeight: height
         )
     }
 

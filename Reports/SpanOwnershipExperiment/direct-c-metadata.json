@@ -1,0 +1,48 @@
+{
+  "library_ref": "f26184708aafdc01f513ffd3d7f75eef547be477",
+  "driver_ref": "9214ccf",
+  "toolchain": "Apple Swift version 6.4 (swift-6.4-RELEASE)\nTarget: arm64-apple-macosx27.2.0",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.2\nBuildVersion:\t\t26B5091g",
+  "cpu": "Apple M1 Max",
+  "dependency": "libwebp-Xcode 1.6.0",
+  "variants": {
+    "wrapper": {
+      "sha256": "3d7c064112578b3df25f390ddb46cbccc289f74326c316a5ee1af97d2d7ba1f0",
+      "flags": "EXPERIMENT_SPAN"
+    },
+    "c-copy": {
+      "sha256": "c3cfcda71d05a74c56448317ff8bc19420e9969f1999e0e0f3013d26ea506348",
+      "flags": "DIRECT_C_COPY"
+    },
+    "c-into": {
+      "sha256": "38432ed06736c33d760dc6f5e49f05862615d32d5981d3204a26915c6e05493b",
+      "flags": "DIRECT_C_INTO"
+    }
+  },
+  "fixtures": {
+    "3840x2160.webp.json": {
+      "decoded_hash": "f6e211eb00f7517e",
+      "encoded_hash": "5f80e791d50624c6",
+      "first": 1,
+      "height": 2160,
+      "last": 255,
+      "width": 3840
+    },
+    "1920x1080.webp.json": {
+      "decoded_hash": "4b645bd3b0f72565",
+      "encoded_hash": "3ccd140173ad2b02",
+      "first": 1,
+      "height": 1080,
+      "last": 255,
+      "width": 1920
+    },
+    "32x32.webp.json": {
+      "decoded_hash": "b5212e42ab29c9a5",
+      "encoded_hash": "7ad017f85eba8331",
+      "first": 1,
+      "height": 32,
+      "last": 255,
+      "width": 32
+    }
+  }
+}

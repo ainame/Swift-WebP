@@ -9,12 +9,14 @@ let package = Package(
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "WebPBench", targets: ["WebPBench"])
+        .executable(name: "WebPBench", targets: ["WebPBench"]),
+        .executable(name: "MemoryExperiment", targets: ["MemoryExperiment"])
     ],
     dependencies: [
         .package(name: "Swift-WebP", path: "..")
     ],
     targets: [
+        .executableTarget(name: "MemoryExperiment", dependencies: [.product(name: "WebP", package: "Swift-WebP")]),
         .executableTarget(
             name: "WebPBench",
             dependencies: [

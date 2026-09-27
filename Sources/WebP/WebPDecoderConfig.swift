@@ -1,47 +1,49 @@
 import Foundation
 import libwebp
 
-public struct WebPDecoderConfig: InternalRawRepresentable {
+/// Low-level configuration carrying caller-managed C buffers. Prefer the Data/array/Span decoder APIs.
+@unsafe
+public struct WebPDecoderConfig: @unsafe InternalRawRepresentable {
     public var input: WebPBitstreamFeatures? // Immutable bitstream features (optional)
     public var output: WebPDecBuffer // Output buffer (can point to external mem)
     public var options: WebPDecoderOptions // Decoding options
 
     public init() throws {
-        var originConfig = libwebp.WebPDecoderConfig()
-        if libwebp.WebPInitDecoderConfig(&originConfig) == 0 {
+        var originConfig = unsafe libwebp.WebPDecoderConfig()
+        if unsafe libwebp.WebPInitDecoderConfig(&originConfig) == 0 {
             throw WebPError.decoderConfigInitializationFailed
         }
-        self = WebPDecoderConfig(rawValue: originConfig)
+        unsafe self = WebPDecoderConfig(rawValue: originConfig)
     }
 
     /// Checks configuration ranges using libwebp. Set `input` to inspected
     /// bitstream features to also check cropping against the source dimensions.
     /// This does not validate the bitstream or external buffer capacity.
     public func validate() -> Bool {
-        let integers = [output.width, output.height,
-                        options.bypassFiltering, options.noFancyUpsampling,
-                        options.cropLeft, options.cropTop, options.cropWidth, options.cropHeight,
-                        options.scaledWidth, options.scaledHeight, options.ditheringStrength,
-                        options.flip, options.alphaDitheringStrength,
-                        input?.width ?? 0, input?.height ?? 0]
+        let integers = unsafe [output.width, output.height,
+                               options.bypassFiltering, options.noFancyUpsampling,
+                               options.cropLeft, options.cropTop, options.cropWidth, options.cropHeight,
+                               options.scaledWidth, options.scaledHeight, options.ditheringStrength,
+                               options.flip, options.alphaDitheringStrength,
+                               input?.width ?? 0, input?.height ?? 0]
         guard integers.allSatisfy({ Int32(exactly: $0) != nil }) else { return false }
-        let padding = [output.pad.0, output.pad.1, output.pad.2, output.pad.3,
-                       options.pad.0, options.pad.1, options.pad.2, options.pad.3, options.pad.4,
-                       input?.pad.0 ?? 0, input?.pad.1 ?? 0, input?.pad.2 ?? 0,
-                       input?.pad.3 ?? 0, input?.pad.4 ?? 0]
+        let padding = unsafe [output.pad.0, output.pad.1, output.pad.2, output.pad.3,
+                              options.pad.0, options.pad.1, options.pad.2, options.pad.3, options.pad.4,
+                              input?.pad.0 ?? 0, input?.pad.1 ?? 0, input?.pad.2 ?? 0,
+                              input?.pad.3 ?? 0, input?.pad.4 ?? 0]
         guard padding.allSatisfy({ UInt32(exactly: $0) != nil }) else { return false }
-        var config = rawValue
-        return WebPValidateDecoderConfig(&config) != 0
+        var config = unsafe rawValue
+        return unsafe WebPValidateDecoderConfig(&config) != 0
     }
 
     init(rawValue: libwebp.WebPDecoderConfig) {
-        input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
-        output = WebP.WebPDecBuffer(rawValue: rawValue.output)
-        options = WebP.WebPDecoderOptions(rawValue: rawValue.options)
+        unsafe input = WebP.WebPBitstreamFeatures(rawValue: rawValue.input)
+        unsafe output = WebP.WebPDecBuffer(rawValue: rawValue.output)
+        unsafe options = WebP.WebPDecoderOptions(rawValue: rawValue.options)
     }
 
     var rawValue: libwebp.WebPDecoderConfig {
-        let inputValue = input?.rawValue ?? libwebp.WebPBitstreamFeatures(
+        let inputValue = unsafe input?.rawValue ?? libwebp.WebPBitstreamFeatures(
             width: 0,
             height: 0,
             has_alpha: 0,
@@ -49,7 +51,7 @@ public struct WebPDecoderConfig: InternalRawRepresentable {
             format: 0,
             pad: (0, 0, 0, 0, 0)
         )
-        return libwebp.WebPDecoderConfig(input: inputValue, output: output.rawValue, options: options.rawValue)
+        return unsafe libwebp.WebPDecoderConfig(input: inputValue, output: output.rawValue, options: options.rawValue)
     }
 }
 
@@ -151,7 +153,9 @@ public enum ColorspaceMode: Int, Sendable {
     }
 }
 
-public struct WebPDecBuffer: InternalRawRepresentable {
+/// A non-owning description of C pixel buffers. Callers must maintain pointer lifetime and capacity.
+@unsafe
+public struct WebPDecBuffer: @unsafe InternalRawRepresentable {
     public enum ExternalMemoryMode: Equatable, Sendable {
         case internalMemory
         case externalMemory
@@ -180,20 +184,21 @@ public struct WebPDecBuffer: InternalRawRepresentable {
         }
     }
 
+    @unsafe
     public enum Colorspace {
         case RGBA(WebPRGBABuffer)
         case YUVA(WebPYUVABuffer)
 
         var rgba: WebPRGBABuffer? {
-            if case let .RGBA(buffer) = self {
-                return buffer
+            if case let .RGBA(buffer) = unsafe self {
+                return unsafe buffer
             }
             return nil
         }
 
         var yuva: WebPYUVABuffer? {
-            if case let .YUVA(buffer) = self {
-                return buffer
+            if case let .YUVA(buffer) = unsafe self {
+                return unsafe buffer
             }
             return nil
         }
@@ -216,15 +221,15 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
 
     var rawValue: libwebp.WebPDecBuffer {
-        let originU = switch u {
+        let originU = switch unsafe u {
         case let .RGBA(buffer):
-            libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
+            unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
         case let .YUVA(buffer):
-            libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
+            unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
         }
         // let u = colorspace.isRGBMode ? libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) :
         // libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
-        return libwebp.WebPDecBuffer(
+        return unsafe libwebp.WebPDecBuffer(
             colorspace: WEBP_CSP_MODE(rawValue: UInt32(colorspace.rawValue)),
             width: Int32(width),
             height: Int32(height),
@@ -236,16 +241,16 @@ public struct WebPDecBuffer: InternalRawRepresentable {
     }
 
     init(rawValue: libwebp.WebPDecBuffer) {
-        guard let colorspace = ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue)) else {
-            preconditionFailure("Unexpected WebP colorspace value: \(rawValue.colorspace.rawValue)")
+        guard let colorspace = unsafe ColorspaceMode(rawValue: Int(rawValue.colorspace.rawValue)) else {
+            unsafe preconditionFailure("Unexpected WebP colorspace value: \(rawValue.colorspace.rawValue)")
         }
-        self.colorspace = colorspace
-        width = Int(rawValue.width)
-        height = Int(rawValue.height)
-        externalMemoryMode = ExternalMemoryMode(libwebpValue: rawValue.is_external_memory)
-        u = colorspace.isRGBMode ? Colorspace.RGBA(rawValue.u.RGBA) : Colorspace.YUVA(rawValue.u.YUVA)
-        pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3))
-        privateMemory = rawValue.private_memory
+        unsafe self.colorspace = colorspace
+        unsafe width = Int(rawValue.width)
+        unsafe height = Int(rawValue.height)
+        unsafe externalMemoryMode = ExternalMemoryMode(libwebpValue: rawValue.is_external_memory)
+        unsafe u = colorspace.isRGBMode ? Colorspace.RGBA(rawValue.u.RGBA) : Colorspace.YUVA(rawValue.u.YUVA)
+        unsafe pad = (Int(rawValue.pad.0), Int(rawValue.pad.1), Int(rawValue.pad.2), Int(rawValue.pad.3))
+        unsafe privateMemory = rawValue.private_memory
     }
 }
 

@@ -22,7 +22,8 @@ let package = Package(
             dependencies: [
                 .product(name: "libwebp", package: "libwebp-Xcode")
             ],
-            exclude: ["Info.plist"]
+            exclude: ["Info.plist"],
+            swiftSettings: [.strictMemorySafety()]
         ),
         .testTarget(
             name: "WebPTests",
