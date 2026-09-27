@@ -1,8 +1,6 @@
-import Foundation
-import libwebp
-
 #if os(macOS) || os(iOS)
 import CoreGraphics
+import Foundation
 
 public extension WebPDecoder {
     func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {

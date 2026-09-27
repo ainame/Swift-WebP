@@ -1,7 +1,6 @@
-import Foundation
-
 #if canImport(CoreGraphics)
 import CoreGraphics
+import Foundation
 
 public extension WebPEncoder {
     func encode(

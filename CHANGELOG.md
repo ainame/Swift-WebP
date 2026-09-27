@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Performance
 
+- Prefer `FoundationEssentials` for core `Data` APIs when available and remove unused Foundation imports, reducing Foundation dependencies on Linux.
+
 - Decode into an owned uninitialized byte allocation and transfer it directly to `Data` after success, avoiding zero-filling and duplicate layout inspection. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 - Inspect bitstream features with a local C structure instead of an explicit heap allocation. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 

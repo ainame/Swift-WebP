@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import libwebp
 
 /// This is customised error that describes the pattern of error causes.

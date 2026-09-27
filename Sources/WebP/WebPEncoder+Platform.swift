@@ -1,8 +1,7 @@
-import Foundation
-
 #if os(macOS)
 import AppKit
 import CoreGraphics
+import Foundation
 
 public extension WebPEncoder {
     func encode(_ image: NSImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
@@ -21,6 +20,7 @@ public extension WebPEncoder {
 
 #if os(iOS)
 import CoreGraphics
+import Foundation
 import UIKit
 
 extension WebPEncoder {
