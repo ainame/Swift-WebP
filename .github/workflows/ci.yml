@@ -23,7 +23,7 @@ jobs:
       - name: Read Swift version
         id: swift-version
         run: echo "version=$(cat .swift-version)" >> "$GITHUB_OUTPUT"
-      - uses: vapor/swiftly-action@v0.2.0
+      - uses: vapor/swiftly-action@v0.2.1
         with:
           toolchain: ${{ steps.swift-version.outputs.version }}
       - run: swift test
