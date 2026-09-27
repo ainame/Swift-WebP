@@ -4,8 +4,9 @@ import Foundation
 
 extension CGImage {
     /// Convert any Core Graphics bitmap layout to straight-alpha RGBA bytes for libwebp.
-    /// "Straight alpha" means RGB values have not been multiplied by alpha.
-    /// For example, half-transparent red is (255, 0, 0, 128), not (128, 0, 0, 128).
+    /// The CGContext below stores premultiplied RGBA: it multiplies RGB values by alpha.
+    /// For example, half-transparent red (255, 0, 0, 128) is stored as (128, 0, 0, 128).
+    /// libwebp expects the original RGB values, so this undoes that multiplication.
     func webPStraightRGBA() throws -> [UInt8] {
         let maximumDimension = 16383
         guard width > 0, height > 0, width <= maximumDimension, height <= maximumDimension else {
