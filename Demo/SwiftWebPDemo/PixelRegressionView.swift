@@ -17,20 +17,22 @@ struct PixelRegressionView: View {
                     .pickerStyle(.menu)
 
                     Text(sample.explanation)
-                    Text("Both results use lossless WebP. The checkerboard shows transparency. All previews use the same display size; tap an image to inspect it enlarged.")
+                    Text("Both results use lossless WebP. The checkerboard shows transparency. Before and after use the same display size; tap an image to inspect it enlarged.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
                     if let comparison {
                         RegressionImageCard(title: "Original", image: comparison.original)
-                        RegressionImageCard(
-                            title: "Before · reproduced old code", image: comparison.before.image,
-                            detail: comparison.before.pixelDescription
-                        )
-                        RegressionImageCard(
-                            title: "After · current UIImage API", image: comparison.after.image,
-                            detail: comparison.after.pixelDescription
-                        )
+                        HStack(alignment: .top, spacing: 12) {
+                            RegressionImageCard(
+                                title: "Before", image: comparison.before.image,
+                                detail: comparison.before.pixelDescription
+                            )
+                            RegressionImageCard(
+                                title: "After", image: comparison.after.image,
+                                detail: comparison.after.pixelDescription
+                            )
+                        }
                     } else if let failure {
                         Text(failure).foregroundStyle(.red)
                     } else {
@@ -75,12 +77,9 @@ private struct RegressionImageCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(title).font(.headline)
-                Spacer()
-                Text("\(image.width) × \(image.height) px")
-                    .font(.caption.monospacedDigit())
-            }
+            Text(title).font(.headline)
+            Text("\(image.width) × \(image.height) px")
+                .font(.caption.monospacedDigit())
             Button {
                 enlarged = true
             } label: {
