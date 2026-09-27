@@ -1,4 +1,3 @@
-import Foundation
 import libwebp
 
 /// mapping from libwebp.WebPConfig

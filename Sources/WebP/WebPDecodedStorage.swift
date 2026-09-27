@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// An uninitialized byte allocation kept private until libwebp successfully fills it.
 @safe

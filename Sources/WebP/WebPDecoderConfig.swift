@@ -1,4 +1,3 @@
-import Foundation
 import libwebp
 
 /// Low-level configuration carrying caller-managed C buffers. Prefer the Data/array/Span decoder APIs.

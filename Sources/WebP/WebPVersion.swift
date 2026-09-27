@@ -1,4 +1,3 @@
-import Foundation
 import libwebp
 
 public struct WebPVersion: Equatable, CustomStringConvertible, Sendable {
