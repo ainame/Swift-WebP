@@ -42,7 +42,7 @@ struct WebPMemorySafetyTests {
 
     @Test(arguments: [(0, 2, 8, 16), (-1, 2, 8, 16), (2, 2, 7, 16),
                       (2, 2, 8, 15), (2, 2, Int.max, 16), (Int.max, 2, 8, 16),
-                      (2, Int.max, 8, 16)])
+                      (2, Int.max, 8, 16), (2, 2, 12, 19)])
     func invalidLayoutsThrowBeforeReadingPixels(layout: (Int, Int, Int, Int)) {
         let (width, height, stride, count) = layout
         #expect(throws: WebPEncoderError.invalidParameter) {
@@ -69,6 +69,43 @@ struct WebPMemorySafetyTests {
         )
         let features = try WebPImageInspector.inspect(encoded)
         #expect(features.width == 2 && features.height == 2)
+    }
+
+    @Test(arguments: [WebPEncodePixelFormat.rgb, .rgba, .rgbx, .bgr, .bgra, .bgrx])
+    func compactFinalRowMatchesFullyPaddedInput(format: WebPEncodePixelFormat) throws {
+        let rowBytes = (format == .rgb || format == .bgr) ? 6 : 8
+        let stride = rowBytes + 4
+        let full = [UInt8](repeating: 128, count: stride * 2)
+        let compact = Array(full.prefix(stride + rowBytes))
+        let encoder = WebPEncoder()
+        let config = WebPEncoderConfig.preset(.picture, quality: 75)
+        let expected = try encoder.encode(
+            full,
+            format: format,
+            config: config,
+            originWidth: 2,
+            originHeight: 2,
+            stride: stride
+        )
+        let actual = try compact.withUnsafeBufferPointer { buffer in
+            try encoder.encode(
+                buffer,
+                format: format,
+                config: config,
+                originWidth: 2,
+                originHeight: 2,
+                stride: stride
+            )
+        }
+        #expect(actual == expected)
+        #expect(try encoder.encode(
+            compact,
+            format: format,
+            config: config,
+            originWidth: 2,
+            originHeight: 2,
+            stride: stride
+        ) == expected)
     }
 
     @Test

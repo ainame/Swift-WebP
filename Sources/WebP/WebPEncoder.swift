@@ -82,8 +82,27 @@ public struct WebPEncoder: Sendable {
         guard originWidth > 0, originHeight > 0,
               originWidth <= Int(WEBP_MAX_DIMENSION), originHeight <= Int(WEBP_MAX_DIMENSION),
               !rowOverflow, !sizeOverflow, stride >= rowBytes, Int32(exactly: stride) != nil,
-              data.count >= required
+              data.count >= required - stride + rowBytes
         else { throw WebPEncoderError.invalidParameter }
+        // libwebp documents stride * height bytes. Preserve compact last-row
+        // layouts by packing them before crossing the C boundary.
+        if data.count < required {
+            let minimum = required - stride + rowBytes
+            guard data.count >= minimum else { throw WebPEncoderError.invalidParameter }
+            var packed = [UInt8]()
+            packed.reserveCapacity(rowBytes * originHeight)
+            data.withUnsafeBufferPointer { buffer in
+                for row in 0 ..< originHeight {
+                    let offset = row * stride
+                    packed.append(contentsOf: buffer[offset ..< offset + rowBytes])
+                }
+            }
+            return try encode(
+                packed, format: format, config: config,
+                originWidth: originWidth, originHeight: originHeight, stride: rowBytes,
+                resizeWidth: resizeWidth, resizeHeight: resizeHeight
+            )
+        }
         return try data.withUnsafeBufferPointer { buffer in
             try encode(
                 buffer.baseAddress!, importer: importer(for: format), config: config,

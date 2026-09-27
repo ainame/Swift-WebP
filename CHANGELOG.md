@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Validate encoder input capacity, row stride, and dimensions before reading pixel memory.
+- Preserve compact final-row encoder inputs by packing rows only when final-row padding is absent.
 - Retain CoreGraphics pixel storage throughout encoding.
 - Free partially written encoder output on failure using a noncopyable allocation owner.
 
