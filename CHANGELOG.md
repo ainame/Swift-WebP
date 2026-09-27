@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add a visual Demo comparing the old platform image encoding bugs with the corrected WebP output. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+
 - Safe pixel encoding from `[UInt8]`, `Data`, and borrowed `Span<UInt8>`, plus decoding into `MutableSpan<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 - Public span-based bitstream inspection. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 

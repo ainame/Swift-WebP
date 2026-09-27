@@ -1,75 +1,13 @@
 import SwiftUI
-import WebP
-import UIKit
 
 struct ContentView: View {
-    @State private var converted: UIImage?
-    private let encoder = WebPEncoder()
-    private let decoder = WebPDecoder()
-    private let queue = DispatchQueue(label: "me.ainam.webp")
-
     var body: some View {
-        VStack {
-            Button {
-                converted = nil
-                convertImage()
-            } label: {
-                Text("Convert")
+        TabView {
+            Tab("Pixel regressions", systemImage: "square.split.2x2") {
+                PixelRegressionView()
             }
-            .buttonStyle(.borderedProminent)
-            
-            VStack {
-                VStack {
-                    Text("Original Image")
-                    
-                    Image(.jiro)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 350)
-                }
-                .padding()
-                
-                VStack {
-                    Text("Converted Image quality=10%")
-                    
-                    if let converted {
-                        Image(uiImage: converted)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 350)
-                    } else {
-                        Color
-                            .black
-                            .opacity(0.2)
-                            .frame(width: 350, height: 200)
-                    }
-                }
-                .padding()
-            }
-            
-            Spacer()
-        }
-        .containerRelativeFrame([.horizontal, .vertical])
-    }
-
-    func convertImage() {
-        let image = UIImage(named: "jiro")!
-
-        queue.async {
-            do {
-                let webpImage = try autoreleasepool {
-                    let data = try encoder.encode(image, config: .preset(.picture, quality: 10))
-                    var options = WebPDecoderOptions()
-                    options.scaledWidth = Int(image.size.width)
-                    options.scaledHeight = Int(image.size.height)
-                    return try decoder.decodeUIImage(from: data, options: options)
-                }
-
-                DispatchQueue.main.async {
-                    converted = webpImage
-                }
-            } catch {
-                print(error)
+            Tab("Photo conversion", systemImage: "photo") {
+                PhotoConversionView()
             }
         }
     }
