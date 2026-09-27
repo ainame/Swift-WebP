@@ -158,3 +158,26 @@ On macOS, this prints the requested pixel count, allocator backing size for `Dat
 Use a compiler/SDK combination that can build the selected versions. Select a toolchain per command rather than changing global configuration midway through a comparison. Use a fresh scratch directory when moving a consumer package or switching incompatible compiler/SDK environments; stale Clang module caches can cause assertions unrelated to library source compatibility.
 
 The snapshot helper prints retained temporary source directories. Executables, generated fixtures/sidecars, and JSON results remain in your chosen output directory. Keep the results and environment notes with the experiment report before removing temporary build artifacts. Keep reusable usage instructions here; put dated measurements under `Reports/` so future runs do not inherit old numbers as expectations.
+
+## Direct libwebp comparison
+
+The same driver can compare the wrapper with two ordinary-pointer Swift implementations. Neither direct-C path uses Span, noncopyable owners, explicit borrowing/consuming, or a no-copy ownership transfer:
+
+- `--direct-c copy`: encode with the picture/config API and memory writer, copy its output into Data, then clear the writer. Decode with `WebPDecodeRGBA`, copy pixels into Data, then `WebPFree` the C buffer.
+- `--direct-c into`: the same encoding implementation; decode with `WebPDecodeRGBAInto` into `Data(count:)`. Both variants reuse an array through `WebPDecodeRGBAInto` for the reuse stage.
+
+```sh
+python3 Scripts/build-memory-experiment.py HEAD --span --output /tmp/webp-wrapper
+python3 Scripts/build-memory-experiment.py HEAD --direct-c copy --output /tmp/webp-c-copy
+python3 Scripts/build-memory-experiment.py HEAD --direct-c into --output /tmp/webp-c-into
+python3 Scripts/run-memory-experiment.py \
+  --binary wrapper=/tmp/webp-wrapper \
+  --binary c-copy=/tmp/webp-c-copy \
+  --binary c-into=/tmp/webp-c-into \
+  --fixtures "$task_dir/fixtures" --stages encode decode reuse --repeats 5 \
+  --output "$task_dir/direct-c-results.json"
+```
+
+Use fixtures prepared as described above. This compares equivalent RGBA/Data results at the picture preset, quality 75, without resizing, cropping, or decoder threading. The simple `WebPEncodeRGBA` function uses a different preset, so comparing it directly would change codec work. The direct-C variants are specialized for trusted dimensions and RGBA; the wrapper also validates input and supports more options. Both executables share the driver, linked libraries, validation and fixture setup. The two C encode and reuse implementations are identical and provide a useful estimate of run-to-run noise.
+
+See the [direct-C comparison report](../Reports/SpanOwnershipExperiment/DIRECT_C.md) for measured results and limits. A copy-heavy baseline alone cannot establish superiority over well-written C interop.

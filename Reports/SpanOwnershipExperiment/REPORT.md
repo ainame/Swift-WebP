@@ -167,3 +167,7 @@ DEVELOPER_DIR=/Applications/Xcode-26.5.0.app/Contents/Developer \
 The consumer printed `Swift 6.2 consumer: array, Data, Span, MutableSpan, inspection and round-trip passed`. It ran on macOS 27.2. The linker warned that toolchain runtime dylibs were built for macOS 13 while the consumer targets macOS 11; this check does not validate execution on macOS 11. No compiler or SDK selection was changed globally.
 
 Use a fresh scratch directory for the consumer fixture. Reusing a build directory from the earlier consumer at a different package path triggered a Clang module-cache assertion; rebuilding the same fixture in a fresh directory succeeded.
+
+## Direct C follow-up
+
+The [direct libwebp comparison](DIRECT_C.md) evaluates the current wrapper against ordinary-pointer Swift implementations with C-output copying and direct decoding into Foundation storage. It uses the same fixtures and equivalent codec settings; raw results and reproduction instructions are included.
