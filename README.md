@@ -33,39 +33,6 @@ Add Swift-WebP in your `Package.swift`:
 .package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.6.0")
 ```
 
-## Development
-
-The local development toolchain is Swift 6.4.0, selected by `.swift-version`. This file does not define the minimum supported Swift version.
-
-Common local commands:
-
-```bash
-make format
-swift build
-swift test
-```
-
-`make format` runs the SwiftFormat SPM plugin.
-
-See the [benchmark guide](Benchmark/README.md) for reproducible version comparisons, pipeline benchmarks, metric definitions, and interpretation limits.
-
-Resource benchmark + validation:
-
-```bash
-Scripts/benchmark-resource.sh
-Scripts/validate-resource.sh
-Scripts/compare-with-cwebp.sh
-```
-
-You can tune benchmark parameters with env vars such as:
-`MODE=pipeline|source-decode-only|encode-only|decode-only`,
-`WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`,
-`INPUT=/absolute/path/to/image`, `SOURCE_DECODE_PER_ITERATION=on`.
-Validation thresholds can be tuned with:
-`MAX_SOURCE_DECODE_AVG_MS`, `MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`,
-`MAX_PIPELINE_ENCODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`,
-`MAX_STAGE_PEAK_RSS_MB`, `MAX_PIPELINE_PEAK_RSS_MB`.
-
 ## Usage
 
 ### Encoding
@@ -139,6 +106,39 @@ let image = try decoder.decodeNSImage(from: webPData, options: options)
 let feature = try WebPImageInspector.inspect(webPData)
 print(feature.width, feature.height, feature.hasAlpha, feature.hasAnimation)
 ```
+
+## Development
+
+The local development toolchain is Swift 6.4.0, selected by `.swift-version`. This file does not define the minimum supported Swift version.
+
+Common local commands:
+
+```bash
+make format
+swift build
+swift test
+```
+
+`make format` runs the SwiftFormat SPM plugin.
+
+See the [benchmark guide](Benchmark/README.md) for reproducible version comparisons, pipeline benchmarks, metric definitions, and interpretation limits.
+
+Resource benchmark + validation:
+
+```bash
+Scripts/benchmark-resource.sh
+Scripts/validate-resource.sh
+Scripts/compare-with-cwebp.sh
+```
+
+You can tune benchmark parameters with env vars such as:
+`MODE=pipeline|source-decode-only|encode-only|decode-only`,
+`WIDTH`, `HEIGHT`, `ITERATIONS`, `WARMUP`, `QUALITY`, `THREADS_FLAG=off`,
+`INPUT=/absolute/path/to/image`, `SOURCE_DECODE_PER_ITERATION=on`.
+Validation thresholds can be tuned with:
+`MAX_SOURCE_DECODE_AVG_MS`, `MAX_ENCODE_AVG_MS`, `MAX_DECODE_AVG_MS`,
+`MAX_PIPELINE_ENCODE_AVG_MS`, `MAX_ENCODE_P95_MS`, `MAX_DECODE_P95_MS`,
+`MAX_STAGE_PEAK_RSS_MB`, `MAX_PIPELINE_PEAK_RSS_MB`.
 
 ## License
 
