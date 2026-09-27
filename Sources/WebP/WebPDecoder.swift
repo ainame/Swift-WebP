@@ -145,8 +145,7 @@ public struct WebPDecoder: Sendable {
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
         try output.withUnsafeMutableBufferPointer { buffer in
-            var span = MutableSpan(_unsafeElements: buffer)
-            return try decode(webPData, into: &span, options: options, format: format)
+            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
         }
     }
 

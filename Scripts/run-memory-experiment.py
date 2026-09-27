@@ -7,6 +7,7 @@ import subprocess
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--binary', action='append', required=True, metavar='NAME=PATH')
+parser.add_argument('--stages', nargs='+', choices=['encode', 'decode', 'reuse', 'inspect'])
 parser.add_argument('--fixtures', type=Path, required=True)
 parser.add_argument('--repeats', type=int, default=5)
 parser.add_argument('--output', type=Path, required=True)
@@ -15,6 +16,8 @@ binaries = [argument.split('=', 1) for argument in args.binary]
 cases = [('encode', 1920, 1080, 10), ('decode', 1920, 1080, 30), ('reuse', 1920, 1080, 30),
          ('encode', 3840, 2160, 5), ('decode', 3840, 2160, 20), ('reuse', 3840, 2160, 20),
          ('inspect', 32, 32, 100000)]
+if args.stages:
+    cases = [case for case in cases if case[0] in args.stages]
 records = []
 args.output.parent.mkdir(parents=True, exist_ok=True)
 for repeat in range(args.repeats):
