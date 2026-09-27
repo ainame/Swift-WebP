@@ -1,4 +1,8 @@
+#if canImport(Darwin)
 import Darwin
+#else
+import Glibc
+#endif
 import Foundation
 import WebP
 
@@ -58,15 +62,23 @@ func operation() throws {
     default: fatalError("mode must be encode, decode, reuse or inspect")
     }
 }
-for _ in 0 ..< 3 { try autoreleasepool { try operation() } }
+func pool<Result>(_ body: () throws -> Result) rethrows -> Result {
+    #if canImport(Darwin)
+    return try autoreleasepool(invoking: body)
+    #else
+    return try body()
+    #endif
+}
+for _ in 0 ..< 3 { try pool { try operation() } }
 var samples = [Double]()
 for _ in 0 ..< iterations {
     let start = DispatchTime.now().uptimeNanoseconds
-    try autoreleasepool { try operation() }
+    try pool { try operation() }
     samples.append(Double(DispatchTime.now().uptimeNanoseconds - start) / 1_000_000)
 }
 if mode == "reuse" { precondition(Data(output) == expected) }
 var usage = rusage()
+#if canImport(Darwin)
 getrusage(RUSAGE_SELF, &usage)
 var info = mach_task_basic_info()
 var infoCount = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size / MemoryLayout<natural_t>.size)
@@ -75,12 +87,25 @@ let status = withUnsafeMutablePointer(to: &info) { pointer in
         task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &infoCount)
     }
 }
+let peakRSS = Double(usage.ru_maxrss) / 1_048_576
+let finalRSS = status == KERN_SUCCESS ? Double(info.resident_size) / 1_048_576 : -1
+#else
+getrusage(Int32(RUSAGE_SELF.rawValue), &usage)
+let peakRSS = Double(usage.ru_maxrss) / 1024
+let finalRSS = -1.0
+#endif
+func hash(_ data: Data) -> String {
+    var value: UInt64 = 14695981039346656037
+    for byte in data { value = (value ^ UInt64(byte)) &* 1099511628211 }
+    return String(value, radix: 16)
+}
 let sorted = samples.sorted()
 let record: [String: Any] = [
     "mode": mode, "width": width, "height": height, "iterations": iterations,
     "mean_ms": samples.reduce(0, +) / Double(iterations), "median_ms": sorted[iterations / 2],
-    "peak_rss_mib": Double(usage.ru_maxrss) / 1_048_576,
-    "final_rss_mib": status == KERN_SUCCESS ? Double(info.resident_size) / 1_048_576 : -1,
+    "peak_rss_mib": peakRSS,
+    "final_rss_mib": finalRSS,
     "encoded_bytes": encoded.count, "checksum": checksum,
+    "encoded_hash": hash(encoded), "decoded_hash": hash(expected),
 ]
 print(String(decoding: try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), as: UTF8.self))

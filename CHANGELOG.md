@@ -7,9 +7,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Safe pixel encoding from `[UInt8]`, `Data`, and borrowed `Span<UInt8>`, plus decoding into `MutableSpan<UInt8>`.
+- Public span-based bitstream inspection.
+
 - Added `WebPDecoderConfig.validate()` using upstream decoder configuration validation.
 
 ### Fixed
+
+- Validate encoder input capacity, row stride, and dimensions before reading pixel memory.
+- Retain CoreGraphics pixel storage throughout encoding.
+- Free partially written encoder output on failure using a noncopyable allocation owner.
 
 - Corrected decode buffer sizing when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions.
 - Crop validation preserves exact origins for lossless images and snaps to even pixels only for lossy images.

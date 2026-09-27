@@ -125,6 +125,18 @@ public struct WebPDecoder: Sendable {
         return layout.byteCount
     }
 
+    /// Mutates exclusively borrowed, initialized output storage without allocating a new image buffer.
+    public func decode(
+        _ webPData: Data,
+        into output: inout MutableSpan<UInt8>,
+        options: WebPDecoderOptions,
+        format: WebPDecodePixelFormat = .rgba
+    ) throws -> Int {
+        try output.withUnsafeMutableBufferPointer { buffer in
+            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
+        }
+    }
+
     public func decode(
         _ webPData: Data,
         into output: inout [UInt8],
@@ -132,7 +144,8 @@ public struct WebPDecoder: Sendable {
         format: WebPDecodePixelFormat = .rgba
     ) throws -> Int {
         try output.withUnsafeMutableBufferPointer { buffer in
-            try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
+            var span = MutableSpan(_unsafeElements: buffer)
+            return try decode(webPData, into: &span, options: options, format: format)
         }
     }
 

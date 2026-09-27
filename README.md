@@ -71,7 +71,7 @@ import WebP
 
 let encoder = WebPEncoder()
 let data = try encoder.encode(
-    rgbaPointer,
+    rgbaBytes, // [UInt8], Data, or a borrowed Span<UInt8>
     format: .rgba,
     config: .preset(.picture, quality: 95),
     originWidth: width,
@@ -79,6 +79,8 @@ let data = try encoder.encode(
     stride: width * 4
 )
 ```
+
+The encoder validates dimensions, stride, and input capacity before calling libwebp. Borrowed spans avoid copying the input storage; C interoperability remains internal.
 
 ### Decoding to raw pixel bytes
 
@@ -107,9 +109,7 @@ let decoder = WebPDecoder()
 var options = WebPDecoderOptions()
 let required = try decoder.requiredOutputByteCount(for: webPData, options: options, format: .rgba)
 var output = [UInt8](repeating: 0, count: required)
-let written = try output.withUnsafeMutableBufferPointer { buffer in
-    try decoder.decode(webPData, into: buffer, options: options, format: .rgba)
-}
+let written = try decoder.decode(webPData, into: &output, options: options, format: .rgba)
 print("decoded bytes:", written)
 ```
 
