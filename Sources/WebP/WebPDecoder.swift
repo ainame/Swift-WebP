@@ -95,12 +95,13 @@ public struct WebPDecoder: Sendable {
         _ webPData: Data,
         output: UnsafeMutableBufferPointer<UInt8>,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat
+        format: WebPDecodePixelFormat,
+        layout resolvedLayout: OutputLayout? = nil
     ) throws -> Int {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
         }
-        let layout = try requiredOutputLayout(for: webPData, options: options, format: format)
+        let layout = try resolvedLayout ?? requiredOutputLayout(for: webPData, options: options, format: format)
         guard output.count >= layout.byteCount else {
             throw WebPError.outputBufferTooSmall(required: layout.byteCount, actual: output.count)
         }
@@ -157,23 +158,15 @@ public struct WebPDecoder: Sendable {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
         }
-        let requiredByteCount = try requiredOutputByteCount(
-            for: webPData,
-            options: options,
-            format: format
+        let layout = try requiredOutputLayout(for: webPData, options: options, format: format)
+        let storage = WebPDecodedStorage(byteCount: layout.byteCount)
+        // UInt8 has no destructor. C may initialize only part of this allocation on failure;
+        // the owner can free it without exposing or reading those bytes.
+        _ = try decodeIntoBuffer(
+            webPData, output: storage.buffer, options: options, format: format, layout: layout
         )
-        var output = Data(count: requiredByteCount)
-        let written = try output.withUnsafeMutableBytes { rawPtr -> Int in
-            guard let baseAddress = rawPtr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                throw WebPError.outputBufferTooSmall(required: requiredByteCount, actual: 0)
-            }
-            let buffer = UnsafeMutableBufferPointer(start: baseAddress, count: rawPtr.count)
-            return try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
-        }
-        if written == output.count {
-            return output
-        }
-        return output.prefix(written)
+        // Only a successful full decode can publish the initialized bytes as Data.
+        return storage.takeData()
     }
 
     private func decode(_ webPData: borrowing Span<UInt8>, config: inout WebPDecoderConfig) throws {

@@ -6,22 +6,28 @@ import Glibc
 import Foundation
 import WebP
 
-// One operation per process: avoid source decoding and cross-stage RSS carry-over.
+// Decode processes load a pre-generated WebP and reference hash, avoiding encoder/source-decoder RSS carry-over.
 let args = CommandLine.arguments
 let mode = args.count > 1 ? args[1] : "decode"
 let width = args.count > 2 ? Int(args[2])! : 1920
 let height = args.count > 3 ? Int(args[3])! : 1080
 let iterations = args.count > 4 ? Int(args[4])! : 30
+let fixturePath = args.count > 5 ? args[5] : nil
 precondition(width > 0 && height > 0 && iterations > 0)
 let encoder = WebPEncoder()
 let decoder = WebPDecoder()
 let config = WebPEncoderConfig.preset(.picture, quality: 75)
 var options = WebPDecoderOptions()
 options.useThreads = false
-let pixels = (0 ..< width * height * 4).map { i -> UInt8 in
+let pixels: [UInt8] = mode == "encode" || mode == "fixture" ? (0 ..< width * height * 4).map { i in
     if i % 4 == 3 { return 255 }
     let pixel = i / 4
     return UInt8(truncatingIfNeeded: (pixel % width) * 3 + (pixel / width) * 7 + (i % 4) * 53)
+} : []
+func hash(_ data: Data) -> String {
+    var value: UInt64 = 14695981039346656037
+    for byte in data { value = (value ^ UInt64(byte)) &* 1099511628211 }
+    return String(value, radix: 16)
 }
 @MainActor
 func encode() throws -> Data {
@@ -35,10 +41,34 @@ func encode() throws -> Data {
     }
     #endif
 }
-let encoded = try encode()
-let expected = try decoder.decode(encoded, options: options)
-precondition(expected.count == pixels.count)
-var output = [UInt8](repeating: 0, count: mode == "reuse" ? pixels.count : 0)
+if mode == "fixture" {
+    let destination = try { () throws -> String in
+        guard let fixturePath else { throw CocoaError(.fileNoSuchFile) }
+        return fixturePath
+    }()
+    let encoded = try encode()
+    let decoded = try decoder.decode(encoded, options: options)
+    try encoded.write(to: URL(fileURLWithPath: destination))
+    let metadata: [String: Any] = ["width": width, "height": height,
+                                 "decoded_hash": hash(decoded), "encoded_hash": hash(encoded),
+                                 "first": Int(decoded.first!), "last": Int(decoded.last!)]
+    try JSONSerialization.data(withJSONObject: metadata, options: [.sortedKeys])
+        .write(to: URL(fileURLWithPath: destination + ".json"))
+    exit(0)
+}
+let encoded: Data
+let metadata: [String: Any]
+if let fixturePath {
+    encoded = try Data(contentsOf: URL(fileURLWithPath: fixturePath))
+    metadata = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: fixturePath + ".json"))) as! [String: Any]
+    precondition(metadata["width"] as? Int == width && metadata["height"] as? Int == height)
+    precondition(hash(encoded) == metadata["encoded_hash"] as? String)
+} else {
+    precondition(mode == "encode", "Decode, reuse, and inspect require a pre-generated fixture path")
+    encoded = try encode()
+    metadata = [:]
+}
+var output = [UInt8](repeating: 0, count: mode == "reuse" ? width * height * 4 : 0)
 var checksum = 0
 @MainActor
 func operation() throws {
@@ -49,17 +79,18 @@ func operation() throws {
         checksum &+= result.count
     case "decode":
         let result = try decoder.decode(encoded, options: options)
-        precondition(result.count == expected.count && result.first == expected.first && result.last == expected.last)
+        precondition(result.count == width * height * 4)
+        precondition(Int(result.first!) == metadata["first"] as? Int && Int(result.last!) == metadata["last"] as? Int)
         checksum &+= result.count
     case "reuse":
         let count = try decoder.decode(encoded, into: &output, options: options)
-        precondition(count == expected.count)
+        precondition(count == width * height * 4)
         checksum &+= count
     case "inspect":
         let feature = try WebPImageInspector.inspect(encoded)
         precondition(feature.width == width && feature.height == height)
         checksum &+= feature.width
-    default: fatalError("mode must be encode, decode, reuse or inspect")
+    default: fatalError("mode must be encode, decode, reuse, inspect or fixture")
     }
 }
 func pool<Result>(_ body: () throws -> Result) rethrows -> Result {
@@ -76,7 +107,6 @@ for _ in 0 ..< iterations {
     try pool { try operation() }
     samples.append(Double(DispatchTime.now().uptimeNanoseconds - start) / 1_000_000)
 }
-if mode == "reuse" { precondition(Data(output) == expected) }
 var usage = rusage()
 #if canImport(Darwin)
 getrusage(RUSAGE_SELF, &usage)
@@ -94,18 +124,19 @@ getrusage(Int32(RUSAGE_SELF.rawValue), &usage)
 let peakRSS = Double(usage.ru_maxrss) / 1024
 let finalRSS = -1.0
 #endif
-func hash(_ data: Data) -> String {
-    var value: UInt64 = 14695981039346656037
-    for byte in data { value = (value ^ UInt64(byte)) &* 1099511628211 }
-    return String(value, radix: 16)
+// Full-byte validation runs after memory/timing capture so it cannot inflate reported peak RSS.
+var decodedHash = metadata["decoded_hash"] as? String ?? ""
+if mode == "decode" || mode == "reuse" {
+    let result = mode == "reuse" ? Data(output) : try decoder.decode(encoded, options: options)
+    decodedHash = hash(result)
+    precondition(decodedHash == metadata["decoded_hash"] as? String)
 }
 let sorted = samples.sorted()
 let record: [String: Any] = [
     "mode": mode, "width": width, "height": height, "iterations": iterations,
     "mean_ms": samples.reduce(0, +) / Double(iterations), "median_ms": sorted[iterations / 2],
-    "peak_rss_mib": peakRSS,
-    "final_rss_mib": finalRSS,
+    "peak_rss_mib": peakRSS, "final_rss_mib": finalRSS,
     "encoded_bytes": encoded.count, "checksum": checksum,
-    "encoded_hash": hash(encoded), "decoded_hash": hash(expected),
+    "encoded_hash": hash(encoded), "decoded_hash": decodedHash,
 ]
 print(String(decoding: try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), as: UTF8.self))

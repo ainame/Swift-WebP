@@ -98,6 +98,49 @@ struct WebPMemorySafetyTests {
         #expect(small.allSatisfy { $0 == 0xAB })
     }
 
+    @Test(arguments: [WebPDecodePixelFormat.rgb, .rgba, .bgr, .bgra, .argb,
+                      .rgba4444, .rgb565, .rgbA, .bgrA, .Argb, .rgbA4444])
+    func allocatedAndReusedDecodeMatchForEveryPackedFormat(format: WebPDecodePixelFormat) throws {
+        let encoded = try TestFixtures.makeWebPFixture(width: 7, height: 5)
+        let decoder = WebPDecoder()
+        let options = WebP.WebPDecoderOptions()
+        let count = try decoder.requiredOutputByteCount(for: encoded, options: options, format: format)
+        var reused = [UInt8](repeating: 0xAB, count: count)
+        _ = try decoder.decode(encoded, into: &reused, options: options, format: format)
+        let allocated = try decoder.decode(encoded, options: options, format: format)
+        #expect(allocated == Data(reused))
+    }
+
+    @Test
+    func decodedDataOwnsStorageAndSurvivesLaterDecodes() throws {
+        let pixels = TestFixtures.makeRGBAFixture(width: 16, height: 12)
+        let encoded = try WebPEncoder().encode(
+            pixels, format: .rgba, config: .losslessPreset(level: 6),
+            originWidth: 16, originHeight: 12, stride: 64
+        )
+        let decoder = WebPDecoder()
+        let options = WebP.WebPDecoderOptions()
+        let first = try decoder.decode(encoded, options: options)
+        for _ in 0 ..< 10 {
+            let next = try decoder.decode(encoded, options: options)
+            #expect(next == Data(pixels))
+        }
+        #expect(first == Data(pixels))
+    }
+
+    @Test
+    func truncatedBitstreamFailsAfterSuccessfulLayoutInspection() throws {
+        let encoded = try TestFixtures.makeWebPFixture(width: 64, height: 48)
+        let truncated = Data(encoded.prefix(encoded.count / 2))
+        let decoder = WebPDecoder()
+        let options = WebP.WebPDecoderOptions()
+        // Ensure the failure occurs after output allocation, not in the header preflight.
+        #expect(try decoder.requiredOutputByteCount(for: truncated, options: options) == 64 * 48 * 4)
+        #expect(throws: (any Error).self) {
+            try decoder.decode(truncated, options: options)
+        }
+    }
+
     @Test
     func writerOwnershipTransfersToData() {
         var owner = WebPMemoryWriterOwner()

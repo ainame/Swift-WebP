@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 - Safe pixel encoding from `[UInt8]`, `Data`, and borrowed `Span<UInt8>`, plus decoding into `MutableSpan<UInt8>`.
 - Public span-based bitstream inspection.
 
+### Performance
+
+- Decode into an owned uninitialized byte allocation and transfer it directly to `Data` after success, avoiding zero-filling and duplicate layout inspection.
+- Inspect bitstream features with a local C structure instead of an explicit heap allocation.
+
 - Added `WebPDecoderConfig.validate()` using upstream decoder configuration validation.
 
 ### Fixed
