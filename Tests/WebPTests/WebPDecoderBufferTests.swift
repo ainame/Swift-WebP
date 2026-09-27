@@ -17,6 +17,55 @@ struct WebPDecoderBufferTests {
         #expect(try decoder.decode(data, options: options).count == 5 * 3 * 4)
     }
 
+    @Test(arguments: [(3, 1, 5, 3), (1, 3, 3, 3)])
+    func losslessOddEdgeCropFailsSizingAndDecode(
+        left: Int, top: Int, width: Int, height: Int
+    ) throws {
+        let data = try TestFixtures.makeWebPFixture(
+            width: 7, height: 5, config: .losslessPreset(level: 6)
+        )
+        #expect(try WebPImageInspector.inspect(data).format == .lossless)
+        var options = WebPDecoderOptions()
+        options.useCropping = true
+        options.cropLeft = left
+        options.cropTop = top
+        options.cropWidth = width
+        options.cropHeight = height
+        let decoder = WebPDecoder()
+        #expect(throws: WebPDecodingError.invalidParam) {
+            try decoder.requiredOutputByteCount(for: data, options: options)
+        }
+        #expect(throws: WebPDecodingError.invalidParam) {
+            try decoder.decode(data, options: options)
+        }
+        var output = [UInt8](repeating: 0xCD, count: width * height * 4)
+        #expect(throws: WebPDecodingError.invalidParam) {
+            try decoder.decode(data, into: &output, options: options)
+        }
+        #expect(output.allSatisfy { $0 == 0xCD })
+    }
+
+    @Test
+    func losslessValidOddCropPreservesExactOrigin() throws {
+        let data = try TestFixtures.makeWebPFixture(
+            width: 7, height: 5, config: .losslessPreset(level: 6)
+        )
+        var options = WebPDecoderOptions()
+        options.useCropping = true
+        options.cropLeft = 3
+        options.cropTop = 1
+        options.cropWidth = 3
+        options.cropHeight = 3
+        let decoder = WebPDecoder()
+        #expect(try decoder.requiredOutputByteCount(for: data, options: options) == 3 * 3 * 4)
+        let decoded = try decoder.decode(data, options: options)
+        let source = TestFixtures.makeRGBAFixture(width: 7, height: 5)
+        let expected = (1 ..< 4).flatMap { y in
+            Array(source[(y * 7 + 3) * 4 ..< (y * 7 + 6) * 4])
+        }
+        #expect(Array(decoded) == expected)
+    }
+
     @Test(arguments: [(0, 2, false, 3, 2), (2, 0, false, 2, 2),
                       (0, 4, false, 6, 4), (4, 0, false, 4, 3),
                       (0, 3, true, 6, 3), (3, 0, true, 3, 2)])

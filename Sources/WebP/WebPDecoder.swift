@@ -206,9 +206,10 @@ public struct WebPDecoder: Sendable {
         let feature = try WebPImageInspector.inspect(webPData)
         var config = try makeConfig(options, format.colorspace)
         config.input = feature
-        // Decoding snaps nonnegative crop origins down to even pixels.
+        // Lossy (YUV420) decoding snaps crop origins down to even pixels.
+        // Lossless decoding preserves the exact origin.
         // Normalize the validation copy so valid edge crops stay accepted.
-        if options.useCropping, options.cropLeft >= 0, options.cropTop >= 0 {
+        if feature.format == .lossy, options.useCropping, options.cropLeft >= 0, options.cropTop >= 0 {
             config.options.cropLeft &= ~1
             config.options.cropTop &= ~1
         }
