@@ -6,6 +6,9 @@ struct ContentView: View {
             Tab("Pixel regressions", systemImage: "square.split.2x2") {
                 PixelRegressionView()
             }
+            Tab("Decoder alpha", systemImage: "circle.lefthalf.filled") {
+                DecoderAlphaView()
+            }
             Tab("Photo conversion", systemImage: "photo") {
                 PhotoConversionView()
             }
