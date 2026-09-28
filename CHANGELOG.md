@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ## 0.7.0
 
+### Highlights
+
+- **Platform images now encode with correct colors at full resolution.** `UIImage`/`NSImage` encoding handles premultiplied, BGRA, and 16-bit images, and `UIImage` output keeps its full pixel size. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- **Encode and decode without unsafe pointers.** New overloads take `[UInt8]`, `Data`, `Span`, and `MutableSpan`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
+- **Invalid input fails fast.** Encoder buffers and decoder settings are validated before any memory is read or allocated. ([#65](https://github.com/ainame/Swift-WebP/pull/65), [#66](https://github.com/ainame/Swift-WebP/pull/66))
+- **libwebp 1.6.0**, with upstream lossless compression improvements and bug fixes. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+
 ### Breaking
 
 Source-compatible, but some calls now behave differently at runtime:
@@ -14,32 +21,36 @@ Source-compatible, but some calls now behave differently at runtime:
 
 ### Added
 
-- `WebPEncoder.encode(normalizing:config:resizeWidth:resizeHeight:)` for `CGImage`, which converts premultiplied, BGRA, 16-bit, and other layouts to straight-alpha RGBA before encoding. The existing `encode(_:format:config:resizeWidth:resizeHeight:)` still encodes the backing bytes as-is. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
-- Safe encoding entrypoints that accept pixels as `[UInt8]`, `Data`, or a borrowed `Span<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Decoding into a caller-provided `MutableSpan<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- `WebPImageInspector.inspect(_:)` overload for a borrowed `Span<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- `WebPDecoderConfig.validate()`, backed by libwebp's decoder configuration validation. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- **`CGImage` layout normalization:** `WebPEncoder.encode(normalizing:config:resizeWidth:resizeHeight:)` converts premultiplied, BGRA, 16-bit, and other layouts to straight-alpha RGBA before encoding. The existing `encode(_:format:config:resizeWidth:resizeHeight:)` still encodes the backing bytes as-is. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- **Safe buffer APIs** ([#66](https://github.com/ainame/Swift-WebP/pull/66)):
+  - Encoding from `[UInt8]`, `Data`, or a borrowed `Span<UInt8>`.
+  - Decoding into a caller-provided `MutableSpan<UInt8>`.
+  - `WebPImageInspector.inspect(_:)` for a borrowed `Span<UInt8>`.
+- **Decoder config validation:** `WebPDecoderConfig.validate()`, backed by libwebp's decoder configuration validation. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
 
 ### Changed
 
-- Raised the `libwebp-Xcode` dependency minimum to `1.6.0`, picking up upstream lossless compression improvements and bug fixes. Projects that pin `libwebp-Xcode` below `1.6.0` need to relax that pin. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
-- Invalid decoder settings are now rejected up front with `WebPDecodingError.invalidParam`, before any output buffer is allocated. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- **Dependency:** raised the `libwebp-Xcode` minimum to `1.6.0`. Projects that pin `libwebp-Xcode` below `1.6.0` need to relax that pin. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- **Decoder errors:** invalid decoder settings are now rejected up front with `WebPDecodingError.invalidParam`, before any output buffer is allocated. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
 
 ### Fixed
 
-- `NSImage` and `UIImage` encoding no longer assumes straight RGBA, fixing darkened translucent colors and swapped red/blue channels for premultiplied, BGRA, or 16-bit images (e.g. from drawing or screen capture). Straight 8-bit layouts such as decoded PNGs and JPEGs are still encoded from their backing bytes without a copy. Thanks to [macshot](https://github.com/sw33tLie/macshot) for documenting the workaround that exposed this issue. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
-- Encoder input capacity, row stride, and dimensions are validated before pixel memory is read, including in the deprecated raw-pointer encoder. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- CoreGraphics pixel storage is retained for the whole duration of encoding. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Partially written encoder output is freed on failure. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Decode buffer sizing when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
-- Crop validation keeps exact origins for lossless images and snaps to even pixels only for lossy images. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
-- Platform image helpers now use the resolved output dimensions for cropping and inferred scaling. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- **Platform image colors:** `NSImage` and `UIImage` encoding no longer assumes straight RGBA, fixing darkened translucent colors and swapped red/blue channels for premultiplied, BGRA, or 16-bit images (e.g. from drawing or screen capture). Straight 8-bit layouts such as decoded PNGs and JPEGs are still encoded from their backing bytes without a copy. Thanks to [macshot](https://github.com/sw33tLie/macshot) for documenting the workaround that exposed this issue. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- **Encoder memory safety** ([#66](https://github.com/ainame/Swift-WebP/pull/66)):
+  - Input capacity, row stride, and dimensions are validated before pixel memory is read, including in the deprecated raw-pointer encoder.
+  - CoreGraphics pixel storage is retained for the whole duration of encoding.
+  - Partially written encoder output is freed on failure.
+- **Decoder cropping and scaling** ([#65](https://github.com/ainame/Swift-WebP/pull/65)):
+  - Output buffers are sized correctly when one scaled dimension is zero, including scaling after cropping and rounding up inferred dimensions.
+  - Crop origins stay exact for lossless images and snap to even pixels only for lossy images.
+  - Platform image helpers use the resolved output dimensions for cropping and inferred scaling.
 
 ### Performance
 
-- Decoding writes into an uninitialized allocation that is handed directly to `Data` on success, avoiding zero-filling and a duplicate layout inspection. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Bitstream feature inspection uses a stack-local C structure instead of a heap allocation. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Core `Data` APIs come from `FoundationEssentials` when available, and unused Foundation imports were removed, reducing Foundation dependencies on Linux. ([#67](https://github.com/ainame/Swift-WebP/pull/67))
+- **Fewer allocations when decoding** ([#66](https://github.com/ainame/Swift-WebP/pull/66)):
+  - Output is written into an uninitialized allocation handed directly to `Data` on success, avoiding zero-filling and a duplicate layout inspection.
+  - Bitstream feature inspection uses a stack-local C structure instead of a heap allocation.
+- **Lighter Foundation dependency on Linux:** core `Data` APIs come from `FoundationEssentials` when available, and unused Foundation imports were removed. ([#67](https://github.com/ainame/Swift-WebP/pull/67))
 
 ### Demo
 
