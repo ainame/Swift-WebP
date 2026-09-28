@@ -20,11 +20,13 @@ let decoder = WebPDecoder()
 let config = WebPEncoderConfig.preset(.picture, quality: 75)
 var options = WebP.WebPDecoderOptions()
 options.useThreads = false
-let pixels: [UInt8] = mode == "encode" || mode == "fixture" ? (0 ..< width * height * 4).map { i in
-    if i % 4 == 3 { return 255 }
-    let pixel = i / 4
-    return UInt8(truncatingIfNeeded: (pixel % width) * 3 + (pixel / width) * 7 + (i % 4) * 53)
-} : []
+let pixels: [UInt8] =
+    mode == "encode" || mode == "fixture"
+    ? (0 ..< width * height * 4).map { i in
+        if i % 4 == 3 { return 255 }
+        let pixel = i / 4
+        return UInt8(truncatingIfNeeded: (pixel % width) * 3 + (pixel / width) * 7 + (i % 4) * 53)
+    } : []
 func hash(_ data: Data) -> String {
     var value: UInt64 = 14695981039346656037
     for byte in data { value = (value ^ UInt64(byte)) &* 1099511628211 }
@@ -48,8 +50,15 @@ func cDecode(_ encoded: Data) throws -> Data {
     var result = Data(count: width * height * 4)
     try result.withUnsafeMutableBytes { output in
         try encoded.withUnsafeBytes { input in
-            guard WebPDecodeRGBAInto(input.baseAddress!.assumingMemoryBound(to: UInt8.self), input.count,
-                                     output.baseAddress!.assumingMemoryBound(to: UInt8.self), output.count, Int32(width * 4)) != nil else {
+            guard
+                WebPDecodeRGBAInto(
+                    input.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                    input.count,
+                    output.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                    output.count,
+                    Int32(width * 4),
+                ) != nil
+            else {
                 throw CocoaError(.coderReadCorrupt)
             }
         }
@@ -60,8 +69,15 @@ func cDecode(_ encoded: Data) throws -> Data {
 func cReuse(_ encoded: Data, output: inout [UInt8]) throws -> Int {
     try output.withUnsafeMutableBufferPointer { buffer in
         try encoded.withUnsafeBytes { input in
-            guard WebPDecodeRGBAInto(input.baseAddress!.assumingMemoryBound(to: UInt8.self), input.count,
-                                     buffer.baseAddress!, buffer.count, Int32(width * 4)) != nil else {
+            guard
+                WebPDecodeRGBAInto(
+                    input.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                    input.count,
+                    buffer.baseAddress!,
+                    buffer.count,
+                    Int32(width * 4),
+                ) != nil
+            else {
                 throw CocoaError(.coderReadCorrupt)
             }
         }
@@ -105,12 +121,24 @@ func encode() throws -> Data {
     #if DIRECT_C_COPY || DIRECT_C_INTO
     return try cEncode()
     #elseif EXPERIMENT_SPAN
-    return try encoder.encode(pixels, format: .rgba, config: config,
-                              originWidth: width, originHeight: height, stride: width * 4)
+    return try encoder.encode(
+        pixels,
+        format: .rgba,
+        config: config,
+        originWidth: width,
+        originHeight: height,
+        stride: width * 4,
+    )
     #else
     return try pixels.withUnsafeBufferPointer { buffer in
-        unsafe try encoder.encode(buffer, format: .rgba, config: config,
-                           originWidth: width, originHeight: height, stride: width * 4)
+        unsafe try encoder.encode(
+            buffer,
+            format: .rgba,
+            config: config,
+            originWidth: width,
+            originHeight: height,
+            stride: width * 4,
+        )
     }
     #endif
 }
@@ -122,9 +150,11 @@ if mode == "fixture" {
     let encoded = try encode()
     let decoded = try allocatedDecode(encoded)
     try encoded.write(to: URL(fileURLWithPath: destination))
-    let metadata: [String: Any] = ["width": width, "height": height,
-                                 "decoded_hash": hash(decoded), "encoded_hash": hash(encoded),
-                                 "first": Int(decoded.first!), "last": Int(decoded.last!)]
+    let metadata: [String: Any] = [
+        "width": width, "height": height,
+        "decoded_hash": hash(decoded), "encoded_hash": hash(encoded),
+        "first": Int(decoded.first!), "last": Int(decoded.last!),
+    ]
     try JSONSerialization.data(withJSONObject: metadata, options: [.sortedKeys])
         .write(to: URL(fileURLWithPath: destination + ".json"))
     exit(0)

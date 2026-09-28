@@ -22,7 +22,7 @@ public extension WebPEncoder {
         format: WebPEncodePixelFormat = .rgba,
         config: WebPEncoderConfig,
         resizeWidth: Int = 0,
-        resizeHeight: Int = 0
+        resizeHeight: Int = 0,
     ) throws -> Data {
         try cgImage.withPixelBytes { bytes in
             try encode(
@@ -33,7 +33,7 @@ public extension WebPEncoder {
                 originHeight: cgImage.height,
                 stride: cgImage.bytesPerRow,
                 resizeWidth: resizeWidth,
-                resizeHeight: resizeHeight
+                resizeHeight: resizeHeight,
             )
         }
     }
@@ -57,21 +57,31 @@ public extension WebPEncoder {
         normalizing cgImage: CGImage,
         config: WebPEncoderConfig,
         resizeWidth: Int = 0,
-        resizeHeight: Int = 0
+        resizeHeight: Int = 0,
     ) throws -> Data {
         if let encoded = try cgImage.withWebPStraightPixels({ bytes, format in
             try encode(
-                bytes, format: format, config: config,
-                originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.bytesPerRow,
-                resizeWidth: resizeWidth, resizeHeight: resizeHeight
+                bytes,
+                format: format,
+                config: config,
+                originWidth: cgImage.width,
+                originHeight: cgImage.height,
+                stride: cgImage.bytesPerRow,
+                resizeWidth: resizeWidth,
+                resizeHeight: resizeHeight,
             )
         }) {
             return encoded
         }
         return try encode(
-            cgImage.webPStraightRGBA(), format: .rgba, config: config,
-            originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.width * 4,
-            resizeWidth: resizeWidth, resizeHeight: resizeHeight
+            cgImage.webPStraightRGBA(),
+            format: .rgba,
+            config: config,
+            originWidth: cgImage.width,
+            originHeight: cgImage.height,
+            stride: cgImage.width * 4,
+            resizeWidth: resizeWidth,
+            resizeHeight: resizeHeight,
         )
     }
 }

@@ -29,7 +29,7 @@ struct WebPImageInspectorTests {
     @Test
     func inspectingJpegImageThrowsError() throws {
         guard let path = Bundle.module.url(forResource: "jiro", withExtension: "jpg")?.path,
-              let data = FileManager.default.contents(atPath: path)
+            let data = FileManager.default.contents(atPath: path)
         else {
             throw WebPImageInspectorTestError.cantReadTestData("jiro.jpg")
         }

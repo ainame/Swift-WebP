@@ -58,13 +58,14 @@ enum PixelRegressionSample: String, CaseIterable, Identifiable {
         return try PixelComparison(
             original: source,
             before: roundTrip(legacy),
-            after: roundTrip(fixed)
+            after: roundTrip(fixed),
         )
     }
 
     private func makeSource() throws -> CGImage {
         let bgra = self == .channelOrder
-        let info = (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
+        let info =
+            (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
             | (bgra ? CGImageAlphaInfo.premultipliedFirst : .premultipliedLast).rawValue
         let context = try makeContext(width: 360, height: 160, bitmapInfo: info)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -78,7 +79,8 @@ enum PixelRegressionSample: String, CaseIterable, Identifiable {
         } else {
             let alpha: CGFloat = self == .alpha ? 0.5 : 1
             guard let red = CGColor(colorSpace: colorSpace, components: [1, 0, 0, alpha]),
-                  let blue = CGColor(colorSpace: colorSpace, components: [0, 0, 1, alpha]) else {
+                let blue = CGColor(colorSpace: colorSpace, components: [0, 0, 1, alpha])
+            else {
                 throw SampleError.bitmapCreation
             }
             context.setFillColor(red)
@@ -99,8 +101,9 @@ enum PixelRegressionSample: String, CaseIterable, Identifiable {
         let width = Int(image.size.width)
         let height = Int(image.size.height)
         let context = try makeContext(
-            width: width, height: height,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            width: width,
+            height: height,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue,
         )
         context.draw(source, in: CGRect(x: 0, y: 0, width: width, height: height))
         guard let downsampled = context.makeImage() else { throw SampleError.bitmapCreation }
@@ -114,21 +117,38 @@ enum PixelRegressionSample: String, CaseIterable, Identifiable {
         // Explicit premultiplied output matches Core Graphics' bitmap declaration for display.
         let display = try decoder.decode(data, options: WebPDecoderOptions(), format: .rgbA)
         guard let provider = CGDataProvider(data: display as CFData),
-              let image = CGImage(
-                  width: info.width, height: info.height, bitsPerComponent: 8, bitsPerPixel: 32,
-                  bytesPerRow: info.width * 4, space: CGColorSpaceCreateDeviceRGB(),
-                  bitmapInfo: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue
-                      | CGImageAlphaInfo.premultipliedLast.rawValue),
-                  provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
-              ) else { throw SampleError.bitmapCreation }
+            let image = CGImage(
+                width: info.width,
+                height: info.height,
+                bitsPerComponent: 8,
+                bitsPerPixel: 32,
+                bytesPerRow: info.width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo(
+                    rawValue: CGBitmapInfo.byteOrder32Big.rawValue
+                        | CGImageAlphaInfo.premultipliedLast.rawValue
+                ),
+                provider: provider,
+                decode: nil,
+                shouldInterpolate: false,
+                intent: .defaultIntent,
+            )
+        else { throw SampleError.bitmapCreation }
         return PixelComparison.Output(image: image, firstPixel: Array(straight.prefix(4)))
     }
 
     private func makeContext(width: Int, height: Int, bitmapInfo: UInt32) throws -> CGContext {
-        guard let context = CGContext(
-            data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4,
-            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo
-        ) else { throw SampleError.bitmapCreation }
+        guard
+            let context = CGContext(
+                data: nil,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: bitmapInfo,
+            )
+        else { throw SampleError.bitmapCreation }
         return context
     }
 

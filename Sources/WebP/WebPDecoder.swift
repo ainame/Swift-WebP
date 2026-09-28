@@ -76,7 +76,7 @@ public struct WebPDecoder: Sendable {
     public func requiredOutputByteCount(
         for webPData: Data,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat = .rgba
+        format: WebPDecodePixelFormat = .rgba,
     ) throws -> Int {
         try requiredOutputLayout(for: webPData, options: options, format: format).byteCount
     }
@@ -92,7 +92,7 @@ public struct WebPDecoder: Sendable {
         _ webPData: Data,
         into output: UnsafeMutableBufferPointer<UInt8>,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat = .rgba
+        format: WebPDecodePixelFormat = .rgba,
     ) throws -> Int {
         unsafe try decodeIntoBuffer(webPData, output: output, options: options, format: format)
     }
@@ -102,7 +102,7 @@ public struct WebPDecoder: Sendable {
         output: UnsafeMutableBufferPointer<UInt8>,
         options: WebPDecoderOptions,
         format: WebPDecodePixelFormat,
-        layout resolvedLayout: OutputLayout? = nil
+        layout resolvedLayout: OutputLayout? = nil,
     ) throws -> Int {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
@@ -123,7 +123,7 @@ public struct WebPDecoder: Sendable {
         let rgbaBuffer = unsafe WebPRGBABuffer(
             rgba: base,
             stride: Int32(layout.stride),
-            size: layout.byteCount
+            size: layout.byteCount,
         )
         unsafe config.output.u = .RGBA(rgbaBuffer)
         unsafe try webPData.withUnsafeBytes { rawPtr in
@@ -138,7 +138,7 @@ public struct WebPDecoder: Sendable {
         _ webPData: Data,
         into output: inout MutableSpan<UInt8>,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat = .rgba
+        format: WebPDecodePixelFormat = .rgba,
     ) throws -> Int {
         try withWebPMutablePixels(&output) { buffer in
             unsafe try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
@@ -149,7 +149,7 @@ public struct WebPDecoder: Sendable {
         _ webPData: Data,
         into output: inout [UInt8],
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat = .rgba
+        format: WebPDecodePixelFormat = .rgba,
     ) throws -> Int {
         try output.withWebPMutablePixels { buffer in
             unsafe try decodeIntoBuffer(webPData, output: buffer, options: options, format: format)
@@ -159,7 +159,7 @@ public struct WebPDecoder: Sendable {
     public func decode(
         _ webPData: Data,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat = .rgba
+        format: WebPDecodePixelFormat = .rgba,
     ) throws -> Data {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
@@ -169,7 +169,11 @@ public struct WebPDecoder: Sendable {
         // UInt8 has no destructor. C may initialize only part of this allocation on failure;
         // the owner can free it without exposing or reading those bytes.
         unsafe _ = try decodeIntoBuffer(
-            webPData, output: storage.buffer, options: options, format: format, layout: layout
+            webPData,
+            output: storage.buffer,
+            options: options,
+            format: format,
+            layout: layout,
         )
         // Only a successful full decode can publish the initialized bytes as Data.
         return unsafe storage.takeData()
@@ -199,7 +203,7 @@ public struct WebPDecoder: Sendable {
 
     private func makeConfig(
         _ options: WebPDecoderOptions,
-        _ colorspace: ColorspaceMode
+        _ colorspace: ColorspaceMode,
     ) throws -> WebPDecoderConfig {
         var config = unsafe try WebPDecoderConfig()
         unsafe config.options = options
@@ -210,7 +214,7 @@ public struct WebPDecoder: Sendable {
     func requiredOutputLayout(
         for webPData: Data,
         options: WebPDecoderOptions,
-        format: WebPDecodePixelFormat
+        format: WebPDecodePixelFormat,
     ) throws -> OutputLayout {
         guard format.colorspace.isRGBMode else {
             throw WebPError.unsupportedDecodeFormat
@@ -245,7 +249,7 @@ public struct WebPDecoder: Sendable {
                 height = (sourceHeight * width + sourceWidth - 1) / sourceWidth
             }
             guard width > 0, height > 0,
-                  width <= Int(Int32.max) / 2, height <= Int(Int32.max) / 2
+                width <= Int(Int32.max) / 2, height <= Int(Int32.max) / 2
             else {
                 throw WebPDecodingError.invalidParam
             }
@@ -262,7 +266,7 @@ public struct WebPDecoder: Sendable {
             height: height,
             bytesPerPixel: bytesPerPixel,
             stride: stride,
-            byteCount: byteCount
+            byteCount: byteCount,
         )
     }
 }

@@ -73,11 +73,11 @@ struct WebPBridgingTests {
                 RGBA: libwebp.WebPRGBABuffer(
                     rgba: nil,
                     stride: 4,
-                    size: 4
+                    size: 4,
                 )
             ),
             pad: (0, 0, 0, 0),
-            private_memory: nil
+            private_memory: nil,
         )
         let buffer = WebP.WebPDecBuffer(rawValue: rawBuffer)
         #expect(buffer.externalMemoryMode == .externalMemorySlow)

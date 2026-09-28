@@ -23,10 +23,15 @@ struct WebPDecoderBufferTests {
 
     @Test(arguments: [(3, 1, 5, 3), (1, 3, 3, 3)])
     func losslessOddEdgeCropFailsSizingAndDecode(
-        left: Int, top: Int, width: Int, height: Int
+        left: Int,
+        top: Int,
+        width: Int,
+        height: Int,
     ) throws {
         let data = try TestFixtures.makeWebPFixture(
-            width: 7, height: 5, config: .losslessPreset(level: 6)
+            width: 7,
+            height: 5,
+            config: .losslessPreset(level: 6),
         )
         #expect(try WebPImageInspector.inspect(data).format == .lossless)
         var options = WebPDecoderOptions()
@@ -52,7 +57,9 @@ struct WebPDecoderBufferTests {
     @Test
     func losslessValidOddCropPreservesExactOrigin() throws {
         let data = try TestFixtures.makeWebPFixture(
-            width: 7, height: 5, config: .losslessPreset(level: 6)
+            width: 7,
+            height: 5,
+            config: .losslessPreset(level: 6),
         )
         var options = WebPDecoderOptions()
         options.useCropping = true
@@ -73,11 +80,17 @@ struct WebPDecoderBufferTests {
         #expect(Array(decoded) == expected)
     }
 
-    @Test(arguments: [(0, 2, false, 3, 2), (2, 0, false, 2, 2),
-                      (0, 4, false, 6, 4), (4, 0, false, 4, 3),
-                      (0, 3, true, 6, 3), (3, 0, true, 3, 2)])
+    @Test(arguments: [
+        (0, 2, false, 3, 2), (2, 0, false, 2, 2),
+        (0, 4, false, 6, 4), (4, 0, false, 4, 3),
+        (0, 3, true, 6, 3), (3, 0, true, 3, 2),
+    ])
     func inferredScalingMatchesDecodedBuffer(
-        scaledWidth: Int, scaledHeight: Int, crop: Bool, width: Int, height: Int
+        scaledWidth: Int,
+        scaledHeight: Int,
+        crop: Bool,
+        width: Int,
+        height: Int,
     ) throws {
         let data = try TestFixtures.makeWebPFixture(width: 7, height: 5)
         var options = WebPDecoderOptions()

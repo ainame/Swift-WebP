@@ -14,8 +14,11 @@ public extension WebPDecoder {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize CGDataProvider")
         }
 
-        let bitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo
-            .premultipliedLast.rawValue)
+        let bitmapInfo = CGBitmapInfo(
+            rawValue: CGBitmapInfo.byteOrder32Big.rawValue
+                | CGImageAlphaInfo
+                .premultipliedLast.rawValue
+        )
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let renderingIntent = CGColorRenderingIntent.defaultIntent
         let bytesPerPixel = 4
@@ -32,7 +35,7 @@ public extension WebPDecoder {
             provider: provider,
             decode: nil,
             shouldInterpolate: false,
-            intent: renderingIntent
+            intent: renderingIntent,
         ) {
             return cgImage
         }

@@ -7,7 +7,7 @@ let package = Package(
     name: "WebP",
     platforms: [
         .iOS(.v13),
-        .macOS(.v11)
+        .macOS(.v11),
     ],
     products: [
         .library(name: "WebP", targets: ["WebP"])
@@ -22,15 +22,15 @@ let package = Package(
                 .product(name: "libwebp", package: "libwebp-Xcode")
             ],
             exclude: ["Info.plist"],
-            swiftSettings: [.strictMemorySafety()]
+            swiftSettings: [.strictMemorySafety()],
         ),
         .testTarget(
             name: "WebPTests",
             dependencies: ["WebP"],
             resources: [
                 .copy("Resources/jiro.jpg")
-            ]
-        )
+            ],
+        ),
     ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v6],
 )

@@ -6,12 +6,18 @@ import WebP
 import CoreGraphics
 
 struct WebPDecoderPlatformTests {
-    @Test(arguments: [(0, 2, false, 3, 2), (2, 0, false, 2, 2),
-                      (0, 4, false, 6, 4), (4, 0, false, 4, 3),
-                      (0, 3, true, 6, 3), (3, 0, true, 3, 2),
-                      (0, 0, true, 4, 2)])
+    @Test(arguments: [
+        (0, 2, false, 3, 2), (2, 0, false, 2, 2),
+        (0, 4, false, 6, 4), (4, 0, false, 4, 3),
+        (0, 3, true, 6, 3), (3, 0, true, 3, 2),
+        (0, 0, true, 4, 2),
+    ])
     func platformImageUsesResolvedDimensions(
-        scaledWidth: Int, scaledHeight: Int, crop: Bool, width: Int, height: Int
+        scaledWidth: Int,
+        scaledHeight: Int,
+        crop: Bool,
+        width: Int,
+        height: Int,
     ) throws {
         let data = try TestFixtures.makeWebPFixture(width: 7, height: 5)
         var options = WebPDecoderOptions()
@@ -49,17 +55,28 @@ struct WebPDecoderPlatformTests {
         config.lossless = 1
         let rgba: [UInt8] = [255, 0, 0, 128]
         let data = try WebPEncoder().encode(
-            rgba, format: .rgba, config: config, originWidth: 1, originHeight: 1, stride: 4
+            rgba,
+            format: .rgba,
+            config: config,
+            originWidth: 1,
+            originHeight: 1,
+            stride: 4,
         )
         let image = try WebPDecoder().decodeCGImage(from: data, options: WebPDecoderOptions())
 
         var pixel = [UInt8](repeating: 0, count: 4)
         try pixel.withUnsafeMutableBytes { buffer in
-            let context = try #require(unsafe CGContext(
-                data: buffer.baseAddress, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
-                space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
-            ))
+            let context = try #require(
+                unsafe CGContext(
+                    data: buffer.baseAddress,
+                    width: 1,
+                    height: 1,
+                    bitsPerComponent: 8,
+                    bytesPerRow: 4,
+                    space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue,
+                )
+            )
             context.draw(image, in: CGRect(x: 0, y: 0, width: 1, height: 1))
         }
         #expect(abs(Int(pixel[0]) - 128) <= 1)
