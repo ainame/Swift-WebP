@@ -18,10 +18,12 @@ swift test
 
 ## Formatting
 
-SwiftFormat is integrated as an SPM command plugin dependency (Nick Lockwood).
+Formatting uses the `swift format` (swift-format) bundled with the Swift toolchain, configured by `.swift-format`.
+There is no formatter dependency in `Package.swift`.
 
 ```bash
-swift package plugin --allow-writing-to-package-directory swiftformat
+make format   # rewrite files in place
+make lint     # check only
 ```
 
 ## CI
