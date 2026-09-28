@@ -15,12 +15,29 @@ extension CGImage {
               colorSpace.name == CGColorSpace.sRGB || colorSpace.name == CGColorSpaceCreateDeviceRGB().name
         else { return nil }
 
+        // libwebp's WebPPictureImport* functions (webp/encode.h) read bytes in the memory order named
+        // by the function: R, G, B, A for RGBA, B, G, R, A for BGRA, and so on. The X variants ignore
+        // the fourth byte. libwebp has no importer for ARGB or ABGR memory order.
+        //
+        // Core Graphics describes a pixel as one word, not as bytes in memory (CGImageAlphaInfo and
+        // CGBitmapInfo documentation):
+        // - `alphaInfo` places alpha (or an ignored byte for `noneSkip*`) in the word's least
+        //   significant byte for `.last` and its most significant byte for `.first`, so the word
+        //   reads R G B A or A R G B from most to least significant.
+        // - The byte order says how that word is stored in memory. Default and `byteOrder32Big`
+        //   store the most significant byte first; `byteOrder32Little` stores it last.
+        //
+        // Combining the two gives the memory order libwebp needs:
+        // - `.last` + big-endian: R G B A in memory, which is RGBA (or RGBX)
+        // - `.first` + little-endian: A R G B word stored as B G R A, which is BGRA (or BGRX)
+        // - `.last` + little-endian stores A B G R, and `.first` + big-endian stores A R G B.
+        //   libwebp cannot import either, so they return `nil` and get redrawn.
+        // 24-bit pixels have no alpha or 32-bit word, so only the default layout (R G B) qualifies.
         let byteOrder = bitmapInfo.intersection(.byteOrderMask)
         let isBigEndian = byteOrder == [] || byteOrder == .byteOrder32Big
         switch (bitsPerPixel, alphaInfo) {
         case (32, .last) where isBigEndian: return .rgba
         case (32, .noneSkipLast) where isBigEndian: return .rgbx
-        // A little-endian 32-bit ARGB word is stored in memory as B, G, R, A.
         case (32, .first) where byteOrder == .byteOrder32Little: return .bgra
         case (32, .noneSkipFirst) where byteOrder == .byteOrder32Little: return .bgrx
         case (24, .none) where byteOrder == []: return .rgb
