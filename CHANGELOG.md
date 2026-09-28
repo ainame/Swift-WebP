@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Normalize NSImage and UIImage pixels to straight-alpha RGBA before encoding, preserving translucent colors and UIImage pixel resolution. Images already in a straight 8-bit layout libwebp imports directly, such as decoded PNGs and JPEGs, are encoded from their backing bytes without a copy. Thanks to [macshot](https://github.com/sw33tLie/macshot) for documenting the workaround that exposed this issue. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- NSImage and UIImage encoding now checks each image's pixel layout instead of assuming straight RGBA. Straight-alpha or opaque 8-bit layouts that libwebp imports directly, such as decoded PNGs and JPEGs, are encoded from their backing bytes without a copy. Other layouts, such as premultiplied, BGRA, or 16-bit images from drawing or screen capture, are redrawn to straight-alpha RGBA first, fixing darkened translucent colors and swapped red and blue channels. UIImage is now encoded at its pixel resolution rather than its point size. Thanks to [macshot](https://github.com/sw33tLie/macshot) for documenting the workaround that exposed this issue. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 
 - Reject invalid row strides in the deprecated raw-pointer encoder before calling libwebp. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 
