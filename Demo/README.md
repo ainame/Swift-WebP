@@ -10,6 +10,6 @@ The **Pixel regressions** tab generates small images in code, encodes them throu
 
 The **Before** images use the old encoding logic reproduced in `PixelRegressionSample.swift`, not a static illustration. **After** calls the current `WebPEncoder.encode(_:config:)` platform API. Tap a preview to enlarge it or expand the code disclosures to see the relevant calls.
 
-The **Decoder alpha** tab round-trips red, green, blue, and white bands whose alpha fades from 0 to 255 through lossless WebP. **Before** reproduces the old `decodeCGImage`, which decoded straight-alpha `.rgba` bytes but tagged the `CGImage` as premultiplied, so translucent pixels drew too bright. Over black, the fade disappears and half-transparent red composites to `255, 0, 0` instead of `128, 0, 0`. **After** calls the current `WebPDecoder.decodeUIImage(from:options:)`. Switch the background to compare; over white, pure primaries clip and hide the bug.
+The **Decoder alpha** tab saves a 30% opaque white "frosted glass" panel as lossless WebP, decodes it, and draws it over the Jiro photo. **Before** reproduces the old `decodeCGImage`, which decoded straight-alpha `.rgba` bytes but tagged the `CGImage` as premultiplied: the panel draws as solid white and hides the photo. **After** calls the current `WebPDecoder.decodeUIImage(from:options:)`: the photo shows through the panel.
 
 The **Photo conversion** tab keeps the previous Jiro example.
