@@ -8,9 +8,13 @@ extension CGImage {
     /// Decoded 8-bit PNGs and JPEGs usually qualify. Drawn images do not, because Core Graphics
     /// contexts premultiply alpha. The color space must be sRGB-compatible so that encoding the bytes
     /// directly gives the same colors as redrawing them into device RGB.
+    /// A `decode` array remaps component values when drawn, so images with one are redrawn too.
+    /// Masks applied with `masking(_:)` or `copy(maskingColorComponents:)` cannot be detected
+    /// through `CGImage` and are ignored when the bytes are encoded directly.
     var webPStraightPixelFormat: WebPEncodePixelFormat? {
         guard bitsPerComponent == 8,
               !bitmapInfo.contains(.floatComponents),
+              decode == nil,
               let colorSpace,
               colorSpace.name == CGColorSpace.sRGB || colorSpace.name == CGColorSpaceCreateDeviceRGB().name
         else { return nil }
@@ -93,7 +97,33 @@ extension CGImage {
     }
 
     func withPixelBytes<Result>(_ body: (borrowing Span<UInt8>) throws -> Result) throws -> Result {
-        guard let data = dataProvider?.data, let pointer = unsafe CFDataGetBytePtr(data) else {
+        guard let data = dataProvider?.data else {
+            throw WebPError.unexpectedPointerError
+        }
+        return try withBorrowedBytes(of: data, body)
+    }
+
+    /// Borrows the backing bytes with their `webPStraightPixelFormat`, or returns `nil` so the caller
+    /// can redraw with `webPStraightRGBA()`. Also returns `nil` when the bytes do not cover
+    /// `bytesPerRow * height`: `cropping(to:)` keeps the parent's `bytesPerRow` but ends its data at
+    /// the crop's last pixel, which libwebp's full-row contract would reject.
+    func withWebPStraightPixels<Result>(
+        _ body: (borrowing Span<UInt8>, WebPEncodePixelFormat) throws -> Result
+    ) throws -> Result? {
+        let (required, overflow) = bytesPerRow.multipliedReportingOverflow(by: height)
+        guard let format = webPStraightPixelFormat,
+              !overflow,
+              let data = dataProvider?.data,
+              CFDataGetLength(data) >= required
+        else { return nil }
+        return try withBorrowedBytes(of: data) { bytes in try body(bytes, format) }
+    }
+
+    private func withBorrowedBytes<Result>(
+        of data: CFData,
+        _ body: (borrowing Span<UInt8>) throws -> Result
+    ) throws -> Result {
+        guard let pointer = unsafe CFDataGetBytePtr(data) else {
             throw WebPError.unexpectedPointerError
         }
         // Retain the actual CFData owner, not only the image/provider, through the entire borrow.
