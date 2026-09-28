@@ -10,6 +10,10 @@ public extension WebPEncoder {
             throw WebPError.unexpectedError(withMessage: "Couldn't convert NSImage to CGImage.")
         }
 
+        // Straight 8-bit layouts (e.g. decoded PNGs) are encoded without copying; others are redrawn.
+        if let format = cgImage.webPStraightPixelFormat {
+            return try encode(cgImage, format: format, config: config, resizeWidth: width, resizeHeight: height)
+        }
         return try encode(
             cgImage.webPStraightRGBA(), format: .rgba, config: config,
             originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.width * 4,
@@ -28,6 +32,10 @@ public extension WebPEncoder {
     func encode(_ image: UIImage, config: WebPEncoderConfig, width: Int = 0, height: Int = 0) throws -> Data {
         guard let cgImage = image.cgImage else {
             throw WebPError.unexpectedError(withMessage: "Couldn't convert UIImage to CGImage.")
+        }
+        // Straight 8-bit layouts (e.g. decoded PNGs) are encoded without copying; others are redrawn.
+        if let format = cgImage.webPStraightPixelFormat {
+            return try encode(cgImage, format: format, config: config, resizeWidth: width, resizeHeight: height)
         }
         return try encode(
             cgImage.webPStraightRGBA(), format: .rgba, config: config,

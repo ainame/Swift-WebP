@@ -2,7 +2,7 @@
 import AppKit
 import Foundation
 import Testing
-import WebP
+@testable import WebP
 
 struct WebPEncoderMacOSTests {
     @Test
@@ -103,6 +103,27 @@ struct WebPEncoderMacOSTests {
         let resizedInfo = try WebPImageInspector.inspect(resized)
         #expect(resizedInfo.width == 2)
         #expect(resizedInfo.height == 1)
+    }
+
+    @Test
+    func straightAlphaImageIsEncodedWithoutRedrawing() throws {
+        // 50% red with straight alpha, as ImageIO decodes a PNG; redrawing would premultiply it.
+        let bytes: [UInt8] = Array(repeating: [255, 0, 0, 128], count: 4).flatMap(\.self)
+        let provider = try #require(CGDataProvider(data: Data(bytes) as CFData))
+        let cgImage = try #require(CGImage(
+            width: 2, height: 2, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 8,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue), provider: provider,
+            decode: nil, shouldInterpolate: false, intent: .defaultIntent
+        ))
+        #expect(cgImage.webPStraightPixelFormat == .rgba)
+
+        let image = NSImage(cgImage: cgImage, size: NSSize(width: 2, height: 2))
+        var config = WebPEncoderConfig.preset(.picture, quality: 100)
+        config.lossless = 1
+        let encoded = try WebPEncoder().encode(image, config: config)
+        let pixels = try WebPDecoder().decode(encoded, options: WebPDecoderOptions(), format: .rgba)
+        #expect(Array(pixels.prefix(4)) == [255, 0, 0, 128])
     }
 }
 #endif

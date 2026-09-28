@@ -76,6 +76,7 @@ struct WebPEncoderCGImageTests {
         #expect(pixels[1] == 0)
         #expect(pixels[2] == 0)
         #expect(abs(Int(pixels[3]) - 128) <= 1)
+        #expect(cgImage.webPStraightPixelFormat == nil)
     }
 
     /// Caller-declared layouts: (format, bytes per pixel, bitmap info, one straight-alpha red pixel).
@@ -107,6 +108,7 @@ struct WebPEncoderCGImageTests {
             bitmapInfo: CGBitmapInfo(rawValue: bitmapInfo), provider: provider,
             decode: nil, shouldInterpolate: false, intent: .defaultIntent
         ))
+        #expect(cgImage.webPStraightPixelFormat == format)
 
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
         config.lossless = 1
@@ -114,6 +116,32 @@ struct WebPEncoderCGImageTests {
         let decoded = try WebPDecoder().decode(encoded, options: WebPDecoderOptions(), format: .rgba)
         let hasAlpha = format == .rgba || format == .bgra
         #expect(Array(decoded.prefix(4)) == [255, 0, 0, hasAlpha ? 128 : 255])
+    }
+
+    @Test
+    func decodedJPEGBytesMatchNormalizedPixels() throws {
+        // Skipping webPStraightRGBA() for a direct layout must not change colors.
+        guard let inputURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg"),
+              let source = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
+        else {
+            throw WebPError.unexpectedError(withMessage: "Image couldn't be loaded from test resources")
+        }
+        let cgImage = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
+        #expect(cgImage.webPStraightPixelFormat == .rgbx)
+
+        let normalized = try cgImage.webPStraightRGBA()
+        let data = try [UInt8](#require(cgImage.dataProvider?.data) as Data)
+        var mismatches = 0
+        for y in 0 ..< cgImage.height {
+            for x in 0 ..< cgImage.width {
+                let direct = y * cgImage.bytesPerRow + x * 4
+                let converted = (y * cgImage.width + x) * 4
+                if Array(data[direct ..< direct + 3]) != Array(normalized[converted ..< converted + 3]) {
+                    mismatches += 1
+                }
+            }
+        }
+        #expect(mismatches == 0)
     }
 
     @Test
@@ -128,6 +156,7 @@ struct WebPEncoderCGImageTests {
         )))
         context.fill(CGRect(x: 0, y: 0, width: 2, height: 2))
         let cgImage = try #require(context.makeImage())
+        #expect(cgImage.webPStraightPixelFormat == nil)
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
         config.lossless = 1
         let encoded = try WebPEncoder().encode(

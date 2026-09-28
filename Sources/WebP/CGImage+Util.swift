@@ -4,6 +4,30 @@ import Foundation
 import libwebp
 
 extension CGImage {
+    /// The libwebp format matching this image's backing bytes, or `nil` if they need `webPStraightRGBA()`.
+    /// Decoded 8-bit PNGs and JPEGs usually qualify. Drawn images do not, because Core Graphics
+    /// contexts premultiply alpha. The color space must be sRGB-compatible so that encoding the bytes
+    /// directly gives the same colors as redrawing them into device RGB.
+    var webPStraightPixelFormat: WebPEncodePixelFormat? {
+        guard bitsPerComponent == 8,
+              !bitmapInfo.contains(.floatComponents),
+              let colorSpace,
+              colorSpace.name == CGColorSpace.sRGB || colorSpace.name == CGColorSpaceCreateDeviceRGB().name
+        else { return nil }
+
+        let byteOrder = bitmapInfo.intersection(.byteOrderMask)
+        let isBigEndian = byteOrder == [] || byteOrder == .byteOrder32Big
+        switch (bitsPerPixel, alphaInfo) {
+        case (32, .last) where isBigEndian: return .rgba
+        case (32, .noneSkipLast) where isBigEndian: return .rgbx
+        // A little-endian 32-bit ARGB word is stored in memory as B, G, R, A.
+        case (32, .first) where byteOrder == .byteOrder32Little: return .bgra
+        case (32, .noneSkipFirst) where byteOrder == .byteOrder32Little: return .bgrx
+        case (24, .none) where byteOrder == []: return .rgb
+        default: return nil
+        }
+    }
+
     /// Convert any Core Graphics bitmap layout to straight-alpha RGBA bytes for libwebp.
     /// The CGContext below stores premultiplied RGBA: it multiplies RGB values by alpha.
     /// For example, half-transparent red (255, 0, 0, 128) is stored as (128, 0, 0, 128).
