@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 Source-compatible, but some calls now behave differently at runtime:
 
 - Encoder inputs must contain `stride * originHeight` bytes, including final-row padding, matching libwebp's documented contract. Compact padded buffers that the unchecked pointer API previously accepted now throw `invalidParameter`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- `UIImage` is now encoded at its pixel resolution rather than its point size, so WebP output for `@2x`/`@3x` images is larger in dimensions than before. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- `UIImage` encoding no longer downscales `@2x`/`@3x` images to their point size; output now has the image's full pixel dimensions. To keep the previous size, pass `width`/`height` in points. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 
 ### Added
 
