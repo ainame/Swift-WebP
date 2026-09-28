@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add `WebPEncoder.encode(normalizing:config:resizeWidth:resizeHeight:)` for `CGImage`, which encodes straight 8-bit layouts from their backing bytes and redraws premultiplied, BGRA, 16-bit, and other layouts to straight-alpha RGBA first. The existing `encode(_:format:config:resizeWidth:resizeHeight:)` still encodes backing bytes as-is. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+- Add a visual Demo comparing the old platform image encoding bugs with the corrected WebP output. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+
 - Safe pixel encoding from `[UInt8]`, `Data`, and borrowed `Span<UInt8>`, plus decoding into `MutableSpan<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 - Public span-based bitstream inspection. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 
@@ -20,6 +23,8 @@ All notable changes to this project will be documented in this file.
 - Added `WebPDecoderConfig.validate()` using upstream decoder configuration validation. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
 
 ### Fixed
+
+- NSImage and UIImage encoding now checks each image's pixel layout instead of assuming straight RGBA. Straight-alpha or opaque 8-bit layouts that libwebp imports directly, such as decoded PNGs and JPEGs, are encoded from their backing bytes without a copy. Other layouts, such as premultiplied, BGRA, or 16-bit images from drawing or screen capture, are redrawn to straight-alpha RGBA first, fixing darkened translucent colors and swapped red and blue channels. UIImage is now encoded at its pixel resolution rather than its point size. Thanks to [macshot](https://github.com/sw33tLie/macshot) for documenting the workaround that exposed this issue. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 
 - Reject invalid row strides in the deprecated raw-pointer encoder before calling libwebp. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
 
