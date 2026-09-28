@@ -41,6 +41,16 @@ All notable changes to this project will be documented in this file.
 
 - Added a visual comparison of the old platform image encoding bugs against the corrected WebP output. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 
+## 0.6.1
+
+### Changed
+
+- Restored the package deployment targets to iOS 13+ and macOS 11+, reverting the iOS 17+ / macOS 14+ baseline introduced in 0.6.0. ([#64](https://github.com/ainame/Swift-WebP/pull/64))
+
+### Demo
+
+- Added the missing shared `SwiftWebPDemo` scheme.
+
 ## 0.6.0
 
 Git tag naming convention now removes `v` prefix. ([#62](https://github.com/ainame/Swift-WebP/pull/62))
