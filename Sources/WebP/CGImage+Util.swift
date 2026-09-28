@@ -77,17 +77,16 @@ extension CGImage {
 
         // Drawing normalizes source channel order, but Core Graphics premultiplies alpha.
         try pixels.withUnsafeMutableBytes { buffer in
-            guard
-                let context = unsafe CGContext(
-                    data: buffer.baseAddress,
-                    width: width,
-                    height: height,
-                    bitsPerComponent: 8,
-                    bytesPerRow: bytesPerRow,
-                    space: CGColorSpaceCreateDeviceRGB(),
-                    bitmapInfo: bitmapInfo,
-                )
-            else {
+            // swift-format-ignore
+            guard let context = unsafe CGContext(
+                data: buffer.baseAddress,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: bytesPerRow,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: bitmapInfo,
+            ) else {
                 throw WebPError.unexpectedError(withMessage: "Couldn't initialize RGBA CGContext.")
             }
 

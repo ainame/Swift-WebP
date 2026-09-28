@@ -50,15 +50,14 @@ func cDecode(_ encoded: Data) throws -> Data {
     var result = Data(count: width * height * 4)
     try result.withUnsafeMutableBytes { output in
         try encoded.withUnsafeBytes { input in
-            guard
-                WebPDecodeRGBAInto(
-                    input.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    input.count,
-                    output.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    output.count,
-                    Int32(width * 4),
-                ) != nil
-            else {
+            // swift-format-ignore
+            guard WebPDecodeRGBAInto(
+                input.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                input.count,
+                output.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                output.count,
+                Int32(width * 4),
+            ) != nil else {
                 throw CocoaError(.coderReadCorrupt)
             }
         }
@@ -69,15 +68,14 @@ func cDecode(_ encoded: Data) throws -> Data {
 func cReuse(_ encoded: Data, output: inout [UInt8]) throws -> Int {
     try output.withUnsafeMutableBufferPointer { buffer in
         try encoded.withUnsafeBytes { input in
-            guard
-                WebPDecodeRGBAInto(
-                    input.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    input.count,
-                    buffer.baseAddress!,
-                    buffer.count,
-                    Int32(width * 4),
-                ) != nil
-            else {
+            // swift-format-ignore
+            guard WebPDecodeRGBAInto(
+                input.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                input.count,
+                buffer.baseAddress!,
+                buffer.count,
+                Int32(width * 4),
+            ) != nil else {
                 throw CocoaError(.coderReadCorrupt)
             }
         }

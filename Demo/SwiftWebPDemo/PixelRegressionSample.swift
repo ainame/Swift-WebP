@@ -138,17 +138,16 @@ enum PixelRegressionSample: String, CaseIterable, Identifiable {
     }
 
     private func makeContext(width: Int, height: Int, bitmapInfo: UInt32) throws -> CGContext {
-        guard
-            let context = CGContext(
-                data: nil,
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bytesPerRow: width * 4,
-                space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: bitmapInfo,
-            )
-        else { throw SampleError.bitmapCreation }
+        // swift-format-ignore
+        guard let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: width * 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: bitmapInfo,
+        ) else { throw SampleError.bitmapCreation }
         return context
     }
 

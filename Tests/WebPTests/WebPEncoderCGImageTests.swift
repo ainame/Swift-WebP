@@ -25,14 +25,13 @@ struct WebPEncoderCGImageTests {
         guard let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize color space")
         }
-        guard
-            let cgImage = context.createCGImage(
-                ciImage,
-                from: ciImage.extent,
-                format: CIFormat.RGBA8,
-                colorSpace: colorSpace,
-            )
-        else {
+        // swift-format-ignore
+        guard let cgImage = context.createCGImage(
+            ciImage,
+            from: ciImage.extent,
+            format: CIFormat.RGBA8,
+            colorSpace: colorSpace,
+        ) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't create CGImage")
         }
 

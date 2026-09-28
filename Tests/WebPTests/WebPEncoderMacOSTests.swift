@@ -34,17 +34,16 @@ struct WebPEncoderMacOSTests {
         let height = 2
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-        guard
-            let context = CGContext(
-                data: nil,
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bytesPerRow: width * 4,
-                space: colorSpace,
-                bitmapInfo: bitmapInfo.rawValue,
-            )
-        else {
+        // swift-format-ignore
+        guard let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: width * 4,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo.rawValue,
+        ) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't create CGContext")
         }
 

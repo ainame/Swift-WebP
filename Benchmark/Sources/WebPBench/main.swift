@@ -164,17 +164,16 @@ func loadImageRGBA(path: String) throws -> InputFrame {
         else {
             return false
         }
-        guard
-            let context = CGContext(
-                data: base,
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bytesPerRow: stride,
-                space: colorSpace,
-                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue,
-            )
-        else {
+        // swift-format-ignore
+        guard let context = CGContext(
+            data: base,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: stride,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue,
+        ) else {
             return false
         }
         context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
