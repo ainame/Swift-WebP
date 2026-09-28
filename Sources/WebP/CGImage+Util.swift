@@ -19,13 +19,16 @@ extension CGImage {
         // by the function: R, G, B, A for RGBA, B, G, R, A for BGRA, and so on. The X variants ignore
         // the fourth byte. libwebp has no importer for ARGB or ABGR memory order.
         //
-        // Core Graphics describes a pixel as one word, not as bytes in memory (CGImageAlphaInfo and
-        // CGBitmapInfo documentation):
-        // - `alphaInfo` places alpha (or an ignored byte for `noneSkip*`) in the word's least
-        //   significant byte for `.last` and its most significant byte for `.first`, so the word
+        // Core Graphics describes a pixel as one word, not as bytes in memory:
+        // - `alphaInfo` places alpha (or an ignored byte for `noneSkip*`) in "the least significant
+        //   bits of each pixel" for `.last` and "the most significant bits" for `.first`, so the word
         //   reads R G B A or A R G B from most to least significant.
-        // - The byte order says how that word is stored in memory. Default and `byteOrder32Big`
-        //   store the most significant byte first; `byteOrder32Little` stores it last.
+        //   https://developer.apple.com/documentation/coregraphics/cgimagealphainfo
+        // - The byte order is documented only as "32-bit, big/little endian format", i.e. how that
+        //   word is stored in memory: `byteOrder32Big` stores the most significant byte first and
+        //   `byteOrder32Little` stores it last. The default order is not specified by the docs; it
+        //   stores bytes like big-endian, which the explicit-format encoder tests confirm.
+        //   https://developer.apple.com/documentation/coregraphics/cgbitmapinfo
         //
         // Combining the two gives the memory order libwebp needs:
         // - `.last` + big-endian: R G B A in memory, which is RGBA (or RGBX)
