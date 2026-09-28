@@ -28,7 +28,7 @@ struct WebPDecoderPlatformTests {
         #expect(image.bytesPerRow == width * 4)
         let provider = try #require(image.dataProvider)
         let pixels = try #require(provider.data)
-        let decoded = try decoder.decode(data, options: options)
+        let decoded = try decoder.decode(data, options: options, format: .rgbA)
         #expect(pixels as Data == decoded)
         #if os(macOS)
         let platformImage = try decoder.decodeNSImage(from: data, options: options)
@@ -39,6 +39,33 @@ struct WebPDecoderPlatformTests {
         #expect(platformImage.cgImage?.width == width)
         #expect(platformImage.cgImage?.height == height)
         #endif
+    }
+
+    @Test
+    func cgImageDrawsSemiTransparentPixelsWithCorrectColor() throws {
+        // Half-transparent red (255, 0, 0, 128) drawn over transparent black should be stored
+        // as premultiplied (128, 0, 0, 128), not (255, 0, 0, 128).
+        var config = WebPEncoderConfig.preset(.picture, quality: 100)
+        config.lossless = 1
+        let rgba: [UInt8] = [255, 0, 0, 128]
+        let data = try WebPEncoder().encode(
+            rgba, format: .rgba, config: config, originWidth: 1, originHeight: 1, stride: 4
+        )
+        let image = try WebPDecoder().decodeCGImage(from: data, options: WebPDecoderOptions())
+
+        var pixel = [UInt8](repeating: 0, count: 4)
+        try pixel.withUnsafeMutableBytes { buffer in
+            let context = try #require(unsafe CGContext(
+                data: buffer.baseAddress, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+            ))
+            context.draw(image, in: CGRect(x: 0, y: 0, width: 1, height: 1))
+        }
+        #expect(abs(Int(pixel[0]) - 128) <= 1)
+        #expect(pixel[1] == 0)
+        #expect(pixel[2] == 0)
+        #expect(pixel[3] == 128)
     }
 }
 #endif

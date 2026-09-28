@@ -4,9 +4,12 @@ import Foundation
 
 public extension WebPDecoder {
     func decodeCGImage(from webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
-        let layout = try requiredOutputLayout(for: webPData, options: options, format: .rgba)
+        // Core Graphics draws premultiplied alpha natively, so decode with libwebp's premultiplied
+        // MODE_rgbA to match the `.premultipliedLast` bitmap info below. Straight `.rgba` bytes
+        // tagged as premultiplied would draw semi-transparent pixels too bright.
+        let layout = try requiredOutputLayout(for: webPData, options: options, format: .rgbA)
 
-        let decodedData: CFData = try decode(webPData, options: options, format: .rgba) as CFData
+        let decodedData: CFData = try decode(webPData, options: options, format: .rgbA) as CFData
         guard let provider = CGDataProvider(data: decodedData) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize CGDataProvider")
         }
