@@ -49,8 +49,8 @@ struct WebPEncoderCGImageTests {
     }
 
     @Test(arguments: [false, true])
-    func platformNormalizationHandlesPremultipliedLayouts(bgra: Bool) throws {
-        // Raw bytes in either layout would swap or darken colors; NSImage/UIImage encoders redraw them.
+    func normalizingEncodeHandlesPremultipliedLayouts(bgra: Bool) throws {
+        // Raw bytes in either layout would swap or darken colors; encode(normalizing:) redraws them.
         let bitmapInfo = (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
             | (bgra ? CGImageAlphaInfo.premultipliedFirst : .premultipliedLast).rawValue
         let context = try #require(CGContext(
@@ -67,10 +67,7 @@ struct WebPEncoderCGImageTests {
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
         config.lossless = 1
 
-        let encoded = try WebPEncoder().encode(
-            cgImage.webPStraightRGBA(), format: .rgba, config: config,
-            originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.width * 4
-        )
+        let encoded = try WebPEncoder().encode(normalizing: cgImage, config: config)
         let pixels = try WebPDecoder().decode(encoded, options: WebPDecoderOptions(), format: .rgba)
         #expect(pixels[0] == 255)
         #expect(pixels[1] == 0)
@@ -145,7 +142,7 @@ struct WebPEncoderCGImageTests {
     }
 
     @Test
-    func platformNormalizationHandlesSixteenBitImages() throws {
+    func normalizingEncodeHandlesSixteenBitImages() throws {
         let context = try #require(CGContext(
             data: nil, width: 2, height: 2, bitsPerComponent: 16, bytesPerRow: 16,
             space: CGColorSpaceCreateDeviceRGB(),
@@ -159,10 +156,7 @@ struct WebPEncoderCGImageTests {
         #expect(cgImage.webPStraightPixelFormat == nil)
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
         config.lossless = 1
-        let encoded = try WebPEncoder().encode(
-            cgImage.webPStraightRGBA(), format: .rgba, config: config,
-            originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.width * 4
-        )
+        let encoded = try WebPEncoder().encode(normalizing: cgImage, config: config)
         let decoded = try WebPDecoder().decode(encoded, options: WebPDecoderOptions(), format: .rgba)
         #expect(Array(decoded.prefix(4)) == [255, 0, 0, 255])
     }

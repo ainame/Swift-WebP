@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add `WebPEncoder.encode(normalizing:config:resizeWidth:resizeHeight:)` for `CGImage`, which encodes straight 8-bit layouts from their backing bytes and redraws premultiplied, BGRA, 16-bit, and other layouts to straight-alpha RGBA first. The existing `encode(_:format:config:resizeWidth:resizeHeight:)` still encodes backing bytes as-is. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 - Add a visual Demo comparing the old platform image encoding bugs with the corrected WebP output. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
 
 - Safe pixel encoding from `[UInt8]`, `Data`, and borrowed `Span<UInt8>`, plus decoding into `MutableSpan<UInt8>`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))

@@ -53,6 +53,18 @@ let data = try encoder.encode(
 
 The encoder validates dimensions, stride, and input capacity. Provide at least `stride * originHeight` bytes, including padding after the final row. Borrowed spans avoid copying the input storage.
 
+### Encoding a CGImage
+
+```swift
+// Handles any bitmap layout: premultiplied, BGRA, and 16-bit images are converted first.
+let data = try encoder.encode(normalizing: cgImage, config: .preset(.picture, quality: 95))
+
+// Encodes the backing bytes as-is; `format` must match the image's layout with straight alpha.
+let raw = try encoder.encode(cgImage, format: .rgba, config: .preset(.picture, quality: 95))
+```
+
+Images from drawing or screen capture are premultiplied, so use `encode(normalizing:)` for them. The `NSImage` and `UIImage` encoders use it too.
+
 ### Decoding to raw pixel bytes
 
 ```swift

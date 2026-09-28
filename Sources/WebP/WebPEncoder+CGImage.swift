@@ -16,7 +16,7 @@ public extension WebPEncoder {
     ///   per component. Images from `CGContext.makeImage()`, `UIGraphicsImageRenderer`, `NSImage`
     ///   drawing, or screen capture (as in screenshot apps) are premultiplied and often BGRA or
     ///   16-bit. Encoding them as `.rgba` darkens translucent pixels and can swap red and blue.
-    ///   Use the `NSImage`/`UIImage` encoders, which redraw into straight RGBA, for these images.
+    ///   Use `encode(normalizing:config:resizeWidth:resizeHeight:)` for these images.
     func encode(
         _ cgImage: CGImage,
         format: WebPEncodePixelFormat = .rgba,
@@ -36,6 +36,33 @@ public extension WebPEncoder {
                 resizeHeight: resizeHeight
             )
         }
+    }
+
+    /// Encodes a CGImage of any bitmap layout, converting its pixels only when libwebp cannot read them.
+    /// 8-bit straight-alpha or opaque layouts in sRGB-compatible color spaces, such as decoded PNGs and
+    /// JPEGs, are encoded from the backing bytes without a copy. Other layouts, such as premultiplied,
+    /// BGRA, or 16-bit images from drawing or screen capture, are redrawn into a temporary straight-alpha
+    /// RGBA buffer first. Masks applied with `masking(_:)` are ignored for directly encoded layouts.
+    func encode(
+        normalizing cgImage: CGImage,
+        config: WebPEncoderConfig,
+        resizeWidth: Int = 0,
+        resizeHeight: Int = 0
+    ) throws -> Data {
+        if let encoded = try cgImage.withWebPStraightPixels({ bytes, format in
+            try encode(
+                bytes, format: format, config: config,
+                originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.bytesPerRow,
+                resizeWidth: resizeWidth, resizeHeight: resizeHeight
+            )
+        }) {
+            return encoded
+        }
+        return try encode(
+            cgImage.webPStraightRGBA(), format: .rgba, config: config,
+            originWidth: cgImage.width, originHeight: cgImage.height, stride: cgImage.width * 4,
+            resizeWidth: resizeWidth, resizeHeight: resizeHeight
+        )
     }
 }
 
