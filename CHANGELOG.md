@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ## 0.7.0
 
+### Breaking
+
+Source-compatible, but some calls now behave differently at runtime:
+
+- Encoder inputs must contain `stride * originHeight` bytes, including final-row padding, matching libwebp's documented contract. Compact padded buffers that the unchecked pointer API previously accepted now throw `invalidParameter`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
+- `UIImage` is now encoded at its pixel resolution rather than its point size, so WebP output for `@2x`/`@3x` images is larger in dimensions than before. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
+
 ### Added
 
 - `WebPEncoder.encode(normalizing:config:resizeWidth:resizeHeight:)` for `CGImage`, which converts premultiplied, BGRA, 16-bit, and other layouts to straight-alpha RGBA before encoding. The existing `encode(_:format:config:resizeWidth:resizeHeight:)` still encodes the backing bytes as-is. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
@@ -15,11 +22,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Raised the `libwebp-Xcode` dependency minimum to `1.6.0`, picking up upstream lossless compression improvements and bug fixes. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
-- Encoder inputs must now contain `stride * originHeight` bytes, including final-row padding, matching libwebp's documented contract. Compact padded layouts previously accepted by the unchecked pointer API now throw `invalidParameter`. ([#66](https://github.com/ainame/Swift-WebP/pull/66))
-- Invalid decoder settings now throw `WebPDecodingError.invalidParam` before any output is allocated. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
-- `UIImage` is now encoded at its pixel resolution rather than its point size. ([#68](https://github.com/ainame/Swift-WebP/pull/68))
-- Updated the local Swift toolchain to `6.4.0`. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- Raised the `libwebp-Xcode` dependency minimum to `1.6.0`, picking up upstream lossless compression improvements and bug fixes. Projects that pin `libwebp-Xcode` below `1.6.0` need to relax that pin. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
+- Invalid decoder settings are now rejected up front with `WebPDecodingError.invalidParam`, before any output buffer is allocated. ([#65](https://github.com/ainame/Swift-WebP/pull/65))
 
 ### Fixed
 
@@ -45,7 +49,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Restored the package deployment targets to iOS 13+ and macOS 11+, reverting the iOS 17+ / macOS 14+ baseline introduced in 0.6.0. ([#64](https://github.com/ainame/Swift-WebP/pull/64))
+- Lowered the minimum deployment targets back to iOS 13+ and macOS 11+, reverting the iOS 17+ / macOS 14+ baseline introduced in 0.6.0. This only widens platform support and is not breaking. ([#64](https://github.com/ainame/Swift-WebP/pull/64))
 
 ### Demo
 
