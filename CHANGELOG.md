@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+### Changed
+
+- **Consumers no longer fetch SwiftFormat.** The SwiftFormat SPM plugin dependency was removed from `Package.swift`; formatting now uses the toolchain-bundled `swift format` (`.swift-format`). Contributors run `make format` / `make lint` as before.
+
 ### Fixed
 
 - `decodeCGImage(from:options:)`, `decodeUIImage(from:options:)`, and `decodeNSImage(from:options:)` now decode with premultiplied alpha (`.rgbA`) to match the `CGImage`'s `.premultipliedLast` bitmap info. From 0.3.0 through 0.7.0, semi-transparent pixels were drawn too bright. The image's backing bytes now hold premultiplied RGBA.
