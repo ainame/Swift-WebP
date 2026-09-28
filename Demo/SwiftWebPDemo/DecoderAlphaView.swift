@@ -8,24 +8,30 @@ struct DecoderAlphaView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("We save a see-through white panel, like frosted glass, as a WebP image. Then we load it and place it on top of a photo. You should still see the ramen through the glass.")
+                    Text("This WebP image is one gray square that is 50% see-through. On a white background it should look light gray.")
 
                     if let comparison {
-                        DecoderAlphaCard(
-                            title: "❌ Before the fix",
-                            caption: "The glass turns solid white. The ramen behind it is hidden.",
-                            image: comparison.before
-                        )
-                        DecoderAlphaCard(
-                            title: "✅ After the fix",
-                            caption: "The glass stays see-through. You can see the ramen behind it.",
-                            image: comparison.after
-                        )
+                        HStack(alignment: .top, spacing: 16) {
+                            DecoderAlphaCard(
+                                title: "❌ Before the fix",
+                                caption: "Too bright. The square turns white and disappears.",
+                                image: comparison.before
+                            )
+                            DecoderAlphaCard(
+                                title: "✅ After the fix",
+                                caption: "Light gray, as expected.",
+                                image: comparison.after
+                            )
+                        }
                     } else if let failure {
                         Text(failure).foregroundStyle(.red)
                     } else {
                         ProgressView("Encoding and decoding…")
                     }
+
+                    Text("The dashed line only marks where the square is drawn.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
 
                     DisclosureGroup("For developers: old code") {
                         codeText(DecoderAlphaSample.legacyCode)
@@ -62,18 +68,24 @@ private struct DecoderAlphaCard: View {
     let image: CGImage
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.headline)
-            Image("jiro")
+            Image(decorative: image, scale: 1)
                 .resizable()
-                .aspectRatio(DecoderAlphaSample.size.width / DecoderAlphaSample.size.height, contentMode: .fill)
+                .aspectRatio(1, contentMode: .fit)
                 .overlay {
-                    Image(decorative: image, scale: 1).resizable()
+                    Rectangle().strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                        .foregroundStyle(.secondary)
                 }
-                .clipShape(.rect(cornerRadius: 8))
+                .padding(16)
+                .background(.white, in: .rect(cornerRadius: 8))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8).strokeBorder(.quaternary)
+                }
             Text(caption)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
