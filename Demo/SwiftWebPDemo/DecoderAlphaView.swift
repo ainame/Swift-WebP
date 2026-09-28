@@ -9,6 +9,11 @@ struct DecoderAlphaView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("This WebP image is one gray square that is 50% see-through. On a white background it should look light gray.")
+                    Text("Every pixel: RGBA \(DecoderAlphaSample.pixel.map(String.init).joined(separator: ", "))")
+                        .font(.callout.monospaced())
+                    Text("R, G, B = 128 is mid gray. A = 128 is about 50% opaque.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
 
                     if let comparison {
                         HStack(alignment: .top, spacing: 16) {
