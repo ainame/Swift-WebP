@@ -6,7 +6,7 @@ Encode pixels from arrays, `Data`, or spans, and decode into `Data` or reusable 
 
 ## Notice
 
-**v0.6.0 tried modernising codebase and made minor breaking changes.**
+**0.7.0 contains behavior changes to encoder input validation and `UIImage` output size.**
 **See details in [CHANGELOG.md](./CHANGELOG.md)**
 
 ## Support Versions
@@ -30,7 +30,7 @@ Encode pixels from arrays, `Data`, or spans, and decode into `Data` or reusable 
 Add Swift-WebP in your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.6.0")
+.package(url: "https://github.com/ainame/Swift-WebP.git", from: "0.7.0")
 ```
 
 ## Usage
