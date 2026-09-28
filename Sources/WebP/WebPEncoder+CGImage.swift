@@ -43,6 +43,16 @@ public extension WebPEncoder {
     /// JPEGs, are encoded from the backing bytes without a copy. Other layouts, such as premultiplied,
     /// BGRA, or 16-bit images from drawing or screen capture, are redrawn into a temporary straight-alpha
     /// RGBA buffer first. Masks applied with `masking(_:)` are ignored for directly encoded layouts.
+    ///
+    /// Memory: the redraw path costs more than encoding backing bytes directly.
+    /// - It allocates `width * height * 4` bytes for the straight-alpha buffer on top of the source
+    ///   image and libwebp's own picture: about 32 MiB for 3840 × 2160, up to about 1 GiB at
+    ///   libwebp's 16383 × 16383 limit. The buffer lives until encoding finishes.
+    /// - Core Graphics may add its own temporary copy while drawing some layouts. Encoding a
+    ///   3840 × 2160 premultiplied BGRA image measured about 63 MiB more peak memory than the raw
+    ///   path, versus about 32 MiB for premultiplied RGBA.
+    /// - The buffer is a Swift array, so if the allocation cannot be satisfied the process traps
+    ///   instead of this method throwing. Check dimensions up front if very large images are possible.
     func encode(
         normalizing cgImage: CGImage,
         config: WebPEncoderConfig,
