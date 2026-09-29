@@ -22,6 +22,7 @@ Encode pixels from arrays, `Data`, or spans, and decode into `Data` or reusable 
 - Swift Package Manager support
 - Advanced encoding via `WebPEncoder` + `WebPEncoderConfig`
 - Advanced decoding via `WebPDecoder` + `WebPDecoderOptions`
+- Animated WebP decoding via `WebPAnimatedDecoder`
 - WebP bitstream inspection via `WebPImageInspector`
 - Cross-platform core APIs (Apple platforms + Linux)
 
@@ -109,6 +110,25 @@ let image = try decoder.decodeUIImage(from: webPData, options: options)
 let image = try decoder.decodeNSImage(from: webPData, options: options)
 #endif
 ```
+
+### Decoding animated WebP
+
+`WebPAnimatedDecoder` returns each frame composited onto the full canvas, so frames are ready to display. Still images decode as a single frame.
+
+```swift
+var decoder = try WebPAnimatedDecoder(webPData) // .rgbA by default
+print(decoder.info.canvasWidth, decoder.info.frameCount, decoder.info.loopCount) // loopCount 0 = forever
+
+while let frame = try decoder.nextFrame() {
+    let image = try frame.makeCGImage() // Apple platforms
+    show(image, from: frame.timing.startTimeMilliseconds, for: frame.timing.durationMilliseconds)
+}
+decoder.reset() // Play again from the first frame.
+```
+
+`nextFrame()` copies each canvas into `Data`. To avoid the copy, `withNextFrame { pixels, timing in ... }` lends the decoder's canvas as a `Span<UInt8>`, valid only inside the closure. To decode every frame up front, use `WebPDecoder().decodeAnimation(webPData)`; it keeps `canvasWidth * canvasHeight * 4` bytes per frame.
+
+`WebPDecoder.decode` and `decodeCGImage` still reject animated files with `WebPDecodingError.unsupportedFeature`.
 
 ### Inspecting WebP metadata
 
