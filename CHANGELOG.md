@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - `decodeCGImage(from:options:)`, `decodeUIImage(from:options:)`, and `decodeNSImage(from:options:)` now decode with premultiplied alpha (`.rgbA`) to match the `CGImage`'s `.premultipliedLast` bitmap info. From 0.3.0 through 0.7.0, semi-transparent pixels were drawn too bright. The image's backing bytes now hold premultiplied RGBA.
+- The README and the `WebPEncoderConfig.threadLevel` and `WebPDecoderOptions.useThreads` docs no longer claim multithreading. The `libwebp-Xcode` package compiles libwebp without `WEBP_USE_THREAD`, so both settings have no effect and encoding and decoding always run on the calling thread. Behavior is unchanged.
 
 ## 0.7.0
 

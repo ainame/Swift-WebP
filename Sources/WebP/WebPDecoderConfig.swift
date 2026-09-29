@@ -280,7 +280,12 @@ public struct WebPDecoderOptions: InternalRawRepresentable, Sendable {
 
     public var scaledHeight: Int
 
-    public var useThreads: Bool // if true, use multi-threaded decoding
+    /// If true, use multi-threaded decoding.
+    ///
+    /// - Note: Currently has no effect. The `libwebp-Xcode` package that Swift-WebP
+    ///   depends on compiles libwebp without `WEBP_USE_THREAD`, so decoding always
+    ///   runs on the calling thread.
+    public var useThreads: Bool
 
     public var ditheringStrength: Int // dithering strength (0=Off, 100=full)
 
