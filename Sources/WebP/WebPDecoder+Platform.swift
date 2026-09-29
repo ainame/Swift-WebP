@@ -20,6 +20,22 @@ public extension WebPDecoder {
     }
 }
 
+public extension WebPAnimationFrame {
+    /// Wraps the frame's pixels in a `CGImage` without copying them. Every pixel format is supported;
+    /// the default `.rgbA` matches Core Graphics' native layout.
+    func makeCGImage() throws -> CGImage {
+        let bitmapInfo: CGBitmapInfo =
+            switch format {
+            case .rgba: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.last.rawValue)
+            case .rgbA: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue)
+            // A little-endian A R G B word is stored as B G R A.
+            case .bgra: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.first.rawValue)
+            case .bgrA: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue)
+            }
+        return try CGImage.makeWebPImage(pixels: pixels, width: width, height: height, stride: stride, bitmapInfo: bitmapInfo)
+    }
+}
+
 extension CGImage {
     /// Wraps decoded 32-bit pixels in a device-RGB image without copying them.
     static func makeWebPImage(pixels: Data, width: Int, height: Int, stride: Int, bitmapInfo: CGBitmapInfo) throws -> CGImage {

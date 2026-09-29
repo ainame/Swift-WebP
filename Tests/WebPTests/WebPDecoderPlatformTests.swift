@@ -84,5 +84,43 @@ struct WebPDecoderPlatformTests {
         #expect(pixel[2] == 0)
         #expect(pixel[3] == 128)
     }
+
+    @Test(arguments: [WebPAnimationPixelFormat.rgba, .bgra, .rgbA, .bgrA])
+    func animationFrameCGImageDrawsCorrectColor(format: WebPAnimationPixelFormat) throws {
+        // Half-transparent red drawn over transparent black should be (128, 0, 0, 128) in every format.
+        let translucentRed: [UInt8] = [255, 0, 0, 128]
+        let data = try AnimatedWebPFixture.make(
+            width: 3,
+            height: 2,
+            frames: [
+                .init(rgba: AnimatedWebPFixture.canvas(width: 3, height: 2, fill: translucentRed), durationMilliseconds: 50),
+                .init(rgba: AnimatedWebPFixture.canvas(width: 3, height: 2, fill: [0, 0, 0, 0]), durationMilliseconds: 50),
+            ],
+        )
+        let animation = try WebPDecoder().decodeAnimation(data, format: format)
+        let image = try animation.frames[0].makeCGImage()
+        #expect(image.width == 3)
+        #expect(image.height == 2)
+
+        var pixel = [UInt8](repeating: 0, count: 4)
+        try pixel.withUnsafeMutableBytes { buffer in
+            let context = try #require(
+                unsafe CGContext(
+                    data: buffer.baseAddress,
+                    width: 1,
+                    height: 1,
+                    bitsPerComponent: 8,
+                    bytesPerRow: 4,
+                    space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue,
+                )
+            )
+            context.draw(image, in: CGRect(x: 0, y: 0, width: 1, height: 1))
+        }
+        #expect(abs(Int(pixel[0]) - 128) <= 1)
+        #expect(pixel[1] == 0)
+        #expect(pixel[2] == 0)
+        #expect(pixel[3] == 128)
+    }
 }
 #endif
