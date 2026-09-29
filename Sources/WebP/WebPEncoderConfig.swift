@@ -90,6 +90,10 @@ public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
     public var emulateJpegSize: Bool
 
     /// If non-zero, try and use multi-threaded encoding.
+    ///
+    /// - Note: Currently has no effect. The `libwebp-Xcode` package that Swift-WebP
+    ///   depends on compiles libwebp without `WEBP_USE_THREAD`, so encoding always
+    ///   runs on the calling thread.
     public var threadLevel: Int
 
     /// If set, reduce memory usage (but increase CPU use).

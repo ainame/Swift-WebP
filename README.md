@@ -46,7 +46,7 @@ WebP files are often [25–34% smaller than JPEG](https://developers.google.com/
 - 📐 **Scale and crop while decoding.** libwebp resizes during decoding, so a thumbnail never needs a full-size bitmap.
 - 🧵 **Built for Swift 6.** Uses Swift 6 language mode with strict memory-safety checking, and the public types are `Sendable`.
 - 🐧 **Runs on Linux.** The core APIs work on Linux with a lightweight `FoundationEssentials` dependency.
-- 🎛️ **Full libwebp control.** Presets, lossless levels 0–9, target size or PSNR, near-lossless, alpha quality, multithreading, and more.
+- 🎛️ **Full libwebp control.** Presets, lossless levels 0–9, target size or PSNR, near-lossless, alpha quality, and more.
 
 ### Is it the right fit?
 
@@ -149,8 +149,10 @@ let lossless = try WebPEncoderConfig.losslessPreset(level: 6)
 var custom = WebPEncoderConfig.preset(.picture, quality: 90)
 custom.method = 6 // slower encoding, smaller output
 custom.alphaQuality = 80
-custom.threadLevel = 1 // enable multithreaded encoding
 ```
+
+> [!NOTE]
+> Encoding and decoding are single-threaded. The `libwebp-Xcode` package that Swift-WebP depends on compiles libwebp without threading support, so `WebPEncoderConfig.threadLevel` and `WebPDecoderOptions.useThreads` currently have no effect. To use more cores, run independent images concurrently.
 
 ### Decode to a platform image
 
