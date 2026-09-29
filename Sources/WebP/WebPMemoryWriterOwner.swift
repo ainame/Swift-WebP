@@ -28,8 +28,12 @@ struct WebPMemoryWriterOwner: ~Copyable {
         unsafe rawValue.mem = nil
         unsafe rawValue.size = 0
         unsafe rawValue.max_size = 0
-        return unsafe Data(bytesNoCopy: pointer, count: size, deallocator: .custom { pointer, _ in
-            unsafe WebPFree(pointer)
-        })
+        return unsafe Data(
+            bytesNoCopy: pointer,
+            count: size,
+            deallocator: .custom { pointer, _ in
+                unsafe WebPFree(pointer)
+            },
+        )
     }
 }

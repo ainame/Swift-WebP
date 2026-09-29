@@ -9,9 +9,13 @@ for count in [1920 * 1080 * 4, 3840 * 2160 * 4] {
     }
     let pointer = UnsafeMutableRawPointer.allocate(byteCount: count, alignment: 1)
     pointer.initializeMemory(as: UInt8.self, repeating: 0, count: count)
-    let transferred = Data(bytesNoCopy: pointer, count: count, deallocator: .custom { pointer, _ in
-        pointer.deallocate()
-    })
+    let transferred = Data(
+        bytesNoCopy: pointer,
+        count: count,
+        deallocator: .custom { pointer, _ in
+            pointer.deallocate()
+        },
+    )
     let transferredAllocation = transferred.withUnsafeBytes { bytes in
         malloc_size(bytes.baseAddress!)
     }

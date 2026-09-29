@@ -11,7 +11,7 @@ Use this file as the execution guide for ongoing implementation and maintenance 
 - Deployment targets: iOS 13+, macOS 11+
 - Dependency:
   - [`libwebp-Xcode`](https://github.com/SDWebImage/libwebp-Xcode.git) 1.6.0+
-  - [`SwiftFormat`](https://github.com/nicklockwood/SwiftFormat.git) via SPM plugin
+  - No formatter dependency; formatting uses the toolchain-bundled `swift format` (`.swift-format`)
 - CI:
   - macOS build + test
   - Linux build + test

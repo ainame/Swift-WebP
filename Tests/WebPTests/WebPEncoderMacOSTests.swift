@@ -34,6 +34,7 @@ struct WebPEncoderMacOSTests {
         let height = 2
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+        // swift-format-ignore
         guard let context = CGContext(
             data: nil,
             width: width,
@@ -41,7 +42,7 @@ struct WebPEncoderMacOSTests {
             bitsPerComponent: 8,
             bytesPerRow: width * 4,
             space: colorSpace,
-            bitmapInfo: bitmapInfo.rawValue
+            bitmapInfo: bitmapInfo.rawValue,
         ) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't create CGContext")
         }
@@ -67,16 +68,26 @@ struct WebPEncoderMacOSTests {
     @Test(arguments: [false, true])
     func platformEncodingPreservesPixelDimensionsAndTranslucentColors(bgra: Bool) throws {
         // Exercise both byte orders. Core Graphics stores premultiplied components in either layout.
-        let bitmapInfo = (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
+        let bitmapInfo =
+            (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
             | (bgra ? CGImageAlphaInfo.premultipliedFirst : .premultipliedLast).rawValue
-        let context = try #require(CGContext(
-            data: nil, width: 4, height: 2, bitsPerComponent: 8, bytesPerRow: 16,
-            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo
-        ))
-        let translucentRed = try #require(CGColor(
-            colorSpace: CGColorSpaceCreateDeviceRGB(),
-            components: [1, 0, 0, 0.5]
-        ))
+        let context = try #require(
+            CGContext(
+                data: nil,
+                width: 4,
+                height: 2,
+                bitsPerComponent: 8,
+                bytesPerRow: 16,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: bitmapInfo,
+            )
+        )
+        let translucentRed = try #require(
+            CGColor(
+                colorSpace: CGColorSpaceCreateDeviceRGB(),
+                components: [1, 0, 0, 0.5],
+            )
+        )
         context.setFillColor(translucentRed)
         context.fill(CGRect(x: 0, y: 0, width: 4, height: 2))
         let cgImage = try #require(context.makeImage())
@@ -110,12 +121,21 @@ struct WebPEncoderMacOSTests {
         // 50% red with straight alpha, as ImageIO decodes a PNG; redrawing would premultiply it.
         let bytes: [UInt8] = Array(repeating: [255, 0, 0, 128], count: 4).flatMap(\.self)
         let provider = try #require(CGDataProvider(data: Data(bytes) as CFData))
-        let cgImage = try #require(CGImage(
-            width: 2, height: 2, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 8,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue), provider: provider,
-            decode: nil, shouldInterpolate: false, intent: .defaultIntent
-        ))
+        let cgImage = try #require(
+            CGImage(
+                width: 2,
+                height: 2,
+                bitsPerComponent: 8,
+                bitsPerPixel: 32,
+                bytesPerRow: 8,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+                provider: provider,
+                decode: nil,
+                shouldInterpolate: false,
+                intent: .defaultIntent,
+            )
+        )
         #expect(cgImage.webPStraightPixelFormat == .rgba)
 
         let image = NSImage(cgImage: cgImage, size: NSSize(width: 2, height: 2))
@@ -130,12 +150,21 @@ struct WebPEncoderMacOSTests {
     private func makeStraightRGBAImage(decode: [CGFloat]? = nil) throws -> CGImage {
         let row: [UInt8] = [255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, 255, 255, 255, 255]
         let provider = try #require(CGDataProvider(data: Data(row + row) as CFData))
-        return try #require(CGImage(
-            width: 4, height: 2, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 16,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue), provider: provider,
-            decode: decode, shouldInterpolate: false, intent: .defaultIntent
-        ))
+        return try #require(
+            CGImage(
+                width: 4,
+                height: 2,
+                bitsPerComponent: 8,
+                bitsPerPixel: 32,
+                bytesPerRow: 16,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+                provider: provider,
+                decode: decode,
+                shouldInterpolate: false,
+                intent: .defaultIntent,
+            )
+        )
     }
 
     @Test

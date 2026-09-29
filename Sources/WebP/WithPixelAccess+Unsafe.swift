@@ -37,10 +37,7 @@ extension [UInt8] {
 
 extension [UInt8] {
     @safe
-    mutating func withWebPMutablePixels<Result>(_ body: (inout UnsafeMutableBufferPointer<UInt8>) throws
-        -> Result) rethrows
-        -> Result
-    {
+    mutating func withWebPMutablePixels<Result>(_ body: (inout UnsafeMutableBufferPointer<UInt8>) throws -> Result) rethrows -> Result {
         #if compiler(<6.4)
         return unsafe try withUnsafeMutableBufferPointer(body)
         #else
@@ -52,7 +49,7 @@ extension [UInt8] {
 @safe
 func withWebPMutablePixels<Result>(
     _ pixels: inout MutableSpan<UInt8>,
-    _ body: (UnsafeMutableBufferPointer<UInt8>) throws -> Result
+    _ body: (UnsafeMutableBufferPointer<UInt8>) throws -> Result,
 ) rethrows -> Result {
     #if compiler(<6.4)
     return unsafe try pixels.withUnsafeMutableBufferPointer(body)

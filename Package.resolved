@@ -1,5 +1,5 @@
 {
-  "originHash" : "ea6d7209f3773cf2e4ea6244078891d75538a75e1a5fc43de32942025c79e45f",
+  "originHash" : "bc93252d635d162867666b2ec3b4148bd5ae648b8186bbf0149dcd2b5e23e5f5",
   "pins" : [
     {
       "identity" : "libwebp-xcode",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "2b5256c29ff4e20f2a0d5ee863b62b1a22144434",
         "version" : "1.6.0"
-      }
-    },
-    {
-      "identity" : "swiftformat",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nicklockwood/SwiftFormat.git",
-      "state" : {
-        "revision" : "22a472ced4c621a0e41b982a6f32dec868d09392",
-        "version" : "0.59.1"
       }
     }
   ],

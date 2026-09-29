@@ -67,8 +67,9 @@ func parseArgs() throws -> Config {
         case "--mode":
             let rawMode = try readValue("--mode")
             guard let mode = Config.Mode(rawValue: rawMode) else {
-                throw BenchError
-                    .invalidArgument("--mode must be one of: pipeline, source-decode-only, encode-only, decode-only")
+                throw BenchError.invalidArgument(
+                    "--mode must be one of: pipeline, source-decode-only, encode-only, decode-only"
+                )
             }
             config.mode = mode
         case "--width":
@@ -159,11 +160,11 @@ func loadImageRGBA(path: String) throws -> InputFrame {
         guard let base = rawPtr.baseAddress else {
             return false
         }
-        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ??
-            CGColorSpace(name: CGColorSpace.genericRGBLinear)
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpace(name: CGColorSpace.genericRGBLinear)
         else {
             return false
         }
+        // swift-format-ignore
         guard let context = CGContext(
             data: base,
             width: width,
@@ -171,7 +172,7 @@ func loadImageRGBA(path: String) throws -> InputFrame {
             bitsPerComponent: 8,
             bytesPerRow: stride,
             space: colorSpace,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue,
         ) else {
             return false
         }
@@ -258,15 +259,16 @@ func run() throws {
     let encoder = WebPEncoder()
     let decoder = WebPDecoder()
 
-    let staticFrame: InputFrame? = if let inputPath = config.inputPath {
-        try loadImageRGBA(path: inputPath)
-    } else {
-        InputFrame(
-            rgba: makeRGBA(width: config.width, height: config.height),
-            width: config.width,
-            height: config.height
-        )
-    }
+    let staticFrame: InputFrame? =
+        if let inputPath = config.inputPath {
+            try loadImageRGBA(path: inputPath)
+        } else {
+            InputFrame(
+                rgba: makeRGBA(width: config.width, height: config.height),
+                width: config.width,
+                height: config.height,
+            )
+        }
 
     guard let seedFrame = staticFrame else {
         throw BenchError.validationFailed("Failed to initialize input frame")
@@ -280,7 +282,7 @@ func run() throws {
         config: .preset(.picture, quality: config.quality),
         originWidth: seedFrame.width,
         originHeight: seedFrame.height,
-        stride: seedFrame.stride
+        stride: seedFrame.stride,
     )
 
     var decodeOptions = WebPDecoderOptions()
@@ -352,7 +354,7 @@ func run() throws {
                     config: .preset(.picture, quality: config.quality),
                     originWidth: frame.width,
                     originHeight: frame.height,
-                    stride: frame.stride
+                    stride: frame.stride,
                 )
                 let end = now()
                 if runIndex >= config.warmup {
@@ -405,7 +407,7 @@ func run() throws {
                     config: .preset(.picture, quality: config.quality),
                     originWidth: frame.width,
                     originHeight: frame.height,
-                    stride: frame.stride
+                    stride: frame.stride,
                 )
                 let end = now()
                 if runIndex >= config.warmup {

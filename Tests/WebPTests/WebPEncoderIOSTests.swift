@@ -31,16 +31,26 @@ struct WebPEncoderIOSTests {
     @Test(arguments: [false, true])
     func platformEncodingPreservesPixelDimensionsAndTranslucentColors(bgra: Bool) throws {
         // Exercise both byte orders. Core Graphics stores premultiplied components in either layout.
-        let bitmapInfo = (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
+        let bitmapInfo =
+            (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
             | (bgra ? CGImageAlphaInfo.premultipliedFirst : .premultipliedLast).rawValue
-        let context = try #require(CGContext(
-            data: nil, width: 4, height: 2, bitsPerComponent: 8, bytesPerRow: 16,
-            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo
-        ))
-        let translucentRed = try #require(CGColor(
-            colorSpace: CGColorSpaceCreateDeviceRGB(),
-            components: [1, 0, 0, 0.5]
-        ))
+        let context = try #require(
+            CGContext(
+                data: nil,
+                width: 4,
+                height: 2,
+                bitsPerComponent: 8,
+                bytesPerRow: 16,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: bitmapInfo,
+            )
+        )
+        let translucentRed = try #require(
+            CGColor(
+                colorSpace: CGColorSpaceCreateDeviceRGB(),
+                components: [1, 0, 0, 0.5],
+            )
+        )
         context.setFillColor(translucentRed)
         context.fill(CGRect(x: 0, y: 0, width: 4, height: 2))
         let cgImage = try #require(context.makeImage())

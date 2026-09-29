@@ -6,11 +6,11 @@ let package = Package(
     name: "WebPBenchmark",
     platforms: [
         .iOS(.v17),
-        .macOS(.v14)
+        .macOS(.v14),
     ],
     products: [
         .executable(name: "WebPBench", targets: ["WebPBench"]),
-        .executable(name: "MemoryExperiment", targets: ["MemoryExperiment"])
+        .executable(name: "MemoryExperiment", targets: ["MemoryExperiment"]),
     ],
     dependencies: [
         .package(name: "Swift-WebP", path: "..")
@@ -21,8 +21,8 @@ let package = Package(
             name: "WebPBench",
             dependencies: [
                 .product(name: "WebP", package: "Swift-WebP")
-            ]
-        )
+            ],
+        ),
     ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v6],
 )

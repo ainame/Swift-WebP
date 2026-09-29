@@ -20,7 +20,7 @@ struct WebPMemorySafetyTests {
             config: config,
             originWidth: 3,
             originHeight: 2,
-            stride: 3 * bytesPerPixel
+            stride: 3 * bytesPerPixel,
         )
         let dataResult = try encoder.encode(
             Data(bytes),
@@ -28,7 +28,7 @@ struct WebPMemorySafetyTests {
             config: config,
             originWidth: 3,
             originHeight: 2,
-            stride: 3 * bytesPerPixel
+            stride: 3 * bytesPerPixel,
         )
         let spanResult = try bytes.withUnsafeBufferPointer { buffer in
             try encoder.encode(
@@ -37,16 +37,18 @@ struct WebPMemorySafetyTests {
                 config: config,
                 originWidth: 3,
                 originHeight: 2,
-                stride: 3 * bytesPerPixel
+                stride: 3 * bytesPerPixel,
             )
         }
         #expect(arrayResult == dataResult)
         #expect(arrayResult == spanResult)
     }
 
-    @Test(arguments: [(0, 2, 8, 16), (-1, 2, 8, 16), (2, 2, 7, 16),
-                      (2, 2, 8, 15), (2, 2, Int.max, 16), (Int.max, 2, 8, 16),
-                      (2, Int.max, 8, 16), (2, 2, 12, 19)])
+    @Test(arguments: [
+        (0, 2, 8, 16), (-1, 2, 8, 16), (2, 2, 7, 16),
+        (2, 2, 8, 15), (2, 2, Int.max, 16), (Int.max, 2, 8, 16),
+        (2, Int.max, 8, 16), (2, 2, 12, 19),
+    ])
     func invalidLayoutsThrowBeforeReadingPixels(layout: (Int, Int, Int, Int)) {
         let (width, height, stride, count) = layout
         #expect(throws: WebPEncoderError.invalidParameter) {
@@ -56,7 +58,7 @@ struct WebPMemorySafetyTests {
                 config: .preset(.picture, quality: 75),
                 originWidth: width,
                 originHeight: height,
-                stride: stride
+                stride: stride,
             )
         }
     }
@@ -69,7 +71,7 @@ struct WebPMemorySafetyTests {
             config: .preset(.picture, quality: 75),
             originWidth: 2,
             originHeight: 2,
-            stride: 12
+            stride: 12,
         )
         let features = try WebPImageInspector.inspect(encoded)
         #expect(features.width == 2 && features.height == 2)
@@ -90,7 +92,7 @@ struct WebPMemorySafetyTests {
                     config: config,
                     originWidth: 2,
                     originHeight: 2,
-                    stride: stride
+                    stride: stride,
                 )
             }
         }
@@ -101,7 +103,7 @@ struct WebPMemorySafetyTests {
                 config: config,
                 originWidth: 2,
                 originHeight: 2,
-                stride: stride
+                stride: stride,
             )
         }
     }
@@ -133,8 +135,10 @@ struct WebPMemorySafetyTests {
         #expect(small.allSatisfy { $0 == 0xAB })
     }
 
-    @Test(arguments: [WebPDecodePixelFormat.rgb, .rgba, .bgr, .bgra, .argb,
-                      .rgba4444, .rgb565, .rgbA, .bgrA, .Argb, .rgbA4444])
+    @Test(arguments: [
+        WebPDecodePixelFormat.rgb, .rgba, .bgr, .bgra, .argb,
+        .rgba4444, .rgb565, .rgbA, .bgrA, .Argb, .rgbA4444,
+    ])
     func allocatedAndReusedDecodeMatchForEveryPackedFormat(format: WebPDecodePixelFormat) throws {
         let encoded = try TestFixtures.makeWebPFixture(width: 7, height: 5)
         let decoder = WebPDecoder()
@@ -150,8 +154,12 @@ struct WebPMemorySafetyTests {
     func decodedDataOwnsStorageAndSurvivesLaterDecodes() throws {
         let pixels = TestFixtures.makeRGBAFixture(width: 16, height: 12)
         let encoded = try WebPEncoder().encode(
-            pixels, format: .rgba, config: .losslessPreset(level: 6),
-            originWidth: 16, originHeight: 12, stride: 64
+            pixels,
+            format: .rgba,
+            config: .losslessPreset(level: 6),
+            originWidth: 16,
+            originHeight: 12,
+            stride: 64,
         )
         let decoder = WebPDecoder()
         let options = WebP.WebPDecoderOptions()

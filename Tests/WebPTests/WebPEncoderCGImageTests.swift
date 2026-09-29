@@ -25,11 +25,12 @@ struct WebPEncoderCGImageTests {
         guard let colorSpace = CGColorSpace(name: CGColorSpace.extendedSRGB) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't initialize color space")
         }
+        // swift-format-ignore
         guard let cgImage = context.createCGImage(
             ciImage,
             from: ciImage.extent,
             format: CIFormat.RGBA8,
-            colorSpace: colorSpace
+            colorSpace: colorSpace,
         ) else {
             throw WebPError.unexpectedError(withMessage: "Couldn't create CGImage")
         }
@@ -51,16 +52,26 @@ struct WebPEncoderCGImageTests {
     @Test(arguments: [false, true])
     func normalizingEncodeHandlesPremultipliedLayouts(bgra: Bool) throws {
         // Raw bytes in either layout would swap or darken colors; encode(normalizing:) redraws them.
-        let bitmapInfo = (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
+        let bitmapInfo =
+            (bgra ? CGBitmapInfo.byteOrder32Little : .byteOrder32Big).rawValue
             | (bgra ? CGImageAlphaInfo.premultipliedFirst : .premultipliedLast).rawValue
-        let context = try #require(CGContext(
-            data: nil, width: 4, height: 2, bitsPerComponent: 8, bytesPerRow: 16,
-            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo
-        ))
-        let translucentRed = try #require(CGColor(
-            colorSpace: CGColorSpaceCreateDeviceRGB(),
-            components: [1, 0, 0, 0.5]
-        ))
+        let context = try #require(
+            CGContext(
+                data: nil,
+                width: 4,
+                height: 2,
+                bitsPerComponent: 8,
+                bytesPerRow: 16,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: bitmapInfo,
+            )
+        )
+        let translucentRed = try #require(
+            CGColor(
+                colorSpace: CGColorSpaceCreateDeviceRGB(),
+                components: [1, 0, 0, 0.5],
+            )
+        )
         context.setFillColor(translucentRed)
         context.fill(CGRect(x: 0, y: 0, width: 4, height: 2))
         let cgImage = try #require(context.makeImage())
@@ -82,7 +93,7 @@ struct WebPEncoderCGImageTests {
         (.rgbx, 4, CGImageAlphaInfo.noneSkipLast.rawValue, [255, 0, 0, 0]),
         (.bgra, 4, CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.first.rawValue, [0, 0, 255, 128]),
         (.bgrx, 4, CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.noneSkipFirst.rawValue, [0, 0, 255, 0]),
-        (.rgb, 3, CGImageAlphaInfo.none.rawValue, [255, 0, 0])
+        (.rgb, 3, CGImageAlphaInfo.none.rawValue, [255, 0, 0]),
     ]
 
     @Test(arguments: 0 ..< directLayouts.count)
@@ -99,12 +110,21 @@ struct WebPEncoderCGImageTests {
             }
         }
         let provider = try #require(CGDataProvider(data: Data(bytes) as CFData))
-        let cgImage = try #require(CGImage(
-            width: width, height: height, bitsPerComponent: 8, bitsPerPixel: bytesPerPixel * 8,
-            bytesPerRow: bytesPerRow, space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: bitmapInfo), provider: provider,
-            decode: nil, shouldInterpolate: false, intent: .defaultIntent
-        ))
+        let cgImage = try #require(
+            CGImage(
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bitsPerPixel: bytesPerPixel * 8,
+                bytesPerRow: bytesPerRow,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo(rawValue: bitmapInfo),
+                provider: provider,
+                decode: nil,
+                shouldInterpolate: false,
+                intent: .defaultIntent,
+            )
+        )
         #expect(cgImage.webPStraightPixelFormat == format)
 
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
@@ -119,7 +139,7 @@ struct WebPEncoderCGImageTests {
     func decodedJPEGBytesMatchNormalizedPixels() throws {
         // Skipping webPStraightRGBA() for a direct layout must not change colors.
         guard let inputURL = Bundle.module.url(forResource: "jiro", withExtension: "jpg"),
-              let source = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
+            let source = CGImageSourceCreateWithURL(inputURL as CFURL, nil)
         else {
             throw WebPError.unexpectedError(withMessage: "Image couldn't be loaded from test resources")
         }
@@ -143,14 +163,25 @@ struct WebPEncoderCGImageTests {
 
     @Test
     func normalizingEncodeHandlesSixteenBitImages() throws {
-        let context = try #require(CGContext(
-            data: nil, width: 2, height: 2, bitsPerComponent: 16, bytesPerRow: 16,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo.byteOrder16Little.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
-        ))
-        try context.setFillColor(#require(CGColor(
-            colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1, 0, 0, 1]
-        )))
+        let context = try #require(
+            CGContext(
+                data: nil,
+                width: 2,
+                height: 2,
+                bitsPerComponent: 16,
+                bytesPerRow: 16,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo.byteOrder16Little.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue,
+            )
+        )
+        try context.setFillColor(
+            #require(
+                CGColor(
+                    colorSpace: CGColorSpaceCreateDeviceRGB(),
+                    components: [1, 0, 0, 1],
+                )
+            )
+        )
         context.fill(CGRect(x: 0, y: 0, width: 2, height: 2))
         let cgImage = try #require(context.makeImage())
         #expect(cgImage.webPStraightPixelFormat == nil)

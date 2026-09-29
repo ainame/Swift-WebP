@@ -129,7 +129,7 @@ swift build
 swift test
 ```
 
-`make format` runs the SwiftFormat SPM plugin.
+`make format` runs the toolchain-bundled `swift format`.
 
 The library enables strict memory-safety checking. Intentional C operations are marked with `unsafe` at the interoperability boundary; pointer-based APIs and low-level buffer configuration remain unsafe interfaces. Array, `Data`, and Span entry points handle those requirements internally.
 

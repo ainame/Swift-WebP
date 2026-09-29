@@ -10,11 +10,10 @@ let package = Package(
         .macOS(.v11),
     ],
     products: [
-        .library(name: "WebP", targets: ["WebP"]),
+        .library(name: "WebP", targets: ["WebP"])
     ],
     dependencies: [
-        .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.6.0"),
-        .package(url: "https://github.com/nicklockwood/SwiftFormat.git", from: "0.58.0"),
+        .package(url: "https://github.com/SDWebImage/libwebp-Xcode.git", from: "1.6.0")
     ],
     targets: [
         .target(
@@ -23,15 +22,15 @@ let package = Package(
                 .product(name: "libwebp", package: "libwebp-Xcode")
             ],
             exclude: ["Info.plist"],
-            swiftSettings: [.strictMemorySafety()]
+            swiftSettings: [.strictMemorySafety()],
         ),
         .testTarget(
             name: "WebPTests",
             dependencies: ["WebP"],
             resources: [
                 .copy("Resources/jiro.jpg")
-            ]
-        )
+            ],
+        ),
     ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v6],
 )

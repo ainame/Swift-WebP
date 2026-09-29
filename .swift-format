@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "indentation": { "spaces": 4 },
+  "lineLength": 160,
+  "indentConditionalCompilationBlocks": false,
+  "lineBreakBeforeEachArgument": true,
+  "spacesBeforeEndOfLineComments": 1,
+  "spacesAroundRangeFormationOperators": true,
+  "multiElementCollectionTrailingCommas": true,
+  "respectsExistingLineBreaks": true,
+  "multilineTrailingCommaBehavior": "alwaysUsed",
+  "rules": {
+    "AlwaysUseLowerCamelCase": false
+  }
+}

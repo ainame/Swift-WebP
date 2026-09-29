@@ -208,7 +208,7 @@ public struct WebPEncoderConfig: InternalRawRepresentable, Sendable {
             use_delta_palette: Int32(use_delta_palette),
             use_sharp_yuv: Int32(use_sharp_yuv),
             qmin: Int32(qmin),
-            qmax: Int32(qmax)
+            qmax: Int32(qmax),
         )
     }
 

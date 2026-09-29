@@ -31,8 +31,12 @@ struct WebPDecodedStorage: ~Copyable {
     consuming func takeData() -> Data {
         let allocation = unsafe pointer!
         unsafe pointer = nil
-        return unsafe Data(bytesNoCopy: allocation, count: byteCount, deallocator: .custom { pointer, _ in
-            unsafe pointer.deallocate()
-        })
+        return unsafe Data(
+            bytesNoCopy: allocation,
+            count: byteCount,
+            deallocator: .custom { pointer, _ in
+                unsafe pointer.deallocate()
+            },
+        )
     }
 }

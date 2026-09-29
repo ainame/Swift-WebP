@@ -13,10 +13,10 @@ extension CGImage {
     /// through `CGImage` and are ignored when the bytes are encoded directly.
     var webPStraightPixelFormat: WebPEncodePixelFormat? {
         guard bitsPerComponent == 8,
-              !bitmapInfo.contains(.floatComponents),
-              decode == nil,
-              let colorSpace,
-              colorSpace.name == CGColorSpace.sRGB || colorSpace.name == CGColorSpaceCreateDeviceRGB().name
+            !bitmapInfo.contains(.floatComponents),
+            decode == nil,
+            let colorSpace,
+            colorSpace.name == CGColorSpace.sRGB || colorSpace.name == CGColorSpaceCreateDeviceRGB().name
         else { return nil }
 
         // libwebp's WebPPictureImport* functions (webp/encode.h) read bytes in the memory order named
@@ -60,9 +60,9 @@ extension CGImage {
         // Check libwebp's per-side pixel limit before allocating the RGBA buffer.
         let maximumDimension = Int(WEBP_MAX_DIMENSION)
         guard width > 0,
-              height > 0,
-              width <= maximumDimension,
-              height <= maximumDimension
+            height > 0,
+            width <= maximumDimension,
+            height <= maximumDimension
         else {
             throw WebPEncoderError.invalidParameter
         }
@@ -77,6 +77,7 @@ extension CGImage {
 
         // Drawing normalizes source channel order, but Core Graphics premultiplies alpha.
         try pixels.withUnsafeMutableBytes { buffer in
+            // swift-format-ignore
             guard let context = unsafe CGContext(
                 data: buffer.baseAddress,
                 width: width,
@@ -84,7 +85,7 @@ extension CGImage {
                 bitsPerComponent: 8,
                 bytesPerRow: bytesPerRow,
                 space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: bitmapInfo
+                bitmapInfo: bitmapInfo,
             ) else {
                 throw WebPError.unexpectedError(withMessage: "Couldn't initialize RGBA CGContext.")
             }
@@ -112,16 +113,16 @@ extension CGImage {
     ) throws -> Result? {
         let (required, overflow) = bytesPerRow.multipliedReportingOverflow(by: height)
         guard let format = webPStraightPixelFormat,
-              !overflow,
-              let data = dataProvider?.data,
-              CFDataGetLength(data) >= required
+            !overflow,
+            let data = dataProvider?.data,
+            CFDataGetLength(data) >= required
         else { return nil }
         return try withBorrowedBytes(of: data) { bytes in try body(bytes, format) }
     }
 
     private func withBorrowedBytes<Result>(
         of data: CFData,
-        _ body: (borrowing Span<UInt8>) throws -> Result
+        _ body: (borrowing Span<UInt8>) throws -> Result,
     ) throws -> Result {
         guard let pointer = unsafe CFDataGetBytePtr(data) else {
             throw WebPError.unexpectedPointerError

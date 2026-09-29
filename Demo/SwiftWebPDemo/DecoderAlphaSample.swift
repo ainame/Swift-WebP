@@ -12,22 +12,27 @@ enum DecoderAlphaSample {
     static let pixel: [UInt8] = [128, 128, 128, 128]
 
     static let legacyCode = """
-    // Old decodeCGImage: straight-alpha bytes tagged as premultiplied.
-    let data = try decoder.decode(webPData, options: options, format: .rgba)
-    CGImage(..., bitmapInfo: byteOrder32Big | premultipliedLast, ...)
-    """
+        // Old decodeCGImage: straight-alpha bytes tagged as premultiplied.
+        let data = try decoder.decode(webPData, options: options, format: .rgba)
+        CGImage(..., bitmapInfo: byteOrder32Big | premultipliedLast, ...)
+        """
 
     static let fixedCode = """
-    // Current API: decodes premultiplied .rgbA to match the bitmap info.
-    try WebPDecoder().decodeUIImage(from: webPData, options: options)
-    """
+        // Current API: decodes premultiplied .rgbA to match the bitmap info.
+        try WebPDecoder().decodeUIImage(from: webPData, options: options)
+        """
 
     static func makeComparison() throws -> DecoderAlphaComparison {
         var config = WebPEncoderConfig.preset(.picture, quality: 100)
         config.lossless = 1
         let rgba = [[UInt8]](repeating: pixel, count: side * side).flatMap(\.self)
         let webPData = try WebPEncoder().encode(
-            rgba, format: .rgba, config: config, originWidth: side, originHeight: side, stride: side * 4
+            rgba,
+            format: .rgba,
+            config: config,
+            originWidth: side,
+            originHeight: side,
+            stride: side * 4,
         )
         let options = WebPDecoderOptions()
         // This calls the actual platform API, rather than a copy of its implementation.
@@ -41,13 +46,23 @@ enum DecoderAlphaSample {
     private static func legacyDecodeCGImage(_ webPData: Data, options: WebPDecoderOptions) throws -> CGImage {
         let decoded = try WebPDecoder().decode(webPData, options: options, format: .rgba)
         guard let provider = CGDataProvider(data: decoded as CFData),
-              let image = CGImage(
-                  width: side, height: side, bitsPerComponent: 8, bitsPerPixel: 32,
-                  bytesPerRow: side * 4, space: CGColorSpaceCreateDeviceRGB(),
-                  bitmapInfo: CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue
-                      | CGImageAlphaInfo.premultipliedLast.rawValue),
-                  provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
-              ) else { throw SampleError.imageCreation }
+            let image = CGImage(
+                width: side,
+                height: side,
+                bitsPerComponent: 8,
+                bitsPerPixel: 32,
+                bytesPerRow: side * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGBitmapInfo(
+                    rawValue: CGBitmapInfo.byteOrder32Big.rawValue
+                        | CGImageAlphaInfo.premultipliedLast.rawValue
+                ),
+                provider: provider,
+                decode: nil,
+                shouldInterpolate: false,
+                intent: .defaultIntent,
+            )
+        else { throw SampleError.imageCreation }
         return image
     }
 

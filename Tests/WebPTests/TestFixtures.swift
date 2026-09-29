@@ -24,7 +24,7 @@ enum TestFixtures {
     static func makeWebPFixture(
         width: Int = 4,
         height: Int = 3,
-        config: WebPEncoderConfig = .preset(.picture, quality: 90)
+        config: WebPEncoderConfig = .preset(.picture, quality: 90),
     ) throws -> Data {
         let encoder = WebPEncoder()
         let rgba = makeRGBAFixture(width: width, height: height)
@@ -38,7 +38,7 @@ enum TestFixtures {
                 config: config,
                 originWidth: width,
                 originHeight: height,
-                stride: width * 4
+                stride: width * 4,
             )
         }
     }
@@ -46,7 +46,7 @@ enum TestFixtures {
 
 func expectWebPError(
     _ body: () throws -> Void,
-    matches matcher: (WebPError) -> Bool
+    matches matcher: (WebPError) -> Bool,
 ) {
     do {
         try body()

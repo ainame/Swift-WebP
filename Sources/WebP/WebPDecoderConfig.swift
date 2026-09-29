@@ -19,17 +19,21 @@ public struct WebPDecoderConfig: @unsafe InternalRawRepresentable {
     /// bitstream features to also check cropping against the source dimensions.
     /// This does not validate the bitstream or external buffer capacity.
     public func validate() -> Bool {
-        let integers = unsafe [output.width, output.height,
-                               options.bypassFiltering, options.noFancyUpsampling,
-                               options.cropLeft, options.cropTop, options.cropWidth, options.cropHeight,
-                               options.scaledWidth, options.scaledHeight, options.ditheringStrength,
-                               options.flip, options.alphaDitheringStrength,
-                               input?.width ?? 0, input?.height ?? 0]
+        let integers = unsafe [
+            output.width, output.height,
+            options.bypassFiltering, options.noFancyUpsampling,
+            options.cropLeft, options.cropTop, options.cropWidth, options.cropHeight,
+            options.scaledWidth, options.scaledHeight, options.ditheringStrength,
+            options.flip, options.alphaDitheringStrength,
+            input?.width ?? 0, input?.height ?? 0,
+        ]
         guard integers.allSatisfy({ Int32(exactly: $0) != nil }) else { return false }
-        let padding = unsafe [output.pad.0, output.pad.1, output.pad.2, output.pad.3,
-                              options.pad.0, options.pad.1, options.pad.2, options.pad.3, options.pad.4,
-                              input?.pad.0 ?? 0, input?.pad.1 ?? 0, input?.pad.2 ?? 0,
-                              input?.pad.3 ?? 0, input?.pad.4 ?? 0]
+        let padding = unsafe [
+            output.pad.0, output.pad.1, output.pad.2, output.pad.3,
+            options.pad.0, options.pad.1, options.pad.2, options.pad.3, options.pad.4,
+            input?.pad.0 ?? 0, input?.pad.1 ?? 0, input?.pad.2 ?? 0,
+            input?.pad.3 ?? 0, input?.pad.4 ?? 0,
+        ]
         guard padding.allSatisfy({ UInt32(exactly: $0) != nil }) else { return false }
         var config = unsafe rawValue
         return unsafe WebPValidateDecoderConfig(&config) != 0
@@ -42,14 +46,16 @@ public struct WebPDecoderConfig: @unsafe InternalRawRepresentable {
     }
 
     var rawValue: libwebp.WebPDecoderConfig {
-        let inputValue = unsafe input?.rawValue ?? libwebp.WebPBitstreamFeatures(
-            width: 0,
-            height: 0,
-            has_alpha: 0,
-            has_animation: 0,
-            format: 0,
-            pad: (0, 0, 0, 0, 0)
-        )
+        let inputValue =
+            unsafe input?.rawValue
+            ?? libwebp.WebPBitstreamFeatures(
+                width: 0,
+                height: 0,
+                has_alpha: 0,
+                has_animation: 0,
+                format: 0,
+                pad: (0, 0, 0, 0, 0),
+            )
         return unsafe libwebp.WebPDecoderConfig(input: inputValue, output: output.rawValue, options: options.rawValue)
     }
 }
@@ -83,7 +89,7 @@ public struct WebPBitstreamFeatures: InternalRawRepresentable, Sendable {
             has_alpha: Int32(has_alpha),
             has_animation: Int32(has_animation),
             format: Int32(format.rawValue),
-            pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3), UInt32(pad.4))
+            pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3), UInt32(pad.4)),
         )
     }
 
@@ -139,9 +145,7 @@ public enum ColorspaceMode: Int, Sendable {
     }
 
     public var isAlphaMode: Bool {
-        if self == .RGBA || self == .BGRA || self == .ARGB ||
-            self == .RGBA4444 || self == .YUVA || isPremultipliedMode
-        {
+        if self == .RGBA || self == .BGRA || self == .ARGB || self == .RGBA4444 || self == .YUVA || isPremultipliedMode {
             return true
         }
         return false
@@ -220,12 +224,13 @@ public struct WebPDecBuffer: @unsafe InternalRawRepresentable {
     var privateMemory: UnsafeMutablePointer<UInt8>? // Internally allocated memory (only when
 
     var rawValue: libwebp.WebPDecBuffer {
-        let originU = switch unsafe u {
-        case let .RGBA(buffer):
-            unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
-        case let .YUVA(buffer):
-            unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
-        }
+        let originU =
+            switch unsafe u {
+            case let .RGBA(buffer):
+                unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: buffer)
+            case let .YUVA(buffer):
+                unsafe libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: buffer)
+            }
         // let u = colorspace.isRGBMode ? libwebp.WebPDecBuffer.__Unnamed_union_u(RGBA: u.RGBA) :
         // libwebp.WebPDecBuffer.__Unnamed_union_u(YUVA: u.YUVA)
         return unsafe libwebp.WebPDecBuffer(
@@ -235,7 +240,7 @@ public struct WebPDecBuffer: @unsafe InternalRawRepresentable {
             is_external_memory: externalMemoryMode.libwebpValue,
             u: originU,
             pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3)),
-            private_memory: privateMemory
+            private_memory: privateMemory,
         )
     }
 
@@ -305,7 +310,7 @@ public struct WebPDecoderOptions: InternalRawRepresentable, Sendable {
             dithering_strength: Int32(ditheringStrength),
             flip: Int32(flip),
             alpha_dithering_strength: Int32(alphaDitheringStrength),
-            pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3), UInt32(pad.4))
+            pad: (UInt32(pad.0), UInt32(pad.1), UInt32(pad.2), UInt32(pad.3), UInt32(pad.4)),
         )
     }
 

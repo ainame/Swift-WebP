@@ -20,12 +20,12 @@ struct DecoderAlphaView: View {
                             DecoderAlphaCard(
                                 title: "❌ Before the fix",
                                 caption: "Too bright. The square turns white and disappears.",
-                                image: comparison.before
+                                image: comparison.before,
                             )
                             DecoderAlphaCard(
                                 title: "✅ After the fix",
                                 caption: "Light gray, as expected.",
-                                image: comparison.after
+                                image: comparison.after,
                             )
                         }
                     } else if let failure {

@@ -17,20 +17,24 @@ struct PixelRegressionView: View {
                     .pickerStyle(.menu)
 
                     Text(sample.explanation)
-                    Text("Both results use lossless WebP. The checkerboard shows transparency. Before and after use the same display size; tap an image to inspect it enlarged.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Text(
+                        "Both results use lossless WebP. The checkerboard shows transparency. Before and after use the same display size; tap an image to inspect it enlarged."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
 
                     if let comparison {
                         RegressionImageCard(title: "Original", image: comparison.original)
                         HStack(alignment: .top, spacing: 12) {
                             RegressionImageCard(
-                                title: "Before", image: comparison.before.image,
-                                detail: comparison.before.pixelDescription
+                                title: "Before",
+                                image: comparison.before.image,
+                                detail: comparison.before.pixelDescription,
                             )
                             RegressionImageCard(
-                                title: "After", image: comparison.after.image,
-                                detail: comparison.after.pixelDescription
+                                title: "After",
+                                image: comparison.after.image,
+                                detail: comparison.after.pixelDescription,
                             )
                         }
                     } else if let failure {
@@ -119,7 +123,7 @@ private struct RegressionImageCard: View {
                         for column in 0 ..< Int(ceil(size.width / tile)) where (row + column).isMultiple(of: 2) {
                             context.fill(
                                 Path(CGRect(x: CGFloat(column) * tile, y: CGFloat(row) * tile, width: tile, height: tile)),
-                                with: .color(Color(white: 0.8))
+                                with: .color(Color(white: 0.8)),
                             )
                         }
                     }

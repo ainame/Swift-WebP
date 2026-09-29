@@ -17,7 +17,7 @@ struct WebPEncoderCoreTests {
                 config: config,
                 originWidth: width,
                 originHeight: height,
-                stride: width * 4
+                stride: width * 4,
             )
         }
 
@@ -39,7 +39,7 @@ struct WebPEncoderCoreTests {
                 config: config,
                 originWidth: 1,
                 originHeight: 1,
-                stride: 4
+                stride: 4,
             )
             #expect(Bool(false), "Expected unexpectedPointerError")
         } catch let error as WebPError {
@@ -71,7 +71,7 @@ struct WebPEncoderCoreTests {
                     config: config,
                     originWidth: 2,
                     originHeight: 2,
-                    stride: 2 * 4
+                    stride: 2 * 4,
                 )
             }
             #expect(Bool(false), "Expected invalidParameter")
@@ -93,20 +93,32 @@ struct WebPEncoderCoreTests {
             for stride in [-1, 0, rowBytes - 1, Int.max] {
                 #expect(throws: WebPEncoderError.invalidParameter) {
                     unsafe try WebPEncoder().encode(
-                        buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
-                        originWidth: 2, originHeight: 2, stride: stride
+                        buffer.baseAddress!,
+                        format: format,
+                        config: .preset(.picture, quality: 75),
+                        originWidth: 2,
+                        originHeight: 2,
+                        stride: stride,
                     )
                 }
             }
             #expect(throws: WebPEncoderError.invalidParameter) {
                 unsafe try WebPEncoder().encode(
-                    buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
-                    originWidth: Int.max, originHeight: 2, stride: rowBytes
+                    buffer.baseAddress!,
+                    format: format,
+                    config: .preset(.picture, quality: 75),
+                    originWidth: Int.max,
+                    originHeight: 2,
+                    stride: rowBytes,
                 )
             }
             let encoded = unsafe try WebPEncoder().encode(
-                buffer.baseAddress!, format: format, config: .preset(.picture, quality: 75),
-                originWidth: 2, originHeight: 2, stride: rowBytes
+                buffer.baseAddress!,
+                format: format,
+                config: .preset(.picture, quality: 75),
+                originWidth: 2,
+                originHeight: 2,
+                stride: rowBytes,
             )
             let features = try WebPImageInspector.inspect(encoded)
             #expect(features.width == 2 && features.height == 2)
