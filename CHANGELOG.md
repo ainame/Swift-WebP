@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- **Animated WebP decoding:** `WebPAnimatedDecoder` decodes frames one at a time, composited onto the full canvas, with each frame's start time and duration. `WebPAnimationInfo` reports canvas size, frame count, loop count, and background color. `WebPDecoder.decodeAnimation(_:format:useThreads:)` decodes every frame at once, and `WebPAnimationFrame.makeCGImage()` wraps a frame for Core Graphics.
 
 ### Changed
 

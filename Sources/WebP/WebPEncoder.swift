@@ -45,8 +45,6 @@ public enum WebPEncodePixelFormat: Sendable {
 }
 
 public struct WebPEncoder: Sendable {
-    typealias WebPPictureImporter = (UnsafeMutablePointer<WebPPicture>, UnsafePointer<UInt8>, Int32) -> Int32
-
     public init() {}
 
     /// Requires live, initialized pixel storage for the entire call with at least
@@ -89,8 +87,7 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0,
     ) throws -> Data {
-        let bytesPerPixel = (format == .rgb || format == .bgr) ? 3 : 4
-        let (rowBytes, rowOverflow) = originWidth.multipliedReportingOverflow(by: bytesPerPixel)
+        let (rowBytes, rowOverflow) = originWidth.multipliedReportingOverflow(by: format.bytesPerPixel)
         let (required, sizeOverflow) = stride.multipliedReportingOverflow(by: originHeight)
         guard originWidth > 0, originHeight > 0,
             originWidth <= Int(WEBP_MAX_DIMENSION), originHeight <= Int(WEBP_MAX_DIMENSION),
@@ -191,35 +188,6 @@ public struct WebPEncoder: Sendable {
         )
     }
 
-    private func importer(for format: WebPEncodePixelFormat) -> WebPPictureImporter {
-        switch format {
-        case .rgb:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportRGB(picturePtr, data, stride)
-            }
-        case .rgba:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportRGBA(picturePtr, data, stride)
-            }
-        case .rgbx:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportRGBX(picturePtr, data, stride)
-            }
-        case .bgr:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportBGR(picturePtr, data, stride)
-            }
-        case .bgra:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportBGRA(picturePtr, data, stride)
-            }
-        case .bgrx:
-            { picturePtr, data, stride in
-                unsafe WebPPictureImportBGRX(picturePtr, data, stride)
-            }
-        }
-    }
-
     private func encode(
         _ dataPtr: UnsafePointer<UInt8>,
         format: WebPEncodePixelFormat,
@@ -230,8 +198,7 @@ public struct WebPEncoder: Sendable {
         resizeWidth: Int = 0,
         resizeHeight: Int = 0,
     ) throws -> Data {
-        let bytesPerPixel = (format == .rgb || format == .bgr) ? 3 : 4
-        let (rowBytes, rowOverflow) = originWidth.multipliedReportingOverflow(by: bytesPerPixel)
+        let (rowBytes, rowOverflow) = originWidth.multipliedReportingOverflow(by: format.bytesPerPixel)
         guard originWidth > 0, originHeight > 0,
             originWidth <= Int(WEBP_MAX_DIMENSION), originHeight <= Int(WEBP_MAX_DIMENSION),
             !rowOverflow, stride >= rowBytes, Int32(exactly: stride) != nil,
@@ -243,45 +210,11 @@ public struct WebPEncoder: Sendable {
             throw WebPEncoderError.invalidParameter
         }
 
-        var picture = unsafe WebPPicture()
-        if unsafe WebPPictureInit(&picture) == 0 {
-            throw WebPEncoderError.invalidParameter
-        }
-        defer {
-            unsafe WebPPictureFree(&picture)
-        }
-
-        unsafe picture.use_argb = config.lossless == 0 ? 0 : 1
-        unsafe picture.width = Int32(originWidth)
-        unsafe picture.height = Int32(originHeight)
-
-        // Import copies source pixels synchronously; it does not retain the source pointer.
-        let importer = unsafe importer(for: format)
-        let ok = unsafe importer(&picture, dataPtr, Int32(stride))
-        if ok == 0 {
-            throw WebPEncoderError.versionMismatched
-        }
-
+        var picture = try WebPPictureOwner(width: originWidth, height: originHeight, useARGB: config.lossless != 0)
+        unsafe try picture.importPixels(dataPtr, format: format, stride: stride)
         if resizeHeight > 0, resizeWidth > 0 {
-            if unsafe WebPPictureRescale(&picture, Int32(resizeWidth), Int32(resizeHeight)) == 0 {
-                throw WebPEncodeStatusCode.outOfMemory
-            }
+            try picture.rescale(width: resizeWidth, height: resizeHeight)
         }
-
-        var writer = WebPMemoryWriterOwner()
-        let writeWebP: @convention(c) (UnsafePointer<UInt8>?, Int, UnsafePointer<WebPPicture>?) -> Int32 = { data, size, picture -> Int32 in
-            return unsafe WebPMemoryWrite(data, size, picture)
-        }
-        unsafe picture.writer = writeWebP
-
-        unsafe try withUnsafeMutablePointer(to: &writer.rawValue) { ptr in
-            unsafe picture.custom_ptr = UnsafeMutableRawPointer(ptr)
-
-            if unsafe WebPEncode(&config, &picture) == 0 {
-                throw unsafe WebPEncodeStatusCode(libwebpRawValue: Int(picture.error_code.rawValue))
-            }
-        }
-
-        return writer.takeData()
+        return try picture.encode(config: config)
     }
 }

@@ -2,6 +2,8 @@
 
 Open `SwiftWebPDemo.xcodeproj` in Xcode and run the `SwiftWebPDemo` scheme on an iOS simulator. The project uses the adjacent Swift-WebP checkout as a local package, so it shows the code on your current branch.
 
+The **Animated WebP** tab decodes the bundled `bouncing-ball.webp` with `WebPAnimatedDecoder` and plays it twice, side by side. The 16 frames are spaced evenly in height, so their durations carry the motion: about 40 ms near the ground and 212 ms at the top. **Frame durations** honors each frame's own duration and the ball slows at the top. **Uniform durations** gives every frame the average 75 ms, as `UIImage.animatedImage(with:duration:)` does, and the ball moves at a constant speed. A chart shows which frame is on screen over time. The frame strip below it shows every decoded canvas. The file stores most frames as small offset sub-frames, so each one is composited by the decoder. The checkerboard shows through transparent pixels, including the semi-transparent shadow. `Scripts/make-bouncing-ball.swift` regenerates the sample.
+
 The **Pixel regressions** tab generates small images in code, encodes them through lossless WebP, decodes the bitstreams, and shows the results beside the original. Choose one of three examples:
 
 - **Translucent colors:** the old platform path feeds premultiplied RGBA bytes to libwebp. The red pixel changes from straight-alpha RGBA `255, 0, 0, 128` to `128, 0, 0, 128`.

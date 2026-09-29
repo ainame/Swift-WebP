@@ -26,6 +26,10 @@ Use this file as the execution guide for ongoing implementation and maintenance 
   - `decodeCGImage(from:options:)`
   - `decodeUIImage(from:options:)`
   - `decodeNSImage(from:options:)`
+- Animated decoding:
+  - `WebPAnimatedDecoder` (`nextFrame()`, `withNextFrame(_:)`, `reset()`)
+  - `WebPDecoder.decodeAnimation(_:format:useThreads:)`
+  - `WebPAnimationFrame.makeCGImage()`
 - Internal ownership model uses `~Copyable`, `borrowing`/`consuming`, and `Span`.
 
 ## Working Rules For Agents

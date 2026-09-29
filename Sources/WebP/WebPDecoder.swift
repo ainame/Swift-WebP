@@ -165,7 +165,7 @@ public struct WebPDecoder: Sendable {
             throw WebPError.unsupportedDecodeFormat
         }
         let layout = try requiredOutputLayout(for: webPData, options: options, format: format)
-        let storage = WebPDecodedStorage(byteCount: layout.byteCount)
+        let storage = WebPByteStorage(byteCount: layout.byteCount)
         // UInt8 has no destructor. C may initialize only part of this allocation on failure;
         // the owner can free it without exposing or reading those bytes.
         unsafe _ = try decodeIntoBuffer(
