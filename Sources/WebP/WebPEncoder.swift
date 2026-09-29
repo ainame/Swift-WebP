@@ -269,11 +269,9 @@ public struct WebPEncoder: Sendable {
         }
 
         var writer = WebPMemoryWriterOwner()
-        let writeWebP:
-            @convention(c) (UnsafePointer<UInt8>?, Int, UnsafePointer<WebPPicture>?)
-                -> Int32 = { data, size, picture -> Int32 in
-                    return unsafe WebPMemoryWrite(data, size, picture)
-                }
+        let writeWebP: @convention(c) (UnsafePointer<UInt8>?, Int, UnsafePointer<WebPPicture>?) -> Int32 = { data, size, picture -> Int32 in
+            return unsafe WebPMemoryWrite(data, size, picture)
+        }
         unsafe picture.writer = writeWebP
 
         unsafe try withUnsafeMutablePointer(to: &writer.rawValue) { ptr in
