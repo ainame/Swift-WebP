@@ -39,8 +39,6 @@ That's all you need. No pointers to manage, no buffers to free, and no color con
 WebP files are often [25–34% smaller than JPEG](https://developers.google.com/speed/webp/docs/webp_study) and support transparency, so you save bandwidth, storage, and load time. Calling `libwebp` from Swift directly is error-prone, though. Swift-WebP takes care of the hard parts.
 
 - 🛡️ **No unsafe code in your app.** Pass `[UInt8]`, `Data`, or `Span<UInt8>`. The library owns every C allocation and frees it, even on failure.
-- 🎨 **Correct colors by default.** Premultiplied, BGRA, and 16-bit images from drawing, rendering, or screen capture are normalized before encoding.
-- 🔍 **Full Retina resolution.** `@2x`/`@3x` `UIImage`s are encoded at their full pixel size.
 - 🚦 **Fails fast with Swift errors.** Dimensions, stride, buffer capacity, and decoder options are checked before any memory is read or allocated.
 - ⚡️ **Low allocation.** Output is written straight into the returned `Data` without an extra copy, and you can decode into your own reusable buffer.
 - 📐 **Scale and crop while decoding.** libwebp resizes during decoding, so a thumbnail never needs a full-size bitmap.
